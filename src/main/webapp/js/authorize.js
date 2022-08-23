@@ -33,6 +33,25 @@ $("#pills-login > form").on("submit", function (e) {
     let email = validateEmail("#login-email")
     let password = validatePassword("#login-password")
     if (email && password) {
-        alert("okay")
+        $("#error-alert").fadeOut("fast")
+        $.ajax({
+            type: "POST",
+            url: $("#pills-login > form").attr("action"),
+            data: {
+                email: $("#login-email").val(),
+                password: $("#login-password").val(),
+            },
+            success: function (data, status, xhr) {
+                console.log(data)
+                console.log(status)
+                console.log(xhr)
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+            })
+        }
     }
-})
+)

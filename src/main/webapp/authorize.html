@@ -8,6 +8,9 @@
     <title>Authorization</title>
 </head>
 <body>
+<div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none">
+    A simple danger alert—check it out!
+</div>
 
 <div class="container offset-col-3 col-6 margin-top">
     <ul class="nav nav-pills mb-3 row" id="pills-tab" role="tablist">
@@ -24,7 +27,7 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-            <form action="d" method="post" class="" novalidate>
+            <form action="login" method="post" class="" novalidate>
                 <div class="mb-3">
                     <input type="email" id="login-email" class="form-control" placeholder="Email@example.com" name="email" required>
                     <div class="invalid-feedback">
@@ -32,7 +35,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" id="login-password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" id="login-password" class="form-control" placeholder="Password" name="password">
                     <div class="invalid-feedback">
                         Min length: 6
                     </div>
@@ -72,6 +75,6 @@
 
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
-<script src="js/script.js"></script>
+<script src="js/authorize.js"></script>
 </body>
 </html>
