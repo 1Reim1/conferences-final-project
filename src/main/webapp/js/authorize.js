@@ -9,6 +9,12 @@ function validateEmail(selector) {
     return true
 }
 
+function bindEmailValidation(selector) {
+    $(selector).on("input autocompletechange", function (e) {
+        validateEmail(selector)
+    })
+}
+
 function validatePassword(selector) {
     if ($(selector).val().length < 6) {
         $(selector).removeClass("is-valid")
@@ -20,20 +26,22 @@ function validatePassword(selector) {
     return true
 }
 
-$("#login-password").on("input", function (e) {
-    validatePassword("#login-password")
-})
+function bindPasswordValidation(selector) {
+    $(selector).on("input autocompletechange", function (e) {
+        validatePassword(selector)
+    })
 
-$("#login-email").on("input", function (e) {
-    validateEmail("#login-email")
-})
+}
+
+bindEmailValidation("#login-email")
+bindPasswordValidation("#login-password")
 
 $("#pills-login > form").on("submit", function (e) {
     e.preventDefault()
     let email = validateEmail("#login-email")
     let password = validatePassword("#login-password")
     if (email && password) {
-        $("#error-alert").fadeOut("fast")
+        $("#error-alert").hide()
         $.ajax({
             type: "POST",
             url: $("#pills-login > form").attr("action"),
@@ -42,9 +50,7 @@ $("#pills-login > form").on("submit", function (e) {
                 password: $("#login-password").val(),
             },
             success: function (data, status, xhr) {
-                console.log(data)
-                console.log(status)
-                console.log(xhr)
+                $("#success-alert").show()
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)

@@ -11,17 +11,20 @@ import jakarta.servlet.annotation.*;
 @WebServlet(value = "/login")
 public class LoginServlet extends HttpServlet {
 
+    private static final UserManager userManager = UserManager.getInstance();
+
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         User user;
         try {
-            user = UserManager.login(email, password);
+            user = userManager.login(email, password);
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
             return;
         }
+
 
         System.out.println(user);
     }

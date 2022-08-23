@@ -34,7 +34,15 @@ public class ConnectionManager {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
-            throw new DBException("can’t connect to database", e);
+            throw new DBException("The connection to the database is lost", e);
+        }
+    }
+
+    public void closeConnection(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

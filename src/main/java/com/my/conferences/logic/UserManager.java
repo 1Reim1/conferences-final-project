@@ -12,8 +12,24 @@ import java.sql.SQLException;
 
 public class UserManager {
 
-    public static User login(String email, String password) throws DBException {
-        Connection connection = ConnectionManager.getInstance().getConnection();
+    private static UserManager instance;
+    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
+
+    public static synchronized UserManager getInstance() {
+        if (instance == null) {
+            instance = new UserManager();
+        }
+
+        return instance;
+    }
+
+    private UserManager() {
+
+    }
+
+    public User login(String email, String password) throws DBException {
+        validate(email, password);
+        Connection connection = connectionManager.getConnection();
         User user;
         try {
             user = UserRepository.findUserByEmail(connection, email);
@@ -24,10 +40,11 @@ public class UserManager {
         if (!encryptPassword(password).equals(user.getPassHash()))
             throw new DBException("Password is incorrect");
 
+        connectionManager.closeConnection(connection);
         return user;
     }
 
-    private static String encryptPassword(String password) {
+    private String encryptPassword(String password) {
         String encrypted = null;
         try
         {
@@ -45,5 +62,13 @@ public class UserManager {
         }
 
         return encrypted;
+    }
+
+    private void validate(String email, String password) throws DBException {
+        if (email.length() < 6)
+            throw new DBException("Email is bad");
+        if (password.length() < 6) {
+            throw new DBException("Password is bad");
+        }
     }
 }
