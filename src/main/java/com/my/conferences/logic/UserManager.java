@@ -14,6 +14,7 @@ public class UserManager {
 
     private static UserManager instance;
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
+    private static final UserRepository userRepository = UserRepository.getInstance();
 
     public static synchronized UserManager getInstance() {
         if (instance == null) {
@@ -32,7 +33,7 @@ public class UserManager {
         Connection connection = connectionManager.getConnection();
         User user;
         try {
-            user = UserRepository.findUserByEmail(connection, email);
+            user = userRepository.findUserByEmail(connection, email);
         } catch (SQLException e) {
             throw new DBException("User with this email not found", e);
         }

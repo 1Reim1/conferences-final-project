@@ -1,6 +1,7 @@
 package com.my.conferences.db;
 
 import com.my.conferences.entity.User;
+import com.my.conferences.logic.UserManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,21 @@ public class UserRepository {
 
     private static final String GET_USER_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
 
-    public static User findUserByEmail(Connection connection, String email) throws SQLException {
+    private static UserRepository instance;
+
+    public static synchronized UserRepository getInstance() {
+        if (instance == null) {
+            instance = new UserRepository();
+        }
+
+        return instance;
+    }
+
+    private UserRepository() {
+
+    }
+
+    public User findUserByEmail(Connection connection, String email) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_USER_BY_EMAIL)) {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -21,7 +36,7 @@ public class UserRepository {
         }
     }
 
-    private static User extractUser(ResultSet rs) throws SQLException {
+    private User extractUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getInt("id"));
         user.setEmail(rs.getString("email"));
