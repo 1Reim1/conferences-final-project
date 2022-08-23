@@ -10,7 +10,6 @@ import jakarta.servlet.annotation.*;
 
 @WebServlet(value = "/login")
 public class LoginServlet extends HttpServlet {
-
     private static final UserManager userManager = UserManager.getInstance();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

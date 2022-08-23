@@ -45,6 +45,19 @@ public class UserManager {
         return user;
     }
 
+    public void register(User user) throws DBException {
+        validate(user);
+        user.setPassHash(encryptPassword(user.getPassHash()));
+        Connection connection = connectionManager.getConnection();
+        try {
+            userRepository.insertUser(connection, user);
+        } catch (SQLException e) {
+            throw new DBException("The user is not inserted");
+        }
+
+        connectionManager.closeConnection(connection);
+    }
+
     private String encryptPassword(String password) {
         String encrypted = null;
         try
@@ -71,5 +84,9 @@ public class UserManager {
         if (password.length() < 6) {
             throw new DBException("Password is bad");
         }
+    }
+
+    private void validate(User user) throws DBException {
+        validate(user.getEmail(), user.getPassHash());
     }
 }
