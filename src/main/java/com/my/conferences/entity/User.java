@@ -7,6 +7,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String passHash;
+    private Role role;
 
     public int getId() {
         return id;
@@ -48,6 +49,14 @@ public class User {
         this.passHash = passHash;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -55,6 +64,13 @@ public class User {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", role=" + role +
                 '}';
+    }
+
+    public enum Role {
+        USER,
+        SPEAKER,
+        MODERATOR,
     }
 }

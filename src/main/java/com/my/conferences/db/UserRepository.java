@@ -7,7 +7,7 @@ import java.sql.*;
 public class UserRepository {
 
     private static final String GET_USER_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
-    public static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?)";
+    public static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
 
     private static UserRepository instance;
 
@@ -40,6 +40,7 @@ public class UserRepository {
             stmt.setString(++k, user.getFirstName());
             stmt.setString(++k, user.getLastName());
             stmt.setString(++k, user.getPassHash());
+            stmt.setString(++k, user.getRole().toString());
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
@@ -59,5 +60,6 @@ public class UserRepository {
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
         user.setPassHash(rs.getString("passhash"));
+        user.setRole(User.Role.valueOf(rs.getString("role").toUpperCase()));
     }
 }

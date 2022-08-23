@@ -19,6 +19,7 @@ public class RegisterServlet extends HttpServlet {
         user.setFirstName(request.getParameter("first_name"));
         user.setLastName(request.getParameter("last_name"));
         user.setPassHash(request.getParameter("password"));
+        user.setRole(User.Role.valueOf(request.getParameter("role").toUpperCase()));
 
         try {
             if (!user.getPassHash().equals(request.getParameter("password_repeated")))

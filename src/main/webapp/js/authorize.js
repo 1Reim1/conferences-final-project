@@ -119,6 +119,7 @@ $("#pills-register > form").on("submit", function (e) {
                     last_name: $("#register-last-name").val(),
                     password: $("#register-password").val(),
                     password_repeated: $("#register-password-2").val(),
+                    role: $("#register-role").val(),
                 },
                 success: function (data, status, xhr) {
                     $("#success-alert").text("You have successfully registered")
