@@ -52,6 +52,16 @@ public class UserManager {
         validate(user);
         user.setPassHash(encryptPassword(user.getPassHash()));
         Connection connection = connectionManager.getConnection();
+        boolean userExists = true;
+        try {
+            userRepository.findUserByEmail(connection, user.getEmail());
+        } catch (SQLException e) {
+            userExists = false;
+        }
+
+        if (userExists)
+            throw new DBException("The user with this email already exists");
+
         try {
             userRepository.insertUser(connection, user);
         } catch (SQLException e) {
