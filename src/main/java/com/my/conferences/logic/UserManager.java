@@ -9,12 +9,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 public class UserManager {
 
     private static UserManager instance;
     private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
     private static final UserRepository userRepository = UserRepository.getInstance();
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NAME_REGEX = Pattern.compile("^[a-zA-Z]{3,}$");
 
     public static synchronized UserManager getInstance() {
         if (instance == null) {
@@ -52,7 +55,7 @@ public class UserManager {
         try {
             userRepository.insertUser(connection, user);
         } catch (SQLException e) {
-            throw new DBException("The user is not inserted");
+            throw new DBException("The user is not inserted", e);
         }
 
         connectionManager.closeConnection(connection);
@@ -79,7 +82,7 @@ public class UserManager {
     }
 
     private void validate(String email, String password) throws DBException {
-        if (email.length() < 6)
+        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
             throw new DBException("Email is bad");
         if (password.length() < 6) {
             throw new DBException("Password is bad");
@@ -88,5 +91,9 @@ public class UserManager {
 
     private void validate(User user) throws DBException {
         validate(user.getEmail(), user.getPassHash());
+        if (!VALID_NAME_REGEX.matcher(user.getFirstName()).find())
+            throw new DBException("First name is bad");
+        if (!VALID_NAME_REGEX.matcher(user.getLastName()).find())
+            throw new DBException("Last name is bad");
     }
 }

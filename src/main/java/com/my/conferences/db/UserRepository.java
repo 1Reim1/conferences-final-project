@@ -43,21 +43,21 @@ public class UserRepository {
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
-                extractUser(rs, user);
+                user.setId(rs.getInt(1));
             }
         }
     }
 
     private User extractUser(ResultSet rs) throws SQLException {
         User user = new User();
-        return extractUser(rs, user);
+        extractUser(rs, user);
+        return user;
     }
-    private User extractUser(ResultSet rs, User user) throws SQLException {
+    private void extractUser(ResultSet rs, User user) throws SQLException {
         user.setId(rs.getInt("id"));
         user.setEmail(rs.getString("email"));
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
         user.setPassHash(rs.getString("passhash"));
-        return user;
     }
 }

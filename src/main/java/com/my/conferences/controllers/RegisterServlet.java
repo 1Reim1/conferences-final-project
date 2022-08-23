@@ -21,8 +21,11 @@ public class RegisterServlet extends HttpServlet {
         user.setPassHash(request.getParameter("password"));
 
         try {
+            if (!user.getPassHash().equals(request.getParameter("password_repeated")))
+                throw new DBException("Passwords do not match");
             userManager.register(user);
         } catch (DBException e) {
+            e.printStackTrace();
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
             return;

@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
-<div class="alert alert-success" id="success-alert" role="alert" style="text-align: center; display: none">
-    You have successfully logged in
-</div>
+<div class="alert alert-success" id="success-alert" role="alert" style="text-align: center; display: none"></div>
 
 <div class="container offset-col-3 col-6 margin-top">
     <ul class="nav nav-pills mb-3 row" id="pills-tab" role="tablist">
@@ -30,13 +28,13 @@
         <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
             <form action="login" method="post" class="" novalidate>
                 <div class="mb-3">
-                    <input type="email" id="login-email" class="form-control" placeholder="Email@example.com" name="email" required>
+                    <input type="email" id="login-email" class="form-control" placeholder="Email@example.com" required>
                     <div class="invalid-feedback">
                         The email is incorrect
                     </div>
                 </div>
                 <div class="mb-3">
-                    <input type="password" id="login-password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" id="login-password" class="form-control" placeholder="Password">
                     <div class="invalid-feedback">
                         Min length: 6
                     </div>
@@ -46,21 +44,36 @@
         </div>
 
         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-            <form action="d" method="post">
+            <form action="register" method="post" novalidate>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Email@example.com" name="email">
+                    <input type="email" id="register-email" class="form-control" placeholder="Email@example.com" required>
+                    <div class="invalid-feedback">
+                        The email is incorrect
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="First name" name="first name">
+                    <input type="text" id="register-first-name" class="form-control" placeholder="First name" required>
+                    <div class="invalid-feedback">
+                        The first name is required
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Last name" name="last name">
+                    <input type="text" id="register-last-name" class="form-control" placeholder="Last name" required>
+                    <div class="invalid-feedback">
+                        The last name is required
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Password" name="password">
+                    <input type="password" id="register-password" class="form-control" placeholder="Password">
+                    <div class="invalid-feedback">
+                        Min length: 6
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Repeat password" name="password">
+                    <input type="password" id="register-password-2" class="form-control" placeholder="Repeat password">
+                    <div class="invalid-feedback">
+                        Passwords do not match
+                    </div>
                 </div>
                 <div class="mb-3">
                     <select class="form-select" aria-label="Default select example">
