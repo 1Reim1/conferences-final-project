@@ -90,6 +90,7 @@ $("#pills-login > form").on("submit", function (e) {
                 success: function (data, status, xhr) {
                     $("#success-alert").text("You have successfully logged in")
                     $("#success-alert").show()
+                    window.location.href = "home"
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     console.log(jqXhr.responseText)
@@ -124,6 +125,7 @@ $("#pills-register > form").on("submit", function (e) {
                 success: function (data, status, xhr) {
                     $("#success-alert").text("You have successfully registered")
                     $("#success-alert").show()
+                    window.location.href = "home"
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     console.log(jqXhr.responseText)

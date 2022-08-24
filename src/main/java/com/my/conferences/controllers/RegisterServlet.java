@@ -3,7 +3,6 @@ package com.my.conferences.controllers;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
-import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -32,6 +31,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        System.out.println(user);
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
     }
 }

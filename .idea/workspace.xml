@@ -12,14 +12,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="email is unique">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="added user role">
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/authorize.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/authorize.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/authorize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/authorize.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/authorization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/authorization.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +49,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2DkAJ4Gn1lrq1NtSKfN3vvHGkIN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -168,7 +174,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1661232636639</updated>
-      <workItem from="1661232638026" duration="38777000" />
+      <workItem from="1661232638026" duration="44044000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -226,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661288512531</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added user role">
+      <created>1661290384788</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1661290384788</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +263,7 @@
     <MESSAGE value="register backend" />
     <MESSAGE value="register front" />
     <MESSAGE value="email is unique" />
-    <option name="LAST_COMMIT_MESSAGE" value="email is unique" />
+    <MESSAGE value="added user role" />
+    <option name="LAST_COMMIT_MESSAGE" value="added user role" />
   </component>
 </project>

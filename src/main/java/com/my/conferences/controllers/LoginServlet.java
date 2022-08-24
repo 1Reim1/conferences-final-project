@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-
-        System.out.println(user);
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
     }
 }

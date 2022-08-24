@@ -1,6 +1,8 @@
 package com.my.conferences.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private int id;
     private String email;
@@ -68,7 +70,7 @@ public class User {
                 '}';
     }
 
-    public enum Role {
+    public enum Role implements Serializable {
         USER,
         SPEAKER,
         MODERATOR,
