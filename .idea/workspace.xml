@@ -12,17 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="added user role">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="auth">
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/authorize.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/authorization.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/authorization.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/authorization.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/authorization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/authorization.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +27,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -67,6 +63,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/timer/IdeaProjects/topic07-task03",
+    "list.type.of.created.stylesheet": "CSS",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
@@ -78,7 +75,10 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
+    <configuration name="home.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/conferences/src/main/webapp/home.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="Tomcat 10.0.23" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.23" ALTERNATIVE_JRE_ENABLED="false">
       <deployment>
         <artifact name="conferences:war exploded">
@@ -165,6 +165,15 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.home.html" />
+      <item itemvalue="Tomcat Server.Tomcat 10.0.23" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.home.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -174,7 +183,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1661232636639</updated>
-      <workItem from="1661232638026" duration="44044000" />
+      <workItem from="1661232638026" duration="62004000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -239,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661290384788</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="auth">
+      <created>1661326067534</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1661326067534</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,6 +280,7 @@
     <MESSAGE value="register front" />
     <MESSAGE value="email is unique" />
     <MESSAGE value="added user role" />
-    <option name="LAST_COMMIT_MESSAGE" value="added user role" />
+    <MESSAGE value="auth" />
+    <option name="LAST_COMMIT_MESSAGE" value="auth" />
   </component>
 </project>

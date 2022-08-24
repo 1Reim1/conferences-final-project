@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body>
+
+<sidebar class="col-3 bg-light">
+    <div class="position-relative col-12">
+        <h3 class="text-center">Sort</h3>
+        <hr>
+        <button type="button" class="btn btn-dark col-12 text-start disabled">By date</button>
+        <button type="button" class="btn btn-dark col-12 text-start">By reports</button>
+        <button type="button" class="btn btn-dark col-12 text-start">By participants</button>
+        <button type="button" class="btn btn-dark col-12 text-start">Reverse order</button>
+        <hr>
+        <button type="button" class="btn btn-dark col-12 text-start">My events</button>
+        <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
+        <div class="down-menu col-12 position-absolute bottom-0 start-0" >
+            <p style="font-size: 12px">You are logged as Rostik Yavor (User)</p>
+            <button type="button" class="btn btn-primary col-12 text-start">Logout</button>
+        </div>
+    </div>
+</sidebar>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="events row col-8 offset-3">
+            <div class="col-6 event-card" event-id="1">
+                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in officiis </h3>
+                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.</p>
+                <hr>
+                <div class="row event-info">
+                    <p class="col-4 text-center">Participants: <b>52</b></p>
+                    <p class="col-4 text-center">Reports: <b>4</b></p>
+                    <p class="col-4 text-center">Date: <b>24.08.2022</b></p>
+                </div>
+            </div>
+            <div class="col-6 event-card" event-id="1">
+                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in officiis </h3>
+                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.</p>
+                <hr>
+                <div class="row event-info">
+                    <p class="col-4 text-center">Participants: <b>52</b></p>
+                    <p class="col-4 text-center">Reports: <b>4</b></p>
+                    <p class="col-4 text-center">Date: <b>24.08.2022</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-3.6.0.min.js"></script>
+</body>
+</html>

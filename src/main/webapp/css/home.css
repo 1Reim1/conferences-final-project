@@ -1,0 +1,58 @@
+.event-card {
+    padding: 10px;
+}
+
+.event-card > hr {
+    height: 2px;
+    margin: 5px;
+}
+
+.event-card > .row > p:nth-child(even) {
+    border-left: 3px solid #C8C9CA;
+    border-right: 3px solid #C8C9CA;
+}
+
+.event-card > h3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.event-card > .event-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.event-card .event-info {
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.event-card:hover {
+    cursor: pointer;
+    border: 3px solid #838485;
+}
+
+sidebar {
+    padding: 5px;
+    /*border: 5px solid red;*/
+    border-right: 3px solid #C8C9CA;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    position: fixed;
+}
+
+sidebar button {
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+sidebar > div {
+    height: 100vh;
+}
