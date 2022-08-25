@@ -1,15 +1,16 @@
 package com.my.conferences.entity;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Event {
     private int id;
     private String title;
     private String description;
     private GregorianCalendar date;
-    private int participants;
     private String place;
-    private int reports;
+    private List<Report> reports;
+    private List<User> participants;
 
     public int getId() {
         return id;
@@ -43,14 +44,6 @@ public class Event {
         this.date = date;
     }
 
-    public int getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(int participants) {
-        this.participants = participants;
-    }
-
     public String getPlace() {
         return place;
     }
@@ -59,11 +52,19 @@ public class Event {
         this.place = place;
     }
 
-    public int getReports() {
+    public List<Report> getReports() {
         return reports;
     }
 
-    public void setReports(int reports) {
+    public void setReports(List<Report> reports) {
         this.reports = reports;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
     }
 }

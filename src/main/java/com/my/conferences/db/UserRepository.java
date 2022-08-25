@@ -3,6 +3,7 @@ package com.my.conferences.db;
 import com.my.conferences.entity.User;
 
 import java.sql.*;
+import java.util.List;
 
 public class UserRepository {
 
@@ -47,6 +48,14 @@ public class UserRepository {
                 user.setId(rs.getInt(1));
             }
         }
+    }
+
+    public void find(Connection connection, User user) {
+
+    }
+
+    public void findAll(Connection connection, List<User> users) {
+
     }
 
     private User extractUser(ResultSet rs) throws SQLException {
