@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,9 +22,13 @@
         <hr>
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
-        <div class="down-menu col-12 position-absolute bottom-0 start-0" >
-            <p style="font-size: 12px">You are logged as Rostik Yavor (User)</p>
-            <button type="button" class="btn btn-primary col-12 text-start">Logout</button>
+        <div class="down-menu col-12 position-absolute bottom-0 start-0">
+            <p style="font-size: 12px">You are logged as ${user.firstName} ${user.lastName}
+                <c:if test="${user.role != normalRole}">
+                    <span class="text-lowercase">(${user.role})</span>
+                </c:if>
+            </p>
+            <button type="button" class="btn btn-primary col-12 text-start" id="logout-btn">Logout</button>
         </div>
     </div>
 </sidebar>
@@ -31,9 +37,14 @@
     <div class="row">
         <div class="events row col-8 offset-3">
             <div class="col-6 event-card" event-id="1">
-                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in officiis </h3>
-                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.</p>
+                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in
+                    officiis </h3>
+                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus
+                    earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex
+                    facere quos! Cupiditate minus, reprehenderit.
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit
+                    necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate
+                    minus, reprehenderit.</p>
                 <hr>
                 <div class="row event-info">
                     <p class="col-4 text-center">Participants: <b>52</b></p>
@@ -41,17 +52,10 @@
                     <p class="col-4 text-center">Date: <b>24.08.2022</b></p>
                 </div>
             </div>
-            <div class="col-6 event-card" event-id="1">
-                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in officiis </h3>
-                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate minus, reprehenderit.</p>
-                <hr>
-                <div class="row event-info">
-                    <p class="col-4 text-center">Participants: <b>52</b></p>
-                    <p class="col-4 text-center">Reports: <b>4</b></p>
-                    <p class="col-4 text-center">Date: <b>24.08.2022</b></p>
-                </div>
-            </div>
+
+            <c:forEach items="${events}" var="event">
+                <my:event-card event="${event}"/>
+            </c:forEach>
         </div>
 
 
@@ -76,5 +80,6 @@
 
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/home.js"></script>
 </body>
 </html>
