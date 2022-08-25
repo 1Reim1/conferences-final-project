@@ -1,14 +1,17 @@
 package com.my.conferences.db;
 
+import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
 
     private static final String GET_USER_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
-    public static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
+    private static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?)";
 
     private static UserRepository instance;
 
@@ -49,13 +52,17 @@ public class UserRepository {
             }
         }
     }
+    public void findAllParticipants(Connection connection, Event event) throws SQLException {
+        List<User> participants = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
+            stmt.setInt(1, event.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next())
+                    participants.add(extractUser(rs));
 
-    public void find(Connection connection, User user) {
-
-    }
-
-    public void findAll(Connection connection, List<User> users) {
-
+                event.setParticipants(participants);
+            }
+        }
     }
 
     private User extractUser(ResultSet rs) throws SQLException {

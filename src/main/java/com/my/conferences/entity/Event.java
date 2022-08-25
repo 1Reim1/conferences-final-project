@@ -1,5 +1,6 @@
 package com.my.conferences.entity;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -7,7 +8,7 @@ public class Event {
     private int id;
     private String title;
     private String description;
-    private GregorianCalendar date;
+    private Date date;
     private String place;
     private List<Report> reports;
     private List<User> participants;
@@ -36,11 +37,11 @@ public class Event {
         this.description = description;
     }
 
-    public GregorianCalendar getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(GregorianCalendar date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

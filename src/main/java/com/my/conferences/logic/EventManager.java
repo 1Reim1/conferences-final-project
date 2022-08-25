@@ -5,6 +5,7 @@ import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class EventManager {
@@ -28,14 +29,25 @@ public class EventManager {
 
     public List<Event> findAll() throws DBException {
         Connection connection = connectionManager.getConnection();
-        List<Event> events = eventRepository.findAll(connection);
-        reportRepository.findAll(connection, events);
-        for (Event event: events) {
-            userRepository.findAll(connection, event.getParticipants());
-            for (Report report : event.getReports())
-                userRepository.find(connection, report.getSpeaker());
+        List<Event> events;
+        try {
+            events = eventRepository.findAll(connection);
+            for (Event event : events) {
+                reportRepository.findAllByEvent(connection, event);
+                userRepository.findAllParticipants(connection, event);
+            }
+        } catch (SQLException e) {
+            throw new DBException("events was not loaded", e);
         }
 
+//        reportRepository.findAll(connection, events);
+//        for (Event event: events) {
+//            userRepository.findAll(connection, event.getParticipants());
+//            for (Report report : event.getReports())
+//                userRepository.find(connection, report.getSpeaker());
+//        }
+
+        connectionManager.closeConnection(connection);
         return events;
     }
 }
