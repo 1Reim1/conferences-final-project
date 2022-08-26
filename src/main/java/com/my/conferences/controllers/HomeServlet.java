@@ -22,14 +22,26 @@ public class HomeServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
         request.setAttribute("normalRole", User.Role.USER);
+
+        int page;
         try {
-            request.setAttribute("events", eventManager.findAll());
+            page = Integer.parseInt(request.getParameter("page"));
+            if (page < 1)
+                page = 1;
+        }   catch (NumberFormatException e) {
+            page = 1;
+        }
+
+        try {
+            request.setAttribute("events", eventManager.findAll(page));
+            request.setAttribute("pages", eventManager.countPages());
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
             return;
         }
 
+        request.setAttribute("page", page);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }
 }

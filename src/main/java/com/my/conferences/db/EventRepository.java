@@ -1,18 +1,17 @@
 package com.my.conferences.db;
 
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_EVENTS = "SELECT * FROM events";
+    private static final String GET_ALL_EVENTS = "SELECT * FROM events LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
 
     public static synchronized EventRepository getInstance() {
         if (instance == null) {
@@ -26,15 +25,26 @@ public class EventRepository {
 
     }
 
-    public List<Event> findAll(Connection connection) throws SQLException {
+    public List<Event> findAll(Connection connection, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_EVENTS);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                events.add(extractEvent(rs));
-            }
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_EVENTS)) {
+            stmt.setInt(1, pageSize);
+            stmt.setInt(2, (page - 1) * pageSize);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    events.add(extractEvent(rs));
+                }
 
-            return events;
+                return events;
+            }
+        }
+    }
+
+    public int getCount(Connection connection) throws SQLException {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(GET_ALL_EVENTS_COUNT)) {
+            rs.next();
+            return rs.getInt("total");
         }
     }
 

@@ -14,6 +14,7 @@ public class EventManager {
     private static final EventRepository eventRepository = EventRepository.getInstance();
     private static final ReportRepository reportRepository = ReportRepository.getInstance();
     private static final UserRepository userRepository = UserRepository.getInstance();
+    private static final int PAGE_SIZE = 2;
 
     public static synchronized EventManager getInstance() {
         if (instance == null) {
@@ -27,27 +28,32 @@ public class EventManager {
 
     }
 
-    public List<Event> findAll() throws DBException {
+    public List<Event> findAll(int page) throws DBException {
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
-            events = eventRepository.findAll(connection);
+            events = eventRepository.findAll(connection, PAGE_SIZE, page);
             for (Event event : events) {
                 reportRepository.findAllByEvent(connection, event);
                 userRepository.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
             throw new DBException("events was not loaded", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
         }
 
-//        reportRepository.findAll(connection, events);
-//        for (Event event: events) {
-//            userRepository.findAll(connection, event.getParticipants());
-//            for (Report report : event.getReports())
-//                userRepository.find(connection, report.getSpeaker());
-//        }
-
-        connectionManager.closeConnection(connection);
         return events;
+    }
+
+    public int countPages() throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            return (int) Math.ceil((double) eventRepository.getCount(connection) / PAGE_SIZE);
+        } catch (SQLException e) {
+            throw new DBException("count of pages was not loaded");
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
     }
 }

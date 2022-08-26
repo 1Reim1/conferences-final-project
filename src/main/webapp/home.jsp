@@ -36,23 +36,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="events row col-8 offset-3">
-            <div class="col-6 event-card" event-id="1">
-                <h3>Event title Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolorem in
-                    officiis </h3>
-                <p class="event-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus
-                    earum eos ex impedit necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex
-                    facere quos! Cupiditate minus, reprehenderit.
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ducimus earum eos ex impedit
-                    necessitatibus non pariatur placeat, quia ullam ut veniam, veritatis. Ad ex facere quos! Cupiditate
-                    minus, reprehenderit.</p>
-                <hr>
-                <div class="row event-info">
-                    <p class="col-4 text-center">Participants: <b>52</b></p>
-                    <p class="col-4 text-center">Reports: <b>4</b></p>
-                    <p class="col-4 text-center">Date: <b>24.08.2022</b></p>
-                </div>
-            </div>
-
             <c:forEach items="${events}" var="event">
                 <my:event-card event="${event}"/>
             </c:forEach>
@@ -61,17 +44,7 @@
 
         <div class="offset-3 col-8">
             <div class="offset-4 col-2">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+                <my:pagination page="${page}" pages="${pages}"/>
             </div>
         </div>
     </div>
