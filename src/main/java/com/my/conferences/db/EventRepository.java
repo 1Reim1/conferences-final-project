@@ -10,7 +10,7 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_EVENTS = "SELECT * FROM events LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS = "SELECT * FROM events ORDER BY `date` LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
 
     public static synchronized EventRepository getInstance() {

@@ -6,6 +6,7 @@ import com.my.conferences.entity.Report;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.List;
 
 public class EventManager {
@@ -28,7 +29,7 @@ public class EventManager {
 
     }
 
-    public List<Event> findAll(int page) throws DBException {
+    public List<Event> findAll(int page, Event.Order order) throws DBException {
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
@@ -42,6 +43,11 @@ public class EventManager {
         }   finally {
             connectionManager.closeConnection(connection);
         }
+
+//        if (order == Event.Order.PARTICIPANTS)
+//            events.sort(Comparator.comparingInt(e -> e.getParticipants().size()));
+//        else if (order == Event.Order.REPORTS)
+//            events.sort(Comparator.comparingInt(e -> e.getReports().size()));
 
         return events;
     }
