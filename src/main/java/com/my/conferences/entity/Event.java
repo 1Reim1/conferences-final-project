@@ -68,4 +68,10 @@ public class Event {
     public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
+
+    public enum Order {
+        DATE,
+        REPORTS,
+        PARTICIPANTS
+    }
 }

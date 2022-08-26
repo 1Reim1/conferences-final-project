@@ -21,7 +21,6 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
-        request.setAttribute("normalRole", User.Role.USER);
 
         int page;
         try {
@@ -30,6 +29,15 @@ public class HomeServlet extends HttpServlet {
                 page = 1;
         }   catch (NumberFormatException e) {
             page = 1;
+        }
+
+        Event.Order order = Event.Order.DATE;
+        try {
+            String o = request.getParameter("order");
+            if (o != null)
+                order = Event.Order.valueOf(o);
+        }   catch (IllegalArgumentException e) {
+
         }
 
         try {
@@ -41,6 +49,7 @@ public class HomeServlet extends HttpServlet {
             return;
         }
 
+        request.setAttribute("order", order);
         request.setAttribute("page", page);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }

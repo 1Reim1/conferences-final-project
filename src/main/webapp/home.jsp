@@ -15,16 +15,16 @@
     <div class="position-relative col-12">
         <h3 class="text-center">Conferences</h3>
         <hr>
-        <button type="button" class="btn btn-dark col-12 text-start disabled">By date</button>
-        <button type="button" class="btn btn-dark col-12 text-start">By reports</button>
-        <button type="button" class="btn btn-dark col-12 text-start">By participants</button>
+        <button id="order-date" type="button" class="btn btn-dark col-12 text-start <c:if test="${order == 'DATE'}">disabled</c:if>">By date</button>
+        <button id="order-reports" type="button" class="btn btn-dark col-12 text-start <c:if test="${order == 'REPORTS'}">disabled</c:if>">By reports</button>
+        <button id="order-participants" type="button" class="btn btn-dark col-12 text-start <c:if test="${order == 'PARTICIPANTS'}">disabled</c:if>">By participants</button>
         <button type="button" class="btn btn-dark col-12 text-start">Reverse order</button>
         <hr>
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
         <div class="down-menu col-12 position-absolute bottom-0 start-0">
             <p style="font-size: 12px">You are logged as ${user.firstName} ${user.lastName}
-                <c:if test="${user.role != normalRole}">
+                <c:if test="${user.role != 'USER'}">
                     <span class="text-lowercase">(${user.role})</span>
                 </c:if>
             </p>
@@ -44,7 +44,7 @@
 
         <div class="offset-3 col-8">
             <div class="offset-4 col-2">
-                <my:pagination page="${page}" pages="${pages}"/>
+                <my:pagination page="${page}" pages="${pages}" order="${order}"/>
             </div>
         </div>
     </div>
