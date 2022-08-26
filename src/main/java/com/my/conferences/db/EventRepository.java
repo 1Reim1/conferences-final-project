@@ -10,7 +10,7 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_EVENTS = "SELECT * FROM events ORDER BY `date` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_DATE = "SELECT * FROM events ORDER BY `date`, `id` LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
 
     public static synchronized EventRepository getInstance() {
@@ -27,7 +27,7 @@ public class EventRepository {
 
     public List<Event> findAll(Connection connection, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_EVENTS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_EVENTS_BY_DATE)) {
             stmt.setInt(1, pageSize);
             stmt.setInt(2, (page - 1) * pageSize);
             try (ResultSet rs = stmt.executeQuery()) {

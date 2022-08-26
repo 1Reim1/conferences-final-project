@@ -12,11 +12,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event order frontend">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event order backend">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +201,7 @@
       <updated>1661232636639</updated>
       <workItem from="1661232638026" duration="70263000" />
       <workItem from="1661436124460" duration="1709000" />
-      <workItem from="1661438089525" duration="22306000" />
+      <workItem from="1661438089525" duration="22711000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -332,7 +329,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661511252382</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="event order backend">
+      <created>1661516042867</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1661516042867</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,6 +369,7 @@
     <MESSAGE value="pagination frontend" />
     <MESSAGE value="pagination backend" />
     <MESSAGE value="event order frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="event order frontend" />
+    <MESSAGE value="event order backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="event order backend" />
   </component>
 </project>
