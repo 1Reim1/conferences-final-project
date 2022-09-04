@@ -48,8 +48,7 @@ public class EventRepository {
 
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        String query = "";
-        System.out.println(reverseOrder);
+        String query;
         if (reverseOrder) {
             query = GET_ALL_EVENTS_BY_DATE_REVERSE;
             if (order == Event.Order.REPORTS)

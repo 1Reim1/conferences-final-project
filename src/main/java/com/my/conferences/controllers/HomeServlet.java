@@ -2,7 +2,6 @@ package com.my.conferences.controllers;
 
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.User;
 import com.my.conferences.logic.EventManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -17,10 +16,6 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        request.setAttribute("user", user);
-
         int page;
         try {
             page = Integer.parseInt(request.getParameter("page"));
@@ -43,17 +38,21 @@ public class HomeServlet extends HttpServlet {
                 reverseOrder = true;
         }
 
+        int pages;
         try {
+            pages = eventManager.countPages();
+            if (page > pages)
+                page = pages;
             request.setAttribute("events", eventManager.findAll(page, order, reverseOrder));
-            request.setAttribute("pages", eventManager.countPages());
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
             return;
         }
 
-        request.setAttribute("order", order);
         request.setAttribute("page", page);
+        request.setAttribute("pages", pages);
+        request.setAttribute("order", order);
         request.setAttribute("reverseOrder", reverseOrder);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }

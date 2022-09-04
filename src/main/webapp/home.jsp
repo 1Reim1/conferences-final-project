@@ -23,9 +23,9 @@
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
         <div class="down-menu col-12 position-absolute bottom-0 start-0">
-            <p style="font-size: 12px">You are logged as ${user.firstName} ${user.lastName}
-                <c:if test="${user.role != 'USER'}">
-                    <span class="text-lowercase">(${user.role})</span>
+            <p style="font-size: 12px">You are logged as ${sessionScope.user.firstName} ${sessionScope.user.lastName}
+                <c:if test="${sessionScope.user.role != 'USER'}">
+                    <span class="text-lowercase">(${sessionScope.user.role})</span>
                 </c:if>
             </p>
             <button type="button" class="btn btn-primary col-12 text-start" id="logout-btn">Logout</button>
