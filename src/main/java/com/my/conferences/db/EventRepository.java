@@ -11,16 +11,27 @@ public class EventRepository {
 
     private static EventRepository instance;
     private static final String GET_ALL_EVENTS_BY_DATE = "SELECT * FROM events ORDER BY `date`, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_DATE_REVERSE = "SELECT * FROM events ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
             " GROUP BY events.id" +
-            " ORDER BY reports_count DESC LIMIT ? OFFSET ?";
-    private static final String GET_ALL_EVENTS_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS reports_count" +
+            " ORDER BY reports_count DESC, events.id LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_REPORTS_REVERSE = "SELECT events.*, COUNT(reports.id) AS reports_count" +
+            " FROM events LEFT JOIN reports " +
+            " ON events.id = reports.event_id" +
+            " GROUP BY events.id" +
+            " ORDER BY reports_count, events.id LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
             " GROUP BY events.id" +
-            " ORDER BY reports_count DESC LIMIT ? OFFSET ?";
+            " ORDER BY participants_count DESC, events.id LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_PARTICIPANTS_REVERSE = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
+            " FROM events LEFT JOIN participants " +
+            " ON events.id = participants.event_id" +
+            " GROUP BY events.id" +
+            " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
 
     public static synchronized EventRepository getInstance() {
@@ -35,13 +46,23 @@ public class EventRepository {
 
     }
 
-    public List<Event> findAll(Connection connection, Event.Order order, int pageSize, int page) throws SQLException {
+    public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        String query = GET_ALL_EVENTS_BY_DATE;
-        if (order == Event.Order.REPORTS)
-            query = GET_ALL_EVENTS_BY_REPORTS;
-        else if (order == Event.Order.PARTICIPANTS)
-            query = GET_ALL_EVENTS_BY_PARTICIPANTS;
+        String query = "";
+        System.out.println(reverseOrder);
+        if (reverseOrder) {
+            query = GET_ALL_EVENTS_BY_DATE_REVERSE;
+            if (order == Event.Order.REPORTS)
+                query = GET_ALL_EVENTS_BY_REPORTS_REVERSE;
+            else if (order == Event.Order.PARTICIPANTS)
+                query = GET_ALL_EVENTS_BY_PARTICIPANTS_REVERSE;
+        }   else {
+            query = GET_ALL_EVENTS_BY_DATE;
+            if (order == Event.Order.REPORTS)
+                query = GET_ALL_EVENTS_BY_REPORTS;
+            else if (order == Event.Order.PARTICIPANTS)
+                query = GET_ALL_EVENTS_BY_PARTICIPANTS;
+        }
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, pageSize);

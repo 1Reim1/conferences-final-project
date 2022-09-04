@@ -44,7 +44,7 @@ public class HomeServlet extends HttpServlet {
         }
 
         try {
-            request.setAttribute("events", eventManager.findAll(page, order));
+            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder));
             request.setAttribute("pages", eventManager.countPages());
         } catch (DBException e) {
             response.setStatus(404);

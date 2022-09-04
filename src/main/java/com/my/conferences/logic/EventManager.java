@@ -29,11 +29,11 @@ public class EventManager {
 
     }
 
-    public List<Event> findAll(int page, Event.Order order) throws DBException {
+    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder) throws DBException {
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
-            events = eventRepository.findAll(connection, order, PAGE_SIZE, page);
+            events = eventRepository.findAll(connection, order, reverseOrder, PAGE_SIZE, page);
             for (Event event : events) {
                 reportRepository.findAllByEvent(connection, event);
                 userRepository.findAllParticipants(connection, event);
