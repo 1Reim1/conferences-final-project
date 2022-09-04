@@ -2,7 +2,7 @@
 <%@attribute name="page" required="true" type="java.lang.Integer" %>
 <%@attribute name="pages" required="true" type="java.lang.Integer" %>
 
-<nav aria-label="Page navigation example">
+<nav>
     <ul class="pagination">
         <li class="page-item <c:if test="${page == 1}">disabled</c:if>"><a class="page-link" href="?page=${page-1}">Previous</a>
         </li>
