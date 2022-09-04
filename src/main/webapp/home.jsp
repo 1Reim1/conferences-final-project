@@ -20,7 +20,6 @@
         <button id="order-participants" type="button" class="btn btn-dark col-12 text-start <c:if test="${order == 'PARTICIPANTS'}">disabled</c:if>">By participants</button>
         <button id="order-reverse" type="button" class="btn btn-outline-primary col-12 text-start">Reverse order
             <c:if test="${reverseOrder}">(enabled)</c:if>
-            <c:if test="${!reverseOrder}"></c:if>
             </button>
         <hr>
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
