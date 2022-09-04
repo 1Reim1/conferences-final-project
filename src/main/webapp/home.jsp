@@ -44,7 +44,7 @@
 
         <div class="offset-3 col-8">
             <div class="offset-4 col-2">
-                <my:pagination page="${page}" pages="${pages}" order="${order}"/>
+                <my:pagination page="${page}" pages="${pages}"/>
             </div>
         </div>
     </div>
