@@ -33,12 +33,13 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
-            events = eventRepository.findAll(connection, PAGE_SIZE, page);
+            events = eventRepository.findAll(connection, order, PAGE_SIZE, page);
             for (Event event : events) {
                 reportRepository.findAllByEvent(connection, event);
                 userRepository.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
+            System.out.println(e);
             throw new DBException("events was not loaded", e);
         }   finally {
             connectionManager.closeConnection(connection);

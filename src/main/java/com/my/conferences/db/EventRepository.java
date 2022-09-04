@@ -11,6 +11,16 @@ public class EventRepository {
 
     private static EventRepository instance;
     private static final String GET_ALL_EVENTS_BY_DATE = "SELECT * FROM events ORDER BY `date`, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
+            " FROM events LEFT JOIN reports " +
+            " ON events.id = reports.event_id" +
+            " GROUP BY events.id" +
+            " ORDER BY reports_count DESC LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS reports_count" +
+            " FROM events LEFT JOIN participants " +
+            " ON events.id = participants.event_id" +
+            " GROUP BY events.id" +
+            " ORDER BY reports_count DESC LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
 
     public static synchronized EventRepository getInstance() {
@@ -25,9 +35,15 @@ public class EventRepository {
 
     }
 
-    public List<Event> findAll(Connection connection, int pageSize, int page) throws SQLException {
+    public List<Event> findAll(Connection connection, Event.Order order, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_EVENTS_BY_DATE)) {
+        String query = GET_ALL_EVENTS_BY_DATE;
+        if (order == Event.Order.REPORTS)
+            query = GET_ALL_EVENTS_BY_REPORTS;
+        else if (order == Event.Order.PARTICIPANTS)
+            query = GET_ALL_EVENTS_BY_PARTICIPANTS;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, pageSize);
             stmt.setInt(2, (page - 1) * pageSize);
             try (ResultSet rs = stmt.executeQuery()) {
