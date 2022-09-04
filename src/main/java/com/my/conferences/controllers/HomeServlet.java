@@ -14,6 +14,7 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet {
 
     private static final EventManager eventManager = EventManager.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
@@ -25,19 +26,22 @@ public class HomeServlet extends HttpServlet {
             page = Integer.parseInt(request.getParameter("page"));
             if (page < 1)
                 page = 1;
-        }   catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             page = 1;
         }
 
         Cookie[] cookies = request.getCookies();
         Event.Order order = Event.Order.DATE;
-        try {
-            for (Cookie cookie : cookies) {
-                System.out.println(cookie.getName());
-                if (cookie.getName().equals("event-order"))
+        boolean reverseOrder = false;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("event-order")) {
+                try {
                     order = Event.Order.valueOf(cookie.getValue());
+                }   catch (IllegalArgumentException ignored) {}
             }
-        }   catch (IllegalArgumentException e) {}
+            if (cookie.getName().equals("event-order-reverse"))
+                reverseOrder = true;
+        }
 
         try {
             request.setAttribute("events", eventManager.findAll(page, order));
@@ -50,6 +54,7 @@ public class HomeServlet extends HttpServlet {
 
         request.setAttribute("order", order);
         request.setAttribute("page", page);
+        request.setAttribute("reverseOrder", reverseOrder);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }
 }
