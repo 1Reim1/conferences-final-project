@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/event.css" rel="stylesheet">
+  <title>Lorem ipsum dolor sit amet.</title>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <h3 class="text-center">Lorem ipsum dolor sit amet. <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal"></h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur distinctio eligendi harum ipsa, officia
+      quibusdam repellat! Aliquam aperiam aspernatur autem distinctio ducimus, fugiat nam neque nulla omnis optio
+      quo sequi! Accusantium adipisci beatae cumque delectus deleniti eaque, enim eos error, facere facilis fugit
+      ipsa itaque libero nemo nesciunt nostrum obcaecati ratione suscipit tempora, temporibus. Amet consequatur
+      doloremque hic id illum nemo nihil officia qui? Accusantium ad amet aperiam architecto deserunt dicta
+      distinctio dolore doloribus earum iusto laborum laudantium magni mollitia nemo nisi officiis optio pariatur
+      perferendis quae quidem quod rem reprehenderit rerum, saepe similique sint tempora veritatis vero voluptate
+      voluptatibus! <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal"></p>
+    <span class="col-4 text-center control-element" data-bs-toggle="modal" data-bs-target="#participants-modal">Participants: <b>44</b></span>
+    <span class="col-4 text-center event-description">Reports: <b>5</b></span>
+    <span class="col-4 text-center control-element" data-bs-toggle="modal" data-bs-target="#modify-date-modal">Date: <b>24-08-2022 19:13</b></span>
+    <hr class="col-12">
+    <p class="event-description">Place: <b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, voluptatum.</b> <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal"></p>
+    <hr>
+    <h4 class="text-center"> Reports: </h4>
+    <a class="list-group">
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-5">Report 1 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Catlin Snow</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-5">Report 2 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Abraham Guild</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-5">Report 3 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Barry Alien</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-5">Report 4 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Scott Young</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row align-text-bottom">
+          <span class="col-4">Report 5 (Not confirmed) <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
+          <div class="col-4">
+            <div class="row">
+              <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
+              <button type="button" class="btn btn-outline-danger col-5 offset-2">Cancel report</button>
+            </div>
+          </div>
+          <span class="col-4 text-end">Adam James</span>
+        </div>
+      </a>
+    </a>
+    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+    <button type="button" class="btn btn-danger mb-2">Hide the conference</button>
+    <button id="save-changes" type="button" class="btn btn-success">Save changes</button>
+  </div>
+</div>
+
+<!-- Modify title modal -->
+<div class="modal fade" id="modify-title-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="event-title" class="form-control" placeholder="Title">
+        <div class="invalid-feedback">
+          Min length: 3
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="save-title-btn" type="button" class="btn btn-primary">Save title</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modify description modal -->
+<div class="modal fade" id="modify-description-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea type="text" id="event-description" class="form-control" rows="10" placeholder="Description"></textarea>
+        <div class="invalid-feedback">
+          Min length: 20
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="save-description-btn" type="button" class="btn btn-primary">Save description</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modify date modal -->
+<div class="modal fade" id="modify-date-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New date</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="datetime-local" id="event-date" class="form-control" placeholder="Datetime">
+        <div class="invalid-feedback">
+          Invalid date
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="save-date-btn" type="button" class="btn btn-primary">Save date</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Participants modal -->
+<div class="modal fade" id="participants-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Participants</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+          <li class="list-group-item">Name</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modify report topic modal -->
+<div class="modal fade" id="modify-report-topic-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New topic</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="report-topic" class="form-control" placeholder="Title">
+        <div class="invalid-feedback">
+          Min length: 3
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="save-report-topic-btn" type="button" class="btn btn-primary">Save topic</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Offer report modal -->
+<div class="modal fade" id="offer-report-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control is-invalid" placeholder="Topic" required>
+        <div class="invalid-feedback">
+          Min length: 3
+        </div>
+        <input class="form-control" list="speakers" id="speaker">
+        <datalist id="speakers">
+          <option value="first@gmail.com">Barry asd</option>
+          <option value="second@gmail.com">Dr. Nar</option>
+          <option value="third@gmail.com">James Young</option>
+          <option value="another@gmail.com">Holly West</option>
+        </datalist>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="offer-report-btn" type="button" class="btn btn-primary">Offer report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modify description modal -->
+<div class="modal fade" id="modify-place-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New place</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <textarea type="text" id="event-place" class="form-control" rows="5" placeholder="Place"></textarea>
+        <div class="invalid-feedback">
+          Min length: 20
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="save-place-btn" type="button" class="btn btn-primary">Save place</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/event-moderator.js"></script>
+</body>
+</html>

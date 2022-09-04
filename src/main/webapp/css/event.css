@@ -1,0 +1,28 @@
+.container {
+    border-left: gray 1px solid;
+    border-right: gray 1px solid;
+}
+
+.event-description, hr {
+    margin-bottom: 20px;
+}
+
+.list-group-item span {
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.modify-icon {
+    height: 25px;
+}
+
+.modify-icon:hover {
+    filter: invert(37%) sepia(72%) saturate(5101%) hue-rotate(208deg) brightness(100%) contrast(101%);
+    cursor: pointer;
+}
+
+.control-element:hover {
+    color: #0D6EFD;
+    cursor: pointer;
+    border-bottom: 1px solid #0D6EFD;
+}

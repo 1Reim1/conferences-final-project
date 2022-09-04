@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/event.css" rel="stylesheet">
+  <title>Lorem ipsum dolor sit amet.</title>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <h3 class="text-center">Lorem ipsum dolor sit amet.</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur distinctio eligendi harum ipsa, officia
+      quibusdam repellat! Aliquam aperiam aspernatur autem distinctio ducimus, fugiat nam neque nulla omnis optio
+      quo sequi! Accusantium adipisci beatae cumque delectus deleniti eaque, enim eos error, facere facilis fugit
+      ipsa itaque libero nemo nesciunt nostrum obcaecati ratione suscipit tempora, temporibus. Amet consequatur
+      doloremque hic id illum nemo nihil officia qui? Accusantium ad amet aperiam architecto deserunt dicta
+      distinctio dolore doloribus earum iusto laborum laudantium magni mollitia nemo nisi officiis optio pariatur
+      perferendis quae quidem quod rem reprehenderit rerum, saepe similique sint tempora veritatis vero voluptate
+      voluptatibus!</p>
+    <span class="col-4 text-center event-description">Participants: <b>44</b></span>
+    <span class="col-4 text-center">Reports: <b>5</b></span>
+    <span class="col-4 text-center">Date: <b>dd-MM-yyyy HH:mm</b></span>
+    <hr class="col-12">
+    <p class="event-description">Place: <b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, voluptatum.</b></p>
+    <hr>
+    <h4 class="text-center"> Reports: </h4>
+    <a class="list-group">
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-9">Report 1</span>
+          <span class="col-3 text-end">Adam James</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-9">Report 2</span>
+          <span class="col-3 text-end">Adam James</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-5">Report 3</span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Me</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row">
+          <span class="col-4">Report 4 (Proposed by Harrison Wells)</span>
+          <div class="col-4">
+            <div class="row">
+              <button type="button" class="btn btn-outline-success col-5">Accept report</button>
+              <button type="button" class="btn btn-outline-danger col-5 offset-2">Reject report</button>
+            </div>
+          </div>
+          <span class="col-4 text-end">Me</span>
+        </div>
+      </a>
+      <a class="list-group-item list-group-item-action">
+        <div class="row align-text-bottom">
+          <span class="col-5">Report 5 (Not confirmed)</span>
+          <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
+          <span class="col-5 text-end">Me</span>
+        </div>
+      </a>
+    </a>
+    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+    <button id="offer-report" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+  </div>
+</div>
+
+<!-- Offer report modal -->
+<div class="modal fade" id="offer-report-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="report-topic" class="form-control is-invalid" placeholder="Topic" required>
+        <div class="invalid-feedback">
+          Min length: 3
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="offer-report-btn" type="button" class="btn btn-primary">Offer report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/event-speaker.js"></script>
+</body>
+</html>
