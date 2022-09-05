@@ -2,6 +2,7 @@ package com.my.conferences.logic;
 
 import com.my.conferences.db.*;
 import com.my.conferences.entity.Event;
+import com.my.conferences.entity.Report;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -36,7 +37,7 @@ public class EventManager {
         try {
             events = eventRepository.findAll(connection, order, reverseOrder, PAGE_SIZE, page);
             for (Event event : events) {
-                reportRepository.findAllByEvent(connection, event);
+                reportRepository.findAll(connection, event, true);
                 userRepository.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
@@ -55,8 +56,16 @@ public class EventManager {
         Event event;
         try {
             event = eventRepository.findOne(connection, id, showHidden);
+            userRepository.findAllParticipants(connection, event);
+            reportRepository.findAll(connection, event, !showHidden);
+            for (Report report : event.getReports()) {
+                userRepository.findOne(connection, report.getCreator());
+                userRepository.findOne(connection, report.getSpeaker());
+            }
         } catch (SQLException e) {
             throw new DBException("Event was not found", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
         }
 
         return event;

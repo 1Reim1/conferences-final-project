@@ -13,7 +13,8 @@ import java.util.List;
 
 public class ReportRepository {
     private static ReportRepository instance;
-    private static final String GET_ALL_REPORTS_BY_EVENT = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
+    private static final String GET_ALL = "SELECT * FROM reports WHERE event_id = ?";
+    private static final String GET_ALL_ONLY_CONFIRMED = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
 
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
@@ -27,9 +28,13 @@ public class ReportRepository {
 
     }
 
-    public void findAllByEvent(Connection connection, Event event) throws SQLException {
+    public void findAll(Connection connection, Event event, boolean onlyConfirmed) throws SQLException {
         List<Report> reports = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_REPORTS_BY_EVENT)) {
+        String query = GET_ALL;
+        if (onlyConfirmed)
+            query = GET_ALL_ONLY_CONFIRMED;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, event.getId());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

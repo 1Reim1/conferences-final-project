@@ -37,67 +37,116 @@
             <div class="container">
                 <div class="row">
                     <h3 class="text-center">${event.title}
-                        <c:if test="${sessionScope.user.role == 'MODERATOR'}">
+                        <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
                         </c:if>
                     </h3>
                     <p>${event.description}
-                        <c:if test="${sessionScope.user.role == 'MODERATOR'}">
+                        <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal">
                         </c:if>
                     </p>
-                    <span class="col-4 text-center <c:if test="${sessionScope.user.role == 'MODERATOR'}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#participants-modal">Participants: <b>44</b></span>
-                    <span class="col-4 text-center event-description">Reports: <b>5</b></span>
-                    <span class="col-4 text-center <c:if test="${sessionScope.user.role == 'MODERATOR'}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">Date: <b><fmt:formatDate value="${event.date}" pattern="dd-MM-yyyy HH:mm"/></b></span>
+                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#participants-modal">
+                        Participants: <b>${event.participants.size()}</b>
+                    </span>
+                    <span class="col-4 text-center event-description">
+                        Reports: <b>${event.reports.size()}</b>
+                    </span>
+                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">Date: <b><fmt:formatDate value="${event.date}" pattern="dd-MM-yyyy HH:mm"/></b></span>
                     <hr class="col-12">
-                    <p class="event-description">Place: <b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, voluptatum.</b> <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal"></p>
+                    <p class="event-description">Place: <b>${event.place}</b>
+                        <c:if test="${event.moderator.id == sessionScope.user.id}">
+                            <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
+                        </c:if>
+                    </p>
                     <hr>
                     <h4 class="text-center"> Reports: </h4>
                     <a class="list-group">
-                        <a class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <span class="col-5">Report 1 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
-                                <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
-                                <span class="col-5 text-end">Catlin Snow</span>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <span class="col-5">Report 2 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
-                                <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
-                                <span class="col-5 text-end">Abraham Guild</span>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <span class="col-5">Report 3 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
-                                <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
-                                <span class="col-5 text-end">Barry Alien</span>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <span class="col-5">Report 4 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
-                                <button type="button" class="btn btn-outline-danger col-2">Cancel report</button>
-                                <span class="col-5 text-end">Scott Young</span>
-                            </div>
-                        </a>
-                        <a class="list-group-item list-group-item-action">
-                            <div class="row align-text-bottom">
-                                <span class="col-4">Report 5 (Not confirmed) <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal"></span>
-                                <div class="col-4">
-                                    <div class="row">
-                                        <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
-                                        <button type="button" class="btn btn-outline-danger col-5 offset-2">Cancel report</button>
+                        <c:forEach items="${event.reports}" var="report">
+                            <a class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <span class="col-5">
+                                            <span class="topic">${report.title}</span>
+                                            <c:if test="${event.moderator.id == sessionScope.user.id}">
+                                                <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
+                                            </c:if>
+                                            <c:if test="${!report.confirmed}">
+                                                <c:if test="${report.speaker.id == report.creator.id}">
+                                                    (Not confirmed by moderator)
+                                                </c:if>
+                                                <c:if test="${report.speaker.id != report.creator.id}">
+                                                    (Not confirmed by speaker)
+                                                </c:if>
+                                            </c:if>
+                                    </span>
+                                    <div class="col-4">
+                                        <c:if test="${!report.confirmed}">
+                                            <div class="row">
+                                                <c:choose>
+                                                    <c:when test="${report.speaker.id != report.creator.id && report.speaker.id == sessionScope.user.id}">
+                                                        <button type="button" class="btn btn-outline-success col-5">Accept report</button>
+                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2">Reject report</button>
+                                                    </c:when>
+                                                    <c:when test="${report.speaker.id == report.creator.id && event.moderator.id == sessionScope.user.id}">
+                                                        <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
+                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2">Cancel report</button>
+                                                    </c:when>
+                                                    <c:when test="${event.moderator.id == sessionScope.user.id}">
+                                                            <button type="button" class="btn btn-outline-danger col-6 offset-3">Cancel report</button>
+                                                    </c:when>
+                                                </c:choose>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${report.confirmed && (event.moderator.id == sessionScope.user.id || report.speaker.id == sessionScope.user.id)}">
+                                            <div class="row">
+                                                <button type="button" class="btn btn-outline-danger col-6 offset-3">Cancel report</button>
+                                            </div>
+                                        </c:if>
                                     </div>
+                                    <span class="col-3 text-end">${report.speaker.firstName} ${report.speaker.lastName}</span>
                                 </div>
-                                <span class="col-4 text-end">Adam James</span>
-                            </div>
-                        </a>
+                            </a>
+                        </c:forEach>
                     </a>
-                    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
-                    <button type="button" class="btn btn-danger mb-2">Hide the conference</button>
-                    <button id="save-changes" type="button" class="btn btn-success">Save changes</button>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.role == 'USER'}">
+                                <c:if test="${isParticipant}">
+                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                </c:if>
+                                <c:if test="${!isParticipant}">
+                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                </c:if>
+                        </c:when>
+                        <c:when test="${sessionScope.user.role == 'SPEAKER'}">
+                            <c:choose>
+                                <c:when test="${isParticipant}">
+                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                </c:when>
+                                <c:when test="${!isParticipant && !hasReport}">
+                                    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <button id="offer-report" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:when test="${sessionScope.user.role == 'MODERATOR'}">
+                            <c:if test="${event.moderator.id == sessionScope.user.id}">
+                                <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                <button type="button" class="btn btn-danger mb-2">Hide the conference</button>
+                                <button id="save-changes" type="button" class="btn btn-success">Save changes</button>
+                            </c:if>
+                            <c:if test="${event.moderator.id != sessionScope.user.id}">
+                                <c:if test="${isParticipant}">
+                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                </c:if>
+                                <c:if test="${!isParticipant}">
+                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                </c:if>
+                            </c:if>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
         </div>

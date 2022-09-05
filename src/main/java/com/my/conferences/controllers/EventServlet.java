@@ -1,6 +1,8 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.db.DBException;
+import com.my.conferences.entity.Event;
+import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.EventManager;
 import jakarta.servlet.*;
@@ -24,12 +26,35 @@ public class EventServlet extends HttpServlet {
             return;
         }
 
+        Event event;
         try {
-            request.setAttribute("event", eventManager.findOne(id, ((User) request.getSession().getAttribute("user")).getRole() != User.Role.USER));
+            event = eventManager.findOne(id, ((User) request.getSession().getAttribute("user")).getRole() != User.Role.USER);
+            request.setAttribute("event", event);
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
             return;
+        }
+
+        User user = (User) request.getSession().getAttribute("user");
+        boolean isParticipant = false;
+        if (!user.equals(event.getModerator())) {
+            for (User participant : event.getParticipants())
+                if (participant.equals(user)) {
+                    isParticipant = true;
+                    break;
+                }
+            request.setAttribute("isParticipant", isParticipant);
+        }
+        if (user.getRole() == User.Role.SPEAKER) {
+            boolean hasReport = false;
+            for (Report report : event.getReports())
+                if (report.getSpeaker().equals(user)) {
+                    hasReport = true;
+                    break;
+                }
+            System.out.println(hasReport);
+            request.setAttribute("hasReport", hasReport);
         }
 
         getServletContext().getRequestDispatcher("/event.jsp").forward(request, response);

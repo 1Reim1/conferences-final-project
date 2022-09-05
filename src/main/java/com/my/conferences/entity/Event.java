@@ -10,6 +10,7 @@ public class Event {
     private String description;
     private Date date;
     private String place;
+    private User moderator;
     private List<Report> reports;
     private List<User> participants;
 
@@ -67,6 +68,14 @@ public class Event {
 
     public void setParticipants(List<User> participants) {
         this.participants = participants;
+    }
+
+    public User getModerator() {
+        return moderator;
+    }
+
+    public void setModerator(User moderator) {
+        this.moderator = moderator;
     }
 
     public enum Order {

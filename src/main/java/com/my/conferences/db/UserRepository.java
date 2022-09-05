@@ -9,10 +9,10 @@ import java.util.List;
 
 public class UserRepository {
 
-    private static final String GET_USER_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
+    private static final String GET_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?)";
-
+    private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
     private static UserRepository instance;
 
     public static synchronized UserRepository getInstance() {
@@ -27,8 +27,18 @@ public class UserRepository {
 
     }
 
-    public User findUserByEmail(Connection connection, String email) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(GET_USER_BY_EMAIL)) {
+    public void findOne(Connection connection, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
+            stmt.setInt(1, user.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                extractUser(rs, user);
+            }
+        }
+    }
+
+    public User findByEmail(Connection connection, String email) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(GET_BY_EMAIL)) {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
@@ -37,7 +47,7 @@ public class UserRepository {
         }
     }
 
-    public void insertUser(Connection connection, User user) throws SQLException {
+    public void insert(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_INTO_USERS, Statement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             stmt.setString(++k, user.getEmail());

@@ -36,7 +36,7 @@ public class UserManager {
         Connection connection = connectionManager.getConnection();
         User user;
         try {
-            user = userRepository.findUserByEmail(connection, email);
+            user = userRepository.findByEmail(connection, email);
         } catch (SQLException e) {
             throw new DBException("User with this email not found", e);
         }
@@ -54,7 +54,7 @@ public class UserManager {
         Connection connection = connectionManager.getConnection();
         boolean userExists = true;
         try {
-            userRepository.findUserByEmail(connection, user.getEmail());
+            userRepository.findByEmail(connection, user.getEmail());
         } catch (SQLException e) {
             userExists = false;
         }
@@ -63,7 +63,7 @@ public class UserManager {
             throw new DBException("The user with this email already exists");
 
         try {
-            userRepository.insertUser(connection, user);
+            userRepository.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
         }

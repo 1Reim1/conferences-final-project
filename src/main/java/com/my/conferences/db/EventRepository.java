@@ -1,6 +1,7 @@
 package com.my.conferences.db;
 
 import com.my.conferences.entity.Event;
+import com.my.conferences.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -118,5 +119,8 @@ public class EventRepository {
         event.setPlace(rs.getString("place"));
         event.setParticipants(new ArrayList<>());
         event.setReports(new ArrayList<>());
+        User moderator = new User();
+        moderator.setId(rs.getInt("moderator_id"));
+        event.setModerator(moderator);
     }
 }
