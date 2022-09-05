@@ -10,26 +10,30 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_EVENTS_BY_DATE = "SELECT * FROM events ORDER BY `date`, `id` LIMIT ? OFFSET ?";
-    private static final String GET_ALL_EVENTS_BY_DATE_REVERSE = "SELECT * FROM events ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_DATE = "SELECT * FROM events WHERE hidden = false ORDER BY `date`, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_EVENTS_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
+            " WHERE events.hidden = false" +
             " GROUP BY events.id" +
             " ORDER BY reports_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_BY_REPORTS_REVERSE = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
+            " WHERE events.hidden = false" +
             " GROUP BY events.id" +
             " ORDER BY reports_count, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
+            " WHERE events.hidden = false" +
             " GROUP BY events.id" +
             " ORDER BY participants_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_BY_PARTICIPANTS_REVERSE = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
+            " WHERE events.hidden = false" +
             " GROUP BY events.id" +
             " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
