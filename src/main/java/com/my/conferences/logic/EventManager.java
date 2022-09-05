@@ -49,6 +49,19 @@ public class EventManager {
         return events;
     }
 
+    public Event findOne(int id, boolean showHidden) throws DBException {
+        Connection connection = connectionManager.getConnection();
+
+        Event event;
+        try {
+            event = eventRepository.findOne(connection, id, showHidden);
+        } catch (SQLException e) {
+            throw new DBException("Event was not found", e);
+        }
+
+        return event;
+    }
+
     public int countPages() throws DBException {
         Connection connection = connectionManager.getConnection();
         try {

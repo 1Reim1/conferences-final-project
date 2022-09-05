@@ -1,8 +1,3 @@
-
-$("#logout-btn").on("click", function (e) {
-    window.location.href = "auth"
-})
-
 $("#order-date").on("click", function (e) {
     document.cookie = "event-order=DATE"
     location.reload()
@@ -42,3 +37,7 @@ function getCookie(cname) {
     }
     return "";
 }
+
+$(".event-card").on("click", function (e) {
+    window.location.href = "event?id=" + $(this).attr("event-id")
+})

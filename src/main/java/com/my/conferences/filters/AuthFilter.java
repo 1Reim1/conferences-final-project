@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/home"})
+@WebFilter(urlPatterns = {"/home", "/event"})
 public class AuthFilter implements Filter {
 
     @Override

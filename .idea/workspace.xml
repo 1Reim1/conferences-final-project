@@ -12,10 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="report update">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event page servlet skeleton">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +27,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="CSS File" />
         <option value="HTML File" />
+        <option value="Class" />
+        <option value="Jsp File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -93,6 +96,9 @@
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
+    <configuration name="event.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/conferences/event.jsp">
+      <method v="2" />
+    </configuration>
     <configuration name="home.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/conferences/src/main/webapp/home.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -183,11 +189,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JavaScript Debug.event.jsp" />
       <item itemvalue="JavaScript Debug.home.html" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.23" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.event.jsp" />
         <item itemvalue="JavaScript Debug.home.html" />
       </list>
     </recent_temporary>
@@ -203,7 +211,7 @@
       <workItem from="1661232638026" duration="70263000" />
       <workItem from="1661436124460" duration="1709000" />
       <workItem from="1661438089525" duration="27038000" />
-      <workItem from="1662283027243" duration="38985000" />
+      <workItem from="1662283027243" duration="43309000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -450,7 +458,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662389764580</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="event hidden field">
+      <created>1662392848782</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1662392848782</updated>
+    </task>
+    <task id="LOCAL-00037" summary="event page servlet skeleton">
+      <created>1662395791360</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1662395791360</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -468,8 +490,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="login page" />
-    <MESSAGE value="singleton" />
     <MESSAGE value="register backend" />
     <MESSAGE value="register front" />
     <MESSAGE value="email is unique" />
@@ -493,6 +513,8 @@
     <MESSAGE value="event html sidebar" />
     <MESSAGE value="db-create.sql" />
     <MESSAGE value="report update" />
-    <option name="LAST_COMMIT_MESSAGE" value="report update" />
+    <MESSAGE value="event hidden field" />
+    <MESSAGE value="event page servlet skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="event page servlet skeleton" />
   </component>
 </project>

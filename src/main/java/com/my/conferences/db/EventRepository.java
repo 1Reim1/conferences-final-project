@@ -36,7 +36,9 @@ public class EventRepository {
             " WHERE events.hidden = false" +
             " GROUP BY events.id" +
             " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
-    private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events";
+    private static final String GET_ALL_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false";
+    private static final String GET_ONE_EVENT = "SELECT * FROM events WHERE id = ? AND hidden = false";
+    private static final String GET_ONE_EVENT_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
 
     public static synchronized EventRepository getInstance() {
         if (instance == null) {
@@ -59,7 +61,7 @@ public class EventRepository {
                 query = GET_ALL_EVENTS_BY_REPORTS_REVERSE;
             else if (order == Event.Order.PARTICIPANTS)
                 query = GET_ALL_EVENTS_BY_PARTICIPANTS_REVERSE;
-        }   else {
+        } else {
             query = GET_ALL_EVENTS_BY_DATE;
             if (order == Event.Order.REPORTS)
                 query = GET_ALL_EVENTS_BY_REPORTS;
@@ -85,6 +87,20 @@ public class EventRepository {
              ResultSet rs = stmt.executeQuery(GET_ALL_EVENTS_COUNT)) {
             rs.next();
             return rs.getInt("total");
+        }
+    }
+
+    public Event findOne(Connection connection, int id, boolean showHidden) throws SQLException {
+        String query = GET_ONE_EVENT;
+        if (showHidden)
+            query = GET_ONE_EVENT_SHOW_HIDDEN;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return extractEvent(rs);
+            }
         }
     }
 
