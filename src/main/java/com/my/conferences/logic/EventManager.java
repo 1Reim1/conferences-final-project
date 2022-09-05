@@ -2,11 +2,10 @@ package com.my.conferences.logic;
 
 import com.my.conferences.db.*;
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.Report;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
@@ -30,6 +29,8 @@ public class EventManager {
     }
 
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder) throws DBException {
+        if (page == 0)
+            return new ArrayList<>();
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
@@ -39,7 +40,7 @@ public class EventManager {
                 userRepository.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
             throw new DBException("events was not loaded", e);
         }   finally {
             connectionManager.closeConnection(connection);
