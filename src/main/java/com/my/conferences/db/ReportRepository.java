@@ -9,12 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ReportRepository {
     private static ReportRepository instance;
-    private static final String GET_ALL_REPORTS_BY_EVENT = "SELECT * FROM reports WHERE event_id = ?";
+    private static final String GET_ALL_REPORTS_BY_EVENT = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
 
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
@@ -54,5 +53,9 @@ public class ReportRepository {
         User speaker = new User();
         speaker.setId(rs.getInt("speaker_id"));
         report.setSpeaker(speaker);
+        User creator = new User();
+        creator.setId(rs.getInt("creator_id"));
+        report.setCreator(creator);
+        report.setConfirmed(rs.getBoolean("confirmed"));
     }
 }

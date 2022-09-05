@@ -46,11 +46,6 @@ public class EventManager {
             connectionManager.closeConnection(connection);
         }
 
-//        if (order == Event.Order.PARTICIPANTS)
-//            events.sort(Comparator.comparingInt(e -> e.getParticipants().size()));
-//        else if (order == Event.Order.REPORTS)
-//            events.sort(Comparator.comparingInt(e -> e.getReports().size()));
-
         return events;
     }
 
