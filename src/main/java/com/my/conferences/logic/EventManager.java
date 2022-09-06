@@ -57,6 +57,7 @@ public class EventManager {
             event = eventRepository.findOne(connection, id, showHidden);
             userRepository.findAllParticipants(connection, event);
             reportRepository.findAll(connection, event, !showHidden);
+            userRepository.findOne(connection, event.getModerator());
             for (Report report : event.getReports()) {
                 userRepository.findOne(connection, report.getCreator());
                 userRepository.findOne(connection, report.getSpeaker());
@@ -121,6 +122,21 @@ public class EventManager {
             eventRepository.deleteParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to leave from the event", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void hide(int eventId, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permissions");
+            event.setHidden(true);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to hide the event");
         }   finally {
             connectionManager.closeConnection(connection);
         }

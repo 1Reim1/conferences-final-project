@@ -135,8 +135,12 @@
                         <c:when test="${sessionScope.user.role == 'MODERATOR'}">
                             <c:if test="${event.moderator.id == sessionScope.user.id}">
                                 <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
-                                <button type="button" class="btn btn-danger mb-2">Hide the conference</button>
-                                <button id="save-changes" type="button" class="btn btn-success">Save changes</button>
+                                <c:if test="${event.hidden}">
+                                    <button type="button" class="btn btn-success">Show the conference</button>
+                                </c:if>
+                                <c:if test="${!event.hidden}">
+                                    <button id="hide-event-btn" type="button" class="btn btn-danger">Hide the conference</button>
+                                </c:if>
                             </c:if>
                             <c:if test="${event.moderator.id != sessionScope.user.id}">
                                 <c:if test="${isParticipant}">

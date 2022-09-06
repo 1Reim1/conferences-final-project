@@ -13,6 +13,7 @@ public class Event {
     private User moderator;
     private List<Report> reports;
     private List<User> participants;
+    private boolean hidden;
 
     public int getId() {
         return id;
@@ -76,6 +77,14 @@ public class Event {
 
     public void setModerator(User moderator) {
         this.moderator = moderator;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public enum Order {
