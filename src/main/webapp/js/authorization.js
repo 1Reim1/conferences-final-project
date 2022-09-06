@@ -122,11 +122,6 @@ $("#pills-register > form").on("submit", function (e) {
                     password_repeated: $("#register-password-2").val(),
                     role: $("#register-role").val(),
                 },
-                success: function (data, status, xhr) {
-                    $("#success-alert").text("You have successfully registered")
-                    $("#success-alert").show()
-                    window.location.href = "home"
-                },
                 error: function (jqXhr, textStatus, errorMessage) {
                     console.log(jqXhr.responseText)
                     $("#error-alert").text(jqXhr.responseText)

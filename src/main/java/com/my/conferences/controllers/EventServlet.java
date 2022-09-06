@@ -1,5 +1,7 @@
 package com.my.conferences.controllers;
 
+import com.my.conferences.controllers.commands.Command;
+import com.my.conferences.controllers.commands.event.JoinCommand;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
@@ -10,11 +12,18 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
-
+    private static final HashMap<String, Command> commandMap = new HashMap<>();
     private static final EventManager eventManager = EventManager.getInstance();
+
+    @Override
+    public void init() {
+        commandMap.put("join", new JoinCommand());
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id;
@@ -31,7 +40,7 @@ public class EventServlet extends HttpServlet {
             event = eventManager.findOne(id, ((User) request.getSession().getAttribute("user")).getRole() != User.Role.USER);
             request.setAttribute("event", event);
         } catch (DBException e) {
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().println(e.getMessage());
             return;
         }
@@ -61,6 +70,14 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String commandKey = request.getParameter("command");
+        Command command = commandMap.get(commandKey);
+        if (command == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().printf("Command '%s' is unknown.", commandKey);
+            return;
+        }
 
+        command.execute(request, response);
     }
 }

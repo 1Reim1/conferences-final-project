@@ -12,12 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event page">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/event-user.js" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="participants modal, event command skeleton">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/authorization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/authorization.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +29,10 @@
       <list>
         <option value="CSS File" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Jsp File" />
         <option value="JavaScript File" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -212,7 +213,7 @@
       <workItem from="1661436124460" duration="1709000" />
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
-      <workItem from="1662416986844" duration="2831000" />
+      <workItem from="1662416986844" duration="4201000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -501,7 +502,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662411655954</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="participants modal, event command skeleton">
+      <created>1662453498684</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1662453498684</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -519,7 +527,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="register front" />
     <MESSAGE value="email is unique" />
     <MESSAGE value="added user role" />
     <MESSAGE value="auth" />
@@ -544,6 +551,7 @@
     <MESSAGE value="event hidden field" />
     <MESSAGE value="event page servlet skeleton" />
     <MESSAGE value="event page" />
-    <option name="LAST_COMMIT_MESSAGE" value="event page" />
+    <MESSAGE value="participants modal, event command skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="participants modal, event command skeleton" />
   </component>
 </project>

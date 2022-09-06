@@ -36,6 +36,7 @@
         <div class="col-9 offset-3">
             <div class="container">
                 <div class="row">
+                    <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
                     <h3 class="text-center">${event.title}
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
@@ -114,7 +115,7 @@
                                     <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:if>
                                 <c:if test="${!isParticipant}">
-                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                    <button id="join-btn" type="button" class="btn btn-primary">Join to the conference</button>
                                 </c:if>
                         </c:when>
                         <c:when test="${sessionScope.user.role == 'SPEAKER'}">
