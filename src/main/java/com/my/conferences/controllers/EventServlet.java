@@ -53,7 +53,6 @@ public class EventServlet extends HttpServlet {
                     hasReport = true;
                     break;
                 }
-            System.out.println(hasReport);
             request.setAttribute("hasReport", hasReport);
         }
 

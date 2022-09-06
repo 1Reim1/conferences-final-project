@@ -11,7 +11,7 @@ public class UserRepository {
 
     private static final String GET_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_INTO_USERS = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
-    private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?)";
+    private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
     private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
     private static UserRepository instance;
 

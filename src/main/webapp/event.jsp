@@ -153,8 +153,43 @@
     </div>
 </div>
 
+<%--Participants modal--%>
+<c:if test="${event.moderator.id == sessionScope.user.id}">
+    <div class="modal fade" id="participants-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Participants</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <c:forEach items="${event.participants}" var="participant">
+                            <li class="list-group-item">${participant.firstName} ${participant.lastName}
+                                <c:if test="${participant.role != 'USER'}">
+                                    <span class="text-lowercase">(${participant.role})</span>
+                                </c:if>
+                                <br>
+                                <span class="fst-italic fw-light">${participant.email}</span>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/sidebar.js"></script>
+<c:choose>
+    <c:when test="${sessionScope.user.role == 'USER'}">
+        <script src="js/event-user.js"></script>
+    </c:when>
+</c:choose>
 </body>
 </html>
