@@ -111,3 +111,41 @@ $("#show-event-btn").on("click", function (e) {
         }
     })
 })
+
+function validateTitle(element) {
+    if ($.trim(element.val()).length < 3) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}
+
+$("#event-title").on("autocompletechange keyup", function (e) {
+    validateTitle($(this))
+})
+
+$("#save-title-btn").on("click", function (e) {
+    e.preventDefault()
+    if (validateTitle($("#event-title"))) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-title",
+                eventId: $("#event").attr("event-id"),
+                title: $.trim($("#event-title").val())
+            },
+            success: function (data, status, xhr) {
+                location.reload()
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
+    }
+})

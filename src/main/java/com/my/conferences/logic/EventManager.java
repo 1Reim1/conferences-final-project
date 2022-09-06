@@ -155,7 +155,25 @@ public class EventManager {
             event.setHidden(false);
             eventRepository.update(connection, event);
         }   catch (SQLException e) {
-            throw new DBException("Unable to show the event");
+            throw new DBException("Unable to show the event", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void modifyTitle(int eventId, String newTitle, User user) throws DBException {
+        newTitle = newTitle.trim();
+        if (newTitle.length() < 3)
+            throw new DBException("Title min length: 3");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permission");
+            event.setTitle(newTitle);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to modify a title", e);
         }   finally {
             connectionManager.closeConnection(connection);
         }
