@@ -39,12 +39,13 @@ public class UserManager {
             user = userRepository.findByEmail(connection, email);
         } catch (SQLException e) {
             throw new DBException("User with this email not found", e);
+        } finally {
+            connectionManager.closeConnection(connection);
         }
 
         if (!encryptPassword(password).equals(user.getPassHash()))
             throw new DBException("Password is incorrect");
 
-        connectionManager.closeConnection(connection);
         return user;
     }
 
@@ -59,16 +60,18 @@ public class UserManager {
             userExists = false;
         }
 
-        if (userExists)
+        if (userExists) {
+            connectionManager.closeConnection(connection);
             throw new DBException("The user with this email already exists");
+        }
 
         try {
             userRepository.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
         }
-
-        connectionManager.closeConnection(connection);
     }
 
     private String encryptPassword(String password) {

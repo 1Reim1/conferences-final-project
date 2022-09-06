@@ -12,13 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event command skeleton">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="event leave command">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-user.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-user.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +210,7 @@
       <workItem from="1661436124460" duration="1709000" />
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
-      <workItem from="1662416986844" duration="6646000" />
+      <workItem from="1662416986844" duration="10374000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <created>1661232773426</created>
@@ -517,7 +513,35 @@
       <option name="project" value="LOCAL" />
       <updated>1662454651823</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="event join command">
+      <created>1662457136316</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1662457136316</updated>
+    </task>
+    <task id="LOCAL-00045" summary="event leave command">
+      <created>1662458877539</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1662458877539</updated>
+    </task>
+    <task id="LOCAL-00046" summary="event leave command">
+      <created>1662459419313</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1662459419313</updated>
+    </task>
+    <task id="LOCAL-00047" summary="event leave command">
+      <created>1662459914499</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1662459914499</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,8 +559,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added user role" />
-    <MESSAGE value="auth" />
     <MESSAGE value="home front" />
     <MESSAGE value="home pagination front" />
     <MESSAGE value="events base" />
@@ -560,6 +582,8 @@
     <MESSAGE value="event page" />
     <MESSAGE value="participants modal, event command skeleton" />
     <MESSAGE value="event command skeleton" />
-    <option name="LAST_COMMIT_MESSAGE" value="event command skeleton" />
+    <MESSAGE value="event join command" />
+    <MESSAGE value="event leave command" />
+    <option name="LAST_COMMIT_MESSAGE" value="event leave command" />
   </component>
 </project>

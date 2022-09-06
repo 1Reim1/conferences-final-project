@@ -102,13 +102,27 @@ public class EventManager {
                 for (Report report : event.getReports())
                     if (report.getSpeaker().equals(user))
                         throw new DBException("You have a report");
-            for (User participant : event.getParticipants())
-                if (participant.equals(user))
-                    throw new DBException("You are already a participant");
+            if (event.getParticipants().contains(user))
+                throw new DBException("You are already a participant");
             eventRepository.insertParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to join to the event", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
         }
+    }
 
+    public void deleteParticipant(int eventId, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, false);
+            if (!event.getParticipants().contains(user))
+                throw new DBException("You are not a participant");
+            eventRepository.deleteParticipant(connection, event, user);
+        } catch (SQLException e) {
+            throw new DBException("Unable to leave from the event", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
     }
 }

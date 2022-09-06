@@ -92,7 +92,7 @@
                                                         <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
                                                         <button type="button" class="btn btn-outline-danger col-5 offset-2">Cancel report</button>
                                                     </c:when>
-                                                    <c:when test="${event.moderator.id == sessionScope.user.id}">
+                                                    <c:when test="${event.moderator.id == sessionScope.user.id || (report.speaker.id == report.creator.id && report.speaker.id == sessionScope.user.id)}">
                                                             <button type="button" class="btn btn-outline-danger col-6 offset-3">Cancel report</button>
                                                     </c:when>
                                                 </c:choose>
@@ -112,7 +112,7 @@
                     <c:choose>
                         <c:when test="${sessionScope.user.role == 'USER'}">
                                 <c:if test="${isParticipant}">
-                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                    <button id="leave-btn" type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:if>
                                 <c:if test="${!isParticipant}">
                                     <button id="join-btn" type="button" class="btn btn-primary">Join to the conference</button>
@@ -121,14 +121,14 @@
                         <c:when test="${sessionScope.user.role == 'SPEAKER'}">
                             <c:choose>
                                 <c:when test="${isParticipant}">
-                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                    <button id="leave-btn" type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:when>
                                 <c:when test="${!isParticipant && !hasReport}">
                                     <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
-                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                    <button id="join-btn" type="button" class="btn btn-primary">Join to the conference</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button id="offer-report" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                 </c:otherwise>
                             </c:choose>
                         </c:when>
@@ -140,10 +140,10 @@
                             </c:if>
                             <c:if test="${event.moderator.id != sessionScope.user.id}">
                                 <c:if test="${isParticipant}">
-                                    <button type="button" class="btn btn-danger mb-2">Leave from the conference</button>
+                                    <button id="leave-btn" type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:if>
                                 <c:if test="${!isParticipant}">
-                                    <button type="button" class="btn btn-primary">Join to the conference</button>
+                                    <button id="join-btn" type="button" class="btn btn-primary">Join to the conference</button>
                                 </c:if>
                             </c:if>
                         </c:when>
@@ -187,9 +187,10 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/sidebar.js"></script>
+<script src="js/event.js"></script>
 <c:choose>
-    <c:when test="${sessionScope.user.role == 'USER'}">
-        <script src="js/event-user.js"></script>
+    <c:when test="${sessionScope.user.role == 'SPEAKER'}">
+
     </c:when>
 </c:choose>
 </body>

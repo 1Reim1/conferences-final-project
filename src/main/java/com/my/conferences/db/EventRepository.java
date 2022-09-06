@@ -42,6 +42,7 @@ public class EventRepository {
     private static final String GET_ONE_EVENT_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
 
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
+    private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
     public static synchronized EventRepository getInstance() {
         if (instance == null) {
@@ -109,6 +110,14 @@ public class EventRepository {
 
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, event.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {
             stmt.setInt(1, user.getId());
             stmt.setInt(2, event.getId());
             stmt.executeUpdate();
