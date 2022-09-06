@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class UserManager {
@@ -69,6 +70,19 @@ public class UserManager {
             userRepository.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public List<User> searchAvailableSpeakers(int eventId, String searchQuery, User user) throws DBException {
+        if (user.getRole() != User.Role.MODERATOR)
+            throw new DBException("You have not permissions");
+        Connection connection = connectionManager.getConnection();
+        try {
+            return userRepository.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
+        } catch (SQLException e) {
+            throw new DBException("not found", e);
         }   finally {
             connectionManager.closeConnection(connection);
         }

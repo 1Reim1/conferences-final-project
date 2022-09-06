@@ -164,4 +164,37 @@ public class EventManager {
             connectionManager.closeConnection(connection);
         }
     }
+
+    public void offerReport(int eventId, String topic, int speakerId, User creator) throws DBException {
+        if (topic.length() < 3)
+            throw new DBException("Topic length min: 3");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = eventRepository.findOne(connection, eventId, true);
+            userRepository.findAllParticipants(connection, event);
+            User speaker = new User();
+            speaker.setId(speakerId);
+            userRepository.findOne(connection, speaker);
+            if (creator.getRole() == User.Role.USER)
+                throw new DBException("You have not permission");
+            if (creator.getRole() == User.Role.SPEAKER && !creator.equals(speaker))
+                throw new DBException("Speaker can not offer a report to someone");
+            if (speaker.getRole() != User.Role.SPEAKER)
+                throw new DBException("User is not a speaker");
+            if (event.getParticipants().contains(speaker))
+                throw new DBException("Speaker is already a participant");
+
+            Report report = new Report();
+            report.setTopic(topic);
+            report.setEventId(eventId);
+            report.setCreator(creator);
+            report.setSpeaker(speaker);
+            report.setConfirmed(false);
+            reportRepository.insert(connection, report);
+        } catch (SQLException e) {
+            throw new DBException("Unable to offer a report");
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
 }

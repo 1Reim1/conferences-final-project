@@ -4,10 +4,7 @@ import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +15,7 @@ public class ReportRepository {
     private static final String GET_ONE = "SELECT * FROM reports WHERE id = ?";
     private static final String DELETE_ONE = "DELETE FROM reports WHERE id = ?";
     private static final String CONFIRM_ONE = "UPDATE reports SET confirmed = true WHERE id = ?";
+    private static final String INSERT_ONE = "INSERT INTO reports VALUES (DEFAULT, ?, ?, ?, ?, ?)";
 
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
@@ -71,6 +69,22 @@ public class ReportRepository {
             stmt.setInt(1, report.getId());
             stmt.executeUpdate();
             report.setConfirmed(true);
+        }
+    }
+
+    public void insert(Connection connection, Report report) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            stmt.setString(++k, report.getTopic());
+            stmt.setInt(++k, report.getEventId());
+            stmt.setInt(++k, report.getCreator().getId());
+            stmt.setInt(++k, report.getSpeaker().getId());
+            stmt.setBoolean(++k, report.isConfirmed());
+            stmt.executeUpdate();
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                rs.next();
+                report.setId(rs.getInt(1));
+            }
         }
     }
 

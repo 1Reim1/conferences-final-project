@@ -13,6 +13,7 @@ public class UserRepository {
     private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
     private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
+    private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
     private static UserRepository instance;
 
     public static synchronized UserRepository getInstance() {
@@ -71,6 +72,20 @@ public class UserRepository {
                     participants.add(extractUser(rs));
 
                 event.setParticipants(participants);
+            }
+        }
+    }
+
+    public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
+        List<User> speakers = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL)) {
+            stmt.setInt(1, eventId);
+            stmt.setString(2, "%" + searchQuery + "%");
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next())
+                    speakers.add(extractUser(rs));
+
+                return speakers;
             }
         }
     }

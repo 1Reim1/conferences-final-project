@@ -51,8 +51,26 @@ $("#report-topic").on("input autocompletechange", function (e) {
     validateTopic("#report-topic")
 })
 
-$("#offer-report-btn").on("click", function (e) {
+$("#offer-report-btn-speaker").on("click", function (e) {
+    e.preventDefault()
     if(validateTopic("#report-topic")) {
-        alert("yes")
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "offer-report",
+                eventId: $("#event").attr("event-id"),
+                topic: $("#report-topic").val(),
+                speakerId: $("#report-topic").closest(".modal-body").attr("speaker-id")
+            },
+            success: function (data, status, xhr) {
+                location.reload()
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
     }
 })

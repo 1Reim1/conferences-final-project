@@ -124,17 +124,17 @@
                                     <button id="leave-btn" type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:when>
                                 <c:when test="${!isParticipant && !hasReport}">
-                                    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                    <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                     <button id="join-btn" type="button" class="btn btn-primary">Join to the conference</button>
                                 </c:when>
                                 <c:otherwise>
-                                    <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                    <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                 </c:otherwise>
                             </c:choose>
                         </c:when>
                         <c:when test="${sessionScope.user.role == 'MODERATOR'}">
                             <c:if test="${event.moderator.id == sessionScope.user.id}">
-                                <button id="offer-report" type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
+                                <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                 <button type="button" class="btn btn-danger mb-2">Hide the conference</button>
                                 <button id="save-changes" type="button" class="btn btn-success">Save changes</button>
                             </c:if>
@@ -153,6 +153,61 @@
         </div>
     </div>
 </div>
+
+<c:choose>
+    <%--Offer report modal (speaker)--%>
+    <c:when test="${sessionScope.user.role == 'SPEAKER' && !isParticipant}">
+        <div class="modal fade" id="offer-report-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body" speaker-id="${sessionScope.user.id}">
+                            <input type="text" id="report-topic" class="form-control is-invalid" placeholder="Topic">
+                            <div class="invalid-feedback">
+                                Min length: 3
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="offer-report-btn-speaker" type="submit" class="btn btn-primary">Offer report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </c:when>
+    <%--Offer report modal (moderator)--%>
+    <c:when test="${sessionScope.user.id == event.moderator.id}">
+        <div class="modal fade" id="offer-report-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <input type="text" id="report-topic" class="form-control is-invalid mb-2" placeholder="Topic">
+                            <div class="invalid-feedback mb-2">
+                                Min length: 3
+                            </div>
+                            <input class="form-control is-invalid" list="speakers" id="speaker" user-id="-1">
+                            <datalist id="speakers"></datalist>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="offer-report-btn-moderator" type="submit" class="btn btn-primary">Offer report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </c:when>
+</c:choose>
 
 <%--Participants modal--%>
 <c:if test="${event.moderator.id == sessionScope.user.id}">
@@ -190,6 +245,9 @@
 <script src="js/event.js"></script>
 <c:if test="${sessionScope.user.role != 'USER'}">
     <script src="js/event-speaker.js"></script>
+</c:if>
+<c:if test="${sessionScope.user.id == event.moderator.id}">
+    <script src="js/event-moderator.js"></script>
 </c:if>
 </body>
 </html>
