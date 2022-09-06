@@ -65,7 +65,7 @@
                     <a class="list-group">
                         <c:forEach items="${event.reports}" var="report">
                             <a class="list-group-item list-group-item-action">
-                                <div class="row">
+                                <div class="row report" report-id="${report.id}">
                                     <span class="col-5">
                                             <span class="topic">${report.title}</span>
                                             <c:if test="${event.moderator.id == sessionScope.user.id}">
@@ -86,21 +86,21 @@
                                                 <c:choose>
                                                     <c:when test="${report.speaker.id != report.creator.id && report.speaker.id == sessionScope.user.id}">
                                                         <button type="button" class="btn btn-outline-success col-5">Accept report</button>
-                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2">Reject report</button>
+                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Reject report</button>
                                                     </c:when>
                                                     <c:when test="${report.speaker.id == report.creator.id && event.moderator.id == sessionScope.user.id}">
                                                         <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
-                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2">Cancel report</button>
+                                                        <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Cancel report</button>
                                                     </c:when>
                                                     <c:when test="${event.moderator.id == sessionScope.user.id || (report.speaker.id == report.creator.id && report.speaker.id == sessionScope.user.id)}">
-                                                            <button type="button" class="btn btn-outline-danger col-6 offset-3">Cancel report</button>
+                                                            <button type="button" class="btn btn-outline-danger col-6 offset-3 cancel-report-btn">Cancel report</button>
                                                     </c:when>
                                                 </c:choose>
                                             </div>
                                         </c:if>
                                         <c:if test="${report.confirmed && (event.moderator.id == sessionScope.user.id || report.speaker.id == sessionScope.user.id)}">
                                             <div class="row">
-                                                <button type="button" class="btn btn-outline-danger col-6 offset-3">Cancel report</button>
+                                                <button type="button" class="btn btn-outline-danger col-6 offset-3 cancel-report-btn">Cancel report</button>
                                             </div>
                                         </c:if>
                                     </div>
@@ -188,10 +188,8 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/event.js"></script>
-<c:choose>
-    <c:when test="${sessionScope.user.role == 'SPEAKER'}">
-
-    </c:when>
-</c:choose>
+<c:if test="${sessionScope.user.role != 'USER'}">
+    <script src="js/event-speaker.js"></script>
+</c:if>
 </body>
 </html>

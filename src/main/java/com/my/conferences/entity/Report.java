@@ -3,6 +3,7 @@ package com.my.conferences.entity;
 public class Report {
     private int id;
     private String title;
+    private int eventId;
     private User speaker;
     private User creator;
     private boolean confirmed;
@@ -21,6 +22,14 @@ public class Report {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
     public User getSpeaker() {

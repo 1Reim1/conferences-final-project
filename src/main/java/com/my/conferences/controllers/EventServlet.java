@@ -3,6 +3,7 @@ package com.my.conferences.controllers;
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.controllers.commands.event.JoinCommand;
 import com.my.conferences.controllers.commands.event.LeaveCommand;
+import com.my.conferences.controllers.commands.report.CancelCommand;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
@@ -24,6 +25,7 @@ public class EventServlet extends HttpServlet {
     public void init() {
         commandMap.put("join", new JoinCommand());
         commandMap.put("leave", new LeaveCommand());
+        commandMap.put("cancel-report", new CancelCommand());
     }
 
     @Override
