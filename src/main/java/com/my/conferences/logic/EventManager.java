@@ -131,12 +131,31 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+            if (event.isHidden())
+                throw new DBException("Event is already hidden");
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permissions");
             event.setHidden(true);
             eventRepository.update(connection, event);
         }   catch (SQLException e) {
             throw new DBException("Unable to hide the event");
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void show(int eventId, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.isHidden())
+                throw new DBException("Event is already shown");
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permissions");
+            event.setHidden(false);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to show the event");
         }   finally {
             connectionManager.closeConnection(connection);
         }

@@ -38,6 +38,7 @@
                 <div class="row">
                     <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
                     <h3 class="text-center">${event.title}
+                        <c:if test="${event.hidden}">(hidden)</c:if>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
                         </c:if>
@@ -136,7 +137,7 @@
                             <c:if test="${event.moderator.id == sessionScope.user.id}">
                                 <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                 <c:if test="${event.hidden}">
-                                    <button type="button" class="btn btn-success">Show the conference</button>
+                                    <button id="show-event-btn" type="button" class="btn btn-success">Show the conference</button>
                                 </c:if>
                                 <c:if test="${!event.hidden}">
                                     <button id="hide-event-btn" type="button" class="btn btn-danger">Hide the conference</button>
