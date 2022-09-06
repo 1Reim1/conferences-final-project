@@ -3,7 +3,8 @@ $("#join-btn").on('click', function (e) {
         type: "POST",
         url: window.location.href,
         data: {
-            command: "join"
+            command: "join",
+            eventId: $("#event").attr("event-id"),
         },
         success: function (data, status, xhr) {
             location.reload()

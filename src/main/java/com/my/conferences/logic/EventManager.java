@@ -3,6 +3,7 @@ package com.my.conferences.logic;
 import com.my.conferences.db.*;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
+import com.my.conferences.entity.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -50,9 +51,7 @@ public class EventManager {
         return events;
     }
 
-    public Event findOne(int id, boolean showHidden) throws DBException {
-        Connection connection = connectionManager.getConnection();
-
+    private Event findOne(Connection connection, int id, boolean showHidden) throws DBException {
         Event event;
         try {
             event = eventRepository.findOne(connection, id, showHidden);
@@ -64,7 +63,18 @@ public class EventManager {
             }
         } catch (SQLException e) {
             throw new DBException("Event was not found", e);
-        }   finally {
+        }
+
+        return event;
+    }
+
+    public Event findOne(int id, boolean showHidden) throws DBException {
+        Connection connection = connectionManager.getConnection();
+
+        Event event;
+        try {
+            event = findOne(connection, id, showHidden);
+        } finally {
             connectionManager.closeConnection(connection);
         }
 
@@ -80,5 +90,25 @@ public class EventManager {
         }   finally {
             connectionManager.closeConnection(connection);
         }
+    }
+
+    public void addParticipant(int eventId, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, false);
+            if (event.getModerator().equals(user))
+                throw new DBException("You are a moderator");
+            if (user.getRole() == User.Role.SPEAKER)
+                for (Report report : event.getReports())
+                    if (report.getSpeaker().equals(user))
+                        throw new DBException("You have a report");
+            for (User participant : event.getParticipants())
+                if (participant.equals(user))
+                    throw new DBException("You are already a participant");
+            eventRepository.insertParticipant(connection, event, user);
+        } catch (SQLException e) {
+            throw new DBException("Unable to join to the event", e);
+        }
+
     }
 }

@@ -34,7 +34,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-9 offset-3">
-            <div class="container">
+            <div id="event" class="container" event-id="${event.id}">
                 <div class="row">
                     <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
                     <h3 class="text-center">${event.title}

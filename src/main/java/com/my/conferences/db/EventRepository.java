@@ -41,6 +41,8 @@ public class EventRepository {
     private static final String GET_ONE_EVENT = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_EVENT_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
 
+    private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
+
     public static synchronized EventRepository getInstance() {
         if (instance == null) {
             instance = new EventRepository();
@@ -102,6 +104,14 @@ public class EventRepository {
                 rs.next();
                 return extractEvent(rs);
             }
+        }
+    }
+
+    public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, event.getId());
+            stmt.executeUpdate();
         }
     }
 
