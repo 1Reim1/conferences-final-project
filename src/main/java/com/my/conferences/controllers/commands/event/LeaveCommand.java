@@ -24,7 +24,7 @@ public class LeaveCommand implements Command {
         }
 
         try {
-            eventManager.deleteParticipant(eventId, (User) request.getSession().getAttribute("user"));
+            eventManager.leave(eventId, (User) request.getSession().getAttribute("user"));
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

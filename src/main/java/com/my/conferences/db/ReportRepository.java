@@ -73,7 +73,7 @@ public class ReportRepository {
 
     private void extractReport(ResultSet rs, Report report) throws SQLException {
         report.setId(rs.getInt("id"));
-        report.setTitle(rs.getString("topic"));
+        report.setTopic(rs.getString("topic"));
         report.setEventId(rs.getInt("event_id"));
         User speaker = new User();
         speaker.setId(rs.getInt("speaker_id"));

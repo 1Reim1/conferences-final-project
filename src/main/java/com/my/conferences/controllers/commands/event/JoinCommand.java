@@ -24,7 +24,7 @@ public class JoinCommand implements Command {
         }
 
         try {
-            eventManager.addParticipant(eventId, (User) request.getSession().getAttribute("user"));
+            eventManager.join(eventId, (User) request.getSession().getAttribute("user"));
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

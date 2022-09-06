@@ -92,7 +92,7 @@ public class EventManager {
         }
     }
 
-    public void addParticipant(int eventId, User user) throws DBException {
+    public void join(int eventId, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
@@ -112,7 +112,7 @@ public class EventManager {
         }
     }
 
-    public void deleteParticipant(int eventId, User user) throws DBException {
+    public void leave(int eventId, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);

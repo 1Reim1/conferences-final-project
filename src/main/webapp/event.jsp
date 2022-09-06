@@ -67,7 +67,7 @@
                             <a class="list-group-item list-group-item-action">
                                 <div class="row report" report-id="${report.id}">
                                     <span class="col-5">
-                                            <span class="topic">${report.title}</span>
+                                            <span class="topic">${report.topic}</span>
                                             <c:if test="${event.moderator.id == sessionScope.user.id}">
                                                 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
                                             </c:if>
