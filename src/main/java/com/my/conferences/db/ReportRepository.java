@@ -17,6 +17,7 @@ public class ReportRepository {
     private static final String GET_ALL_ONLY_CONFIRMED = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
     private static final String GET_ONE = "SELECT * FROM reports WHERE id = ?";
     private static final String DELETE_ONE = "DELETE FROM reports WHERE id = ?";
+    private static final String CONFIRM_ONE = "UPDATE reports SET confirmed = true WHERE id = ?";
 
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
@@ -62,6 +63,14 @@ public class ReportRepository {
         try (PreparedStatement stmt = connection.prepareStatement(DELETE_ONE)) {
             stmt.setInt(1, report.getId());
             stmt.executeUpdate();
+        }
+    }
+
+    public void confirm(Connection connection, Report report) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(CONFIRM_ONE)) {
+            stmt.setInt(1, report.getId());
+            stmt.executeUpdate();
+            report.setConfirmed(true);
         }
     }
 

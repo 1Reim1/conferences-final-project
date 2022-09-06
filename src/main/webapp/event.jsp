@@ -85,11 +85,11 @@
                                             <div class="row">
                                                 <c:choose>
                                                     <c:when test="${report.speaker.id != report.creator.id && report.speaker.id == sessionScope.user.id}">
-                                                        <button type="button" class="btn btn-outline-success col-5">Accept report</button>
+                                                        <button type="button" class="btn btn-outline-success col-5 confirm-report-btn">Accept report</button>
                                                         <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Reject report</button>
                                                     </c:when>
                                                     <c:when test="${report.speaker.id == report.creator.id && event.moderator.id == sessionScope.user.id}">
-                                                        <button type="button" class="btn btn-outline-success col-5">Confirm report</button>
+                                                        <button type="button" class="btn btn-outline-success col-5 confirm-report-btn">Confirm report</button>
                                                         <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Cancel report</button>
                                                     </c:when>
                                                     <c:when test="${event.moderator.id == sessionScope.user.id || (report.speaker.id == report.creator.id && report.speaker.id == sessionScope.user.id)}">

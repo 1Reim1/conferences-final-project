@@ -132,13 +132,34 @@ public class EventManager {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
             userRepository.findOne(connection, event.getModerator());
-            userRepository.findOne(connection, report.getCreator());
             userRepository.findOne(connection, report.getSpeaker());
             if (!(report.getSpeaker().equals(user) || event.getModerator().equals(user)))
                 throw new DBException("You have not permissions");
             reportRepository.delete(connection, report);
         }   catch (SQLException e) {
             throw new DBException("Unable to cancel a report");
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void confirmReport(int reportId, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Report report = reportRepository.findOne(connection, reportId);
+            Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            userRepository.findOne(connection, event.getModerator());
+            userRepository.findOne(connection, report.getCreator());
+            userRepository.findOne(connection, report.getSpeaker());
+            if (report.isConfirmed())
+                throw new DBException("Report is already confirmed");
+            if (!((event.getModerator().equals(user) && report.getCreator().equals(report.getSpeaker())) ||
+                    (report.getSpeaker().equals(user) && report.getCreator().equals(event.getModerator())))) {
+                throw new DBException("You have not permissions");
+            }
+            reportRepository.confirm(connection, report);
+        } catch (SQLException e) {
+            throw new DBException("Unable to confirm a report");
         }   finally {
             connectionManager.closeConnection(connection);
         }
