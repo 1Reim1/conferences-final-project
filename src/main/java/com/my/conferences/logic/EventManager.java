@@ -8,6 +8,7 @@ import com.my.conferences.entity.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EventManager {
@@ -189,6 +190,23 @@ public class EventManager {
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setDescription(newDescription);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to modify a description", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void modifyDate(int eventId, Date newDate, User user) throws DBException {
+        if (newDate.compareTo(new Date()) < 0)
+            throw new DBException("Required future date");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permission");
+            event.setDate(newDate);
             eventRepository.update(connection, event);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a description", e);

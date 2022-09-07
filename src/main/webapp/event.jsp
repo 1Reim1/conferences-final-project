@@ -54,9 +54,13 @@
                     <span class="col-4 text-center event-description">
                         Reports: <b>${event.reports.size()}</b>
                     </span>
-                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">Date: <b><fmt:formatDate value="${event.date}" pattern="dd-MM-yyyy HH:mm"/></b></span>
+                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">
+                        Date:
+                        <b id="event-date"><fmt:formatDate value="${event.date}" pattern="dd-MM-yyyy HH:mm"/></b>
+                    </span>
                     <hr class="col-12">
-                    <p class="event-description">Place: <b>${event.place}</b>
+                    <p class="event-description">
+                        Place: <b>${event.place}</b>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
                         </c:if>
@@ -252,6 +256,29 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button id="save-description-btn" type="button" class="btn btn-primary">Save description</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <%--Modify date modal--%>
+        <div class="modal fade" id="modify-date-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New date</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <input type="datetime-local" id="new-event-date" class="form-control" placeholder="Datetime" value="<fmt:formatDate value="${event.date}" pattern="yyyy-MM-dd HH:mm"/>" required>
+                            <div class="invalid-feedback">
+                                Required future date
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="save-date-btn" type="submit" class="btn btn-primary">Save date</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -189,3 +189,44 @@ $("#save-description-btn").on("click", function (e) {
         })
     }
 })
+
+$("#new-event-date").ready(function (e) {
+    let now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    $("#new-event-date").attr("min", now.toISOString().slice(0, 16));
+})
+
+$("#save-date-btn").on("click", function (e) {
+    e.preventDefault()
+    let newEventDateInput = $("#new-event-date")
+    let newEventDate = new Date(newEventDateInput.val()).getTime()
+    let now = new Date().getTime()
+    if (newEventDate < now) {
+        newEventDateInput.removeClass("is-valid")
+        newEventDateInput.addClass("is-invalid")
+        return false
+    }
+    newEventDateInput.addClass("is-valid")
+    newEventDateInput.removeClass("is-invalid")
+    $.ajax({
+        type: "POST",
+        url: window.location.href,
+        data: {
+            command: "modify-date",
+            eventId: $("#event").attr("event-id"),
+            date: newEventDate
+        },
+        success: function (data, status, xhr) {
+            let d = new Date(newEventDateInput.val())
+            let dateString = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+                d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+            $("#event-date").text(dateString)
+            $("#error-alert").fadeOut("fast")
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(jqXhr.responseText)
+            $("#error-alert").text(jqXhr.responseText)
+            $("#error-alert").fadeIn("slow")
+        }
+    })
+})
