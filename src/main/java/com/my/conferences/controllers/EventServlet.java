@@ -32,6 +32,7 @@ public class EventServlet extends HttpServlet {
         commandMap.put("modify-title", new ModifyTitleCommand());
         commandMap.put("modify-description", new ModifyDescriptionCommand());
         commandMap.put("modify-date", new ModifyDateCommand());
+        commandMap.put("modify-place", new ModifyPlaceCommand());
         commandMap.put("cancel-report", new CancelCommand());
         commandMap.put("confirm-report", new ConfirmCommand());
         commandMap.put("offer-report", new OfferCommand());

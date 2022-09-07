@@ -141,6 +141,7 @@ $("#save-title-btn").on("click", function (e) {
             },
             success: function (data, status, xhr) {
                 $("#event-title").text($.trim(newEventTitle.val()))
+                $("#error-alert").fadeOut("fast")
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)
@@ -180,6 +181,7 @@ $("#save-description-btn").on("click", function (e) {
             },
             success: function (data, status, xhr) {
                 $("#event-description").text($.trim(newEventDescription.val()))
+                $("#error-alert").fadeOut("fast")
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)
@@ -229,4 +231,44 @@ $("#save-date-btn").on("click", function (e) {
             $("#error-alert").fadeIn("slow")
         }
     })
+})
+
+function validatePlace(element) {
+    if ($.trim(element.val()).length < 5) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}
+
+$("#new-event-place").on("autocompletechange keyup", function (e) {
+    validatePlace($(this))
+})
+
+$("#save-place-btn").on("click", function (e) {
+    e.preventDefault()
+    let newEventPlace = $("#new-event-place")
+    if (validatePlace(newEventPlace)) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-place",
+                eventId: $("#event").attr("event-id"),
+                place: $.trim(newEventPlace.val())
+            },
+            success: function (data, status, xhr) {
+                $("#event-place").text($.trim(newEventPlace.val()))
+                $("#error-alert").fadeOut("fast")
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
+    }
 })

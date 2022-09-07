@@ -209,7 +209,24 @@ public class EventManager {
             event.setDate(newDate);
             eventRepository.update(connection, event);
         }   catch (SQLException e) {
-            throw new DBException("Unable to modify a description", e);
+            throw new DBException("Unable to modify a date", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void modifyPlace(int eventId, String newPlace, User user) throws DBException {
+        if (newPlace.length() < 5)
+            throw new DBException("Place min length: 5");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permission");
+            event.setPlace(newPlace);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to modify a place", e);
         }   finally {
             connectionManager.closeConnection(connection);
         }

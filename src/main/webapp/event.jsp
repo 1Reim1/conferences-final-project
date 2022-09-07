@@ -60,7 +60,7 @@
                     </span>
                     <hr class="col-12">
                     <p class="event-description">
-                        Place: <b>${event.place}</b>
+                        Place: <b id="event-place">${event.place}</b>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
                         </c:if>
@@ -277,6 +277,29 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button id="save-date-btn" type="submit" class="btn btn-primary">Save date</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <%--Modify place modal--%>
+        <div class="modal fade" id="modify-place-modal" tabindex="-1"aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New place</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <input type="text" id="new-event-place" class="form-control" placeholder="Place" value="${event.place}">
+                            <div class="invalid-feedback">
+                                Min length: 5
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="save-place-btn" type="submit" class="btn btn-primary">Save place</button>
                         </div>
                     </form>
                 </div>
