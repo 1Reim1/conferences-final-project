@@ -123,23 +123,63 @@ function validateTitle(element) {
     return true
 }
 
-$("#event-title").on("autocompletechange keyup", function (e) {
+$("#new-event-title").on("autocompletechange keyup", function (e) {
     validateTitle($(this))
 })
 
 $("#save-title-btn").on("click", function (e) {
     e.preventDefault()
-    if (validateTitle($("#event-title"))) {
+    let newEventTitle = $("#new-event-title")
+    if (validateTitle(newEventTitle)) {
         $.ajax({
             type: "POST",
             url: window.location.href,
             data: {
                 command: "modify-title",
                 eventId: $("#event").attr("event-id"),
-                title: $.trim($("#event-title").val())
+                title: $.trim(newEventTitle.val())
             },
             success: function (data, status, xhr) {
-                location.reload()
+                $("#event-title").text($.trim(newEventTitle.val()))
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
+    }
+})
+
+function validateDescription(element) {
+    if ($.trim(element.val()).length < 20) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}
+
+$("#new-event-description").on("autocompletechange keyup", function (e) {
+    validateDescription($(this))
+})
+
+$("#save-description-btn").on("click", function (e) {
+    e.preventDefault()
+    let newEventDescription = $("#new-event-description")
+    if (validateDescription(newEventDescription)) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-description",
+                eventId: $("#event").attr("event-id"),
+                description: $.trim(newEventDescription.val())
+            },
+            success: function (data, status, xhr) {
+                $("#event-description").text($.trim(newEventDescription.val()))
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)

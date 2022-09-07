@@ -179,6 +179,24 @@ public class EventManager {
         }
     }
 
+    public void modifyDescription(int eventId, String newDescription, User user) throws DBException {
+        newDescription = newDescription.trim();
+        if (newDescription.length() < 20)
+            throw new DBException("Description min length: 20");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permission");
+            event.setDescription(newDescription);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to modify a description", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
     public void cancelReport(int reportId, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {

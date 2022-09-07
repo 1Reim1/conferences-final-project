@@ -37,13 +37,13 @@
             <div id="event" class="container" event-id="${event.id}">
                 <div class="row">
                     <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
-                    <h3 class="text-center">${event.title}
+                    <h3 class="text-center"><span id="event-title">${event.title}</span>
                         <c:if test="${event.hidden}">(hidden)</c:if>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
                         </c:if>
                     </h3>
-                    <p>${event.description}
+                    <p><span id="event-description">${event.description}</span>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal">
                         </c:if>
@@ -221,7 +221,7 @@
                     </div>
                     <form>
                         <div class="modal-body">
-                            <input type="text" id="event-title" class="form-control" placeholder="Title" value="${event.title}">
+                            <input type="text" id="new-event-title" class="form-control" placeholder="Title" value="${event.title}">
                             <div class="invalid-feedback">
                                 Min length: 3
                             </div>
@@ -231,6 +231,27 @@
                             <button id="save-title-btn" type="submit" class="btn btn-primary">Save title</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <%--Modify description modal--%>
+        <div class="modal fade" id="modify-description-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New description</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea type="text" id="new-event-description" class="form-control" rows="10" placeholder="Description">${event.description}</textarea>
+                        <div class="invalid-feedback">
+                            Min length: 20
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="save-description-btn" type="button" class="btn btn-primary">Save description</button>
+                    </div>
                 </div>
             </div>
         </div>

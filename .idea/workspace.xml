@@ -12,9 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="show event">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="modify title">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
@@ -216,14 +217,8 @@
       <workItem from="1661436124460" duration="1709000" />
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
-      <workItem from="1662416986844" duration="43824000" />
-    </task>
-    <task id="LOCAL-00012" summary="home pagination front">
-      <created>1661354543070</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1661354543070</updated>
+      <workItem from="1662416986844" duration="44475000" />
+      <workItem from="1662535952885" duration="3600000" />
     </task>
     <task id="LOCAL-00013" summary="events base">
       <created>1661437822721</created>
@@ -561,7 +556,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662496405205</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="modify title">
+      <created>1662497961239</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1662497961239</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -579,7 +581,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="event order frontend" />
     <MESSAGE value="event order backend" />
     <MESSAGE value="event order in cookie" />
     <MESSAGE value="reverse order frontend" />
@@ -604,6 +605,7 @@
     <MESSAGE value="offer report (speaker)" />
     <MESSAGE value="hide event" />
     <MESSAGE value="show event" />
-    <option name="LAST_COMMIT_MESSAGE" value="show event" />
+    <MESSAGE value="modify title" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify title" />
   </component>
 </project>
