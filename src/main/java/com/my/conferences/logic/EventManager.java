@@ -263,7 +263,8 @@ public class EventManager {
                     (report.getSpeaker().equals(user) && report.getCreator().equals(event.getModerator())))) {
                 throw new DBException("You have not permissions");
             }
-            reportRepository.confirm(connection, report);
+            report.setConfirmed(true);
+            reportRepository.update(connection, report);
         } catch (SQLException e) {
             throw new DBException("Unable to confirm a report");
         }   finally {

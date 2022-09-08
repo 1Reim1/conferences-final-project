@@ -12,13 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="modify date">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="modify place">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,14 +216,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="11588000" />
-    </task>
-    <task id="LOCAL-00015" summary="events backend">
-      <created>1661442448956</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1661442448956</updated>
+      <workItem from="1662535952885" duration="13230000" />
     </task>
     <task id="LOCAL-00016" summary="pagination frontend">
       <created>1661504540938</created>
@@ -563,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662561710836</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="modify place">
+      <created>1662562497276</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1662562497276</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -581,7 +579,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reverse order frontend" />
     <MESSAGE value="reverse order backend" />
     <MESSAGE value="page limiting" />
     <MESSAGE value="pagination tag small fix" />
@@ -606,6 +603,7 @@
     <MESSAGE value="modify title" />
     <MESSAGE value="modify description" />
     <MESSAGE value="modify date" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify date" />
+    <MESSAGE value="modify place" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify place" />
   </component>
 </project>

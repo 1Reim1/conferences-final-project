@@ -16,6 +16,7 @@ public class ReportRepository {
     private static final String DELETE_ONE = "DELETE FROM reports WHERE id = ?";
     private static final String CONFIRM_ONE = "UPDATE reports SET confirmed = true WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO reports VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_ONE = "UPDATE reports SET topic = ?, event_id = ?, creator_id = ?, speaker_id = ?, confirmed = ? WHERE id = ?";
 
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
@@ -64,11 +65,16 @@ public class ReportRepository {
         }
     }
 
-    public void confirm(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(CONFIRM_ONE)) {
-            stmt.setInt(1, report.getId());
+    public void update(Connection connection, Report report) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
+            int k = 0;
+            stmt.setString(++k, report.getTopic());
+            stmt.setInt(++k, report.getEventId());
+            stmt.setInt(++k, report.getCreator().getId());
+            stmt.setInt(++k, report.getSpeaker().getId());
+            stmt.setBoolean(++k, report.isConfirmed());
+            stmt.setInt(++k, report.getId());
             stmt.executeUpdate();
-            report.setConfirmed(true);
         }
     }
 
