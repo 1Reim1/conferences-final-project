@@ -273,6 +273,7 @@ public class EventManager {
     }
 
     public void offerReport(int eventId, String topic, int speakerId, User creator) throws DBException {
+        topic = topic.trim();
         if (topic.length() < 3)
             throw new DBException("Topic length min: 3");
         Connection connection = connectionManager.getConnection();
@@ -300,6 +301,27 @@ public class EventManager {
             reportRepository.insert(connection, report);
         } catch (SQLException e) {
             throw new DBException("Unable to offer a report");
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void modifyReportTopic(int reportId, String topic, User user) throws DBException {
+        topic = topic.trim();
+        if (topic.length() < 3)
+            throw new DBException("Topic length min: 3");
+        Connection connection = connectionManager.getConnection();
+        try {
+            Report report = reportRepository.findOne(connection, reportId);
+            Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            userRepository.findOne(connection, event.getModerator());
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permissions");
+
+            report.setTopic(topic);
+            reportRepository.update(connection, report);
+        } catch (SQLException e) {
+            throw new DBException("Unable to modify a topic");
         }   finally {
             connectionManager.closeConnection(connection);
         }

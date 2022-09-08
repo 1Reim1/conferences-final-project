@@ -4,6 +4,7 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.controllers.commands.event.*;
 import com.my.conferences.controllers.commands.report.CancelCommand;
 import com.my.conferences.controllers.commands.report.ConfirmCommand;
+import com.my.conferences.controllers.commands.report.ModifyTopicCommand;
 import com.my.conferences.controllers.commands.report.OfferCommand;
 import com.my.conferences.controllers.commands.user.SearchAvailableSpeakersCommand;
 import com.my.conferences.db.DBException;
@@ -36,6 +37,7 @@ public class EventServlet extends HttpServlet {
         commandMap.put("cancel-report", new CancelCommand());
         commandMap.put("confirm-report", new ConfirmCommand());
         commandMap.put("offer-report", new OfferCommand());
+        commandMap.put("modify-report-topic", new ModifyTopicCommand());
         commandMap.put("search-speaker", new SearchAvailableSpeakersCommand());
     }
 

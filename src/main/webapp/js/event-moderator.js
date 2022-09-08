@@ -272,3 +272,36 @@ $("#save-place-btn").on("click", function (e) {
         })
     }
 })
+
+$(".report .modify-icon").on("click", function (e) {
+    $("#modify-report-topic-modal").attr("report-id", $(this).closest(".report").attr("report-id"))
+    $("#new-report-topic").val($(this).prev().text())
+})
+
+$("#new-report-topic").on("autocompletechange keyup", function (e) {
+    validateTopic("#new-report-topic")
+})
+
+$("#save-report-topic-btn").on("click", function (e) {
+    e.preventDefault()
+    let newReportTopic = $("#new-report-topic")
+    if (validateTopic("#new-report-topic")) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-report-topic",
+                reportId: $("#modify-report-topic-modal").attr("report-id"),
+                topic: $.trim(newReportTopic.val())
+            },
+            success: function (data, status, xhr) {
+                location.reload()
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
+    }
+})

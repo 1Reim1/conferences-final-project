@@ -74,7 +74,7 @@
                                     <span class="col-5">
                                             <span class="topic">${report.topic}</span>
                                             <c:if test="${event.moderator.id == sessionScope.user.id}">
-                                                <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
+                                                <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal">
                                             </c:if>
                                             <c:if test="${!report.confirmed}">
                                                 <c:if test="${report.speaker.id == report.creator.id}">
@@ -329,6 +329,28 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modify-report-topic-modal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">New topic</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <input type="text" id="new-report-topic" class="form-control" placeholder="Topic">
+                            <div class="invalid-feedback">
+                                Min length: 3
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="save-report-topic-btn" type="submit" class="btn btn-primary">Save topic</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
