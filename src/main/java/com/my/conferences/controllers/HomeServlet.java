@@ -28,6 +28,7 @@ public class HomeServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         Event.Order order = Event.Order.DATE;
         boolean reverseOrder = false;
+        boolean futureOrder = true;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("event-order")) {
                 try {
@@ -36,14 +37,16 @@ public class HomeServlet extends HttpServlet {
             }
             if (cookie.getName().equals("event-order-reverse"))
                 reverseOrder = true;
+            if (cookie.getName().equals("event-order-time-past"))
+                futureOrder = false;
         }
 
         int pages;
         try {
-            pages = eventManager.countPages();
+            pages = eventManager.countPages(futureOrder);
             if (page > pages)
                 page = pages;
-            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder));
+            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder));
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());
@@ -54,6 +57,7 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("pages", pages);
         request.setAttribute("order", order);
         request.setAttribute("reverseOrder", reverseOrder);
+        request.setAttribute("futureOrder", futureOrder);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }
 }

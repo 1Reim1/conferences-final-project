@@ -11,33 +11,33 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_BY_DATE = "SELECT * FROM events WHERE hidden = false ORDER BY `date`, `id` LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_BY_DATE = "SELECT * FROM events WHERE hidden = false AND %s ORDER BY `date`, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false AND %s ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false" +
+            " WHERE events.hidden = false AND %s" +
             " GROUP BY events.id" +
             " ORDER BY reports_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_REPORTS_REVERSE = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false" +
+            " WHERE events.hidden = false AND %s" +
             " GROUP BY events.id" +
             " ORDER BY reports_count, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false" +
+            " WHERE events.hidden = false AND %s" +
             " GROUP BY events.id" +
             " ORDER BY participants_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_PARTICIPANTS_REVERSE = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false" +
+            " WHERE events.hidden = false AND %s" +
             " GROUP BY events.id" +
             " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
-    private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false";
+    private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false AND %s";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ? WHERE id = ?";
@@ -56,7 +56,7 @@ public class EventRepository {
 
     }
 
-    public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, int pageSize, int page) throws SQLException {
+    public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
         String query;
         if (reverseOrder) {
@@ -73,9 +73,15 @@ public class EventRepository {
                 query = GET_ALL_BY_PARTICIPANTS;
         }
 
+        if (futureOrder)
+            query = String.format(query, "date > ?");
+        else
+            query = String.format(query, "date < ?");
+
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, pageSize);
-            stmt.setInt(2, (page - 1) * pageSize);
+            stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            stmt.setInt(2, pageSize);
+            stmt.setInt(3, (page - 1) * pageSize);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     events.add(extractEvent(rs));
@@ -86,11 +92,19 @@ public class EventRepository {
         }
     }
 
-    public int getCount(Connection connection) throws SQLException {
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(GET_EVENTS_COUNT)) {
-            rs.next();
-            return rs.getInt("total");
+    public int getCount(Connection connection, boolean futureOrder) throws SQLException {
+        String query = GET_EVENTS_COUNT;
+        if (futureOrder)
+            query = String.format(query, "date > ?");
+        else
+            query = String.format(query, "date < ?");
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                return rs.getInt("total");
+            }
         }
     }
 

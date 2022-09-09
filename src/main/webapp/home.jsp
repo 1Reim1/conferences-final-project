@@ -21,6 +21,16 @@
         <button id="order-reverse" type="button" class="btn btn-outline-primary col-12 text-start">Reverse order
             <c:if test="${reverseOrder}">(enabled)</c:if>
             </button>
+        <div class="row">
+            <c:if test="${futureOrder}">
+                <button id="order-past" class="btn btn-dark col-4 offset-1">Past</button>
+                <button id="order-future" class="btn btn-primary col-4 offset-2 disabled">Future</button>
+            </c:if>
+            <c:if test="${!futureOrder}">
+                <button id="order-past" class="btn btn-primary col-4 offset-1 disabled">Past</button>
+                <button id="order-future" class="btn btn-dark col-4 offset-2">Future</button>
+            </c:if>
+        </div>
         <hr>
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>

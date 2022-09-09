@@ -13,6 +13,16 @@ $("#order-participants").on("click", function (e) {
     location.reload()
 })
 
+$("#order-past").on("click", function (e) {
+    document.cookie = "event-order-time-past=true"
+    location.reload()
+})
+
+$("#order-future").on("click", function (e) {
+    document.cookie = "event-order-time-past=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+    location.reload()
+})
+
 $("#order-reverse").on("click", function (e) {
     let cookie = getCookie("event-order-reverse")
     if (cookie === "") {
