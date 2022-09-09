@@ -33,6 +33,16 @@ $("#order-reverse").on("click", function (e) {
     location.reload()
 })
 
+$("#order-my-events").on("click", function (e) {
+    document.cookie = "event-order-my-events=true"
+    location.reload()
+})
+
+$("#order-all-events").on("click", function (e) {
+    document.cookie = "event-order-my-events=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+    location.reload()
+})
+
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');

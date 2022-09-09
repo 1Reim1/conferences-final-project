@@ -53,9 +53,9 @@ sidebar button {
     margin-bottom: 10px;
 }
 
-sidebar .row > button {
-    margin-bottom: 0;
-}
+/*sidebar .row > button {*/
+/*    margin-bottom: 0;*/
+/*}*/
 
 sidebar > div {
     height: 100vh;

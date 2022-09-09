@@ -229,3 +229,5 @@ insert into participants
 values (17, 4);
 insert into participants
 values (18, 4);
+
+SELECT * FROM events WHERE hidden = false AND (id = 1 or moderator_id = 1) ORDER BY `date`, `id`

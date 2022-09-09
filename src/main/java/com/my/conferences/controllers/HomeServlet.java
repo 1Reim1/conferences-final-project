@@ -29,6 +29,7 @@ public class HomeServlet extends HttpServlet {
         Event.Order order = Event.Order.DATE;
         boolean reverseOrder = false;
         boolean futureOrder = true;
+        boolean onlyMyEvents = false;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("event-order")) {
                 try {
@@ -39,6 +40,8 @@ public class HomeServlet extends HttpServlet {
                 reverseOrder = true;
             if (cookie.getName().equals("event-order-time-past"))
                 futureOrder = false;
+            if (cookie.getName().equals("event-order-my-events"))
+                onlyMyEvents = true;
         }
 
         int pages;
@@ -58,6 +61,7 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("order", order);
         request.setAttribute("reverseOrder", reverseOrder);
         request.setAttribute("futureOrder", futureOrder);
+        request.setAttribute("onlyMyEvents", onlyMyEvents);
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }
 }

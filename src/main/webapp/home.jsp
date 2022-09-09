@@ -31,6 +31,16 @@
                 <button id="order-future" class="btn btn-dark col-4 offset-2">Future</button>
             </c:if>
         </div>
+        <div class="row">
+            <c:if test="${onlyMyEvents}">
+                <button id="order-my-events" class="btn btn-primary col-4 offset-1 disabled">My events</button>
+                <button id="order-all-events" class="btn btn-dark col-4 offset-2">All events</button>
+            </c:if>
+            <c:if test="${!onlyMyEvents}">
+                <button id="order-my-events" class="btn btn-dark col-4 offset-1">My events</button>
+                <button id="order-all-events" class="btn btn-primary col-4 offset-2 disabled">All events</button>
+            </c:if>
+        </div>
         <hr>
         <button type="button" class="btn btn-dark col-12 text-start">My events</button>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
