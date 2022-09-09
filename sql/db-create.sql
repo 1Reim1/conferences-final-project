@@ -143,7 +143,8 @@ values (default, 'timereim2@gmail.com', 'Rostyslav', 'Yavorskiy',
 insert into events
 values (default, 'The internet is harmful',
         'The Internet is not only a source of information but a medium that connects almost every aspect of our life. The Internet is a place of great ease and infinite connectivity, but also a place of great vulnerability. In a world of the internet, we live through infinitely complex virtual networks, barely able to trace where our information is coming from and going and thus posing a threat not only to our lives but also to the lives of our children. The digital world plays an immense role in the day-to-day activities of 21st-century children. The U.S. National Library of Medicine National Institutes of Health (NIH) reports teens between the ages of 8 and 28 to spend about 44.5 hours a week in front of a digital screen, according to another report 23 per cent of kids have reported that they feel that they are addicted to video games. As the younger generation is growing more and more tech-savvy and dependent on the internet, they are being exposed to the various malicious side of the internet.',
-        'Vinnitskaya oblast, Vinnitsa, Voїnіv-Іnternatsіonalіstіv, bld. 8, appt. 67', FROM_UNIXTIME(1662625359), 1, false);
+        'Vinnitskaya oblast, Vinnitsa, Voїnіv-Іnternatsіonalіstіv, bld. 8, appt. 67', FROM_UNIXTIME(1662625359), 1,
+        false);
 insert into events
 values (default, 'All about psychology',
         'Psychology is the scientific study of mind and behavior. Psychology includes the study of conscious and unconscious phenomena, including feelings and thoughts. It is an academic discipline of immense scope, crossing the boundaries between the natural and social sciences. Psychologists seek an understanding of the emergent properties of brains, linking the discipline to neuroscience. As social scientists, psychologists aim to understand the behavior of individuals and groups. is a Greek letter which is commonly associated with the science of psychology.',
@@ -230,4 +231,29 @@ values (17, 4);
 insert into participants
 values (18, 4);
 
-SELECT * FROM events WHERE hidden = false AND (id = 1 or moderator_id = 1) ORDER BY `date`, `id`
+# For user
+SELECT events.*
+FROM events
+         JOIN participants on id = event_id
+WHERE hidden = false
+  AND user_id = 7
+ORDER BY `date`, `id`;
+
+# For speaker
+SELECT events.*
+FROM events
+         LEFT JOIN participants p on events.id = p.event_id
+         LEFT JOIN reports r on events.id = r.event_id
+WHERE p.user_id = 5
+   OR r.speaker_id = 5
+GROUP BY events.id
+ORDER BY events.id;
+
+# For moderator
+SELECT events.*
+FROM events
+         LEFT JOIN participants on id = event_id
+WHERE moderator_id = 1
+   OR user_id = 1
+GROUP BY events.id
+ORDER BY id;

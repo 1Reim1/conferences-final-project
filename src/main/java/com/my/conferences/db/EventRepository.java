@@ -11,33 +11,33 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_BY_DATE = "SELECT * FROM events WHERE hidden = false AND %s ORDER BY `date`, `id` LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false AND %s ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_BY_DATE = "SELECT * FROM events WHERE hidden = false AND date %s ? ORDER BY `date`, `id` LIMIT ? OFFSET ?";
+    private static final String GET_ALL_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false AND date %s ? ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false AND %s" +
+            " WHERE events.hidden = false AND date %s ?" +
             " GROUP BY events.id" +
             " ORDER BY reports_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_REPORTS_REVERSE = "SELECT events.*, COUNT(reports.id) AS reports_count" +
             " FROM events LEFT JOIN reports " +
             " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false AND %s" +
+            " WHERE events.hidden = false AND date %s ?" +
             " GROUP BY events.id" +
             " ORDER BY reports_count, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false AND %s" +
+            " WHERE events.hidden = false AND date %s ?" +
             " GROUP BY events.id" +
             " ORDER BY participants_count DESC, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_BY_PARTICIPANTS_REVERSE = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
             " FROM events LEFT JOIN participants " +
             " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false AND %s" +
+            " WHERE events.hidden = false AND date %s ?" +
             " GROUP BY events.id" +
             " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
-    private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false AND %s";
+    private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false AND date %s ?";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ? WHERE id = ?";
@@ -74,9 +74,9 @@ public class EventRepository {
         }
 
         if (futureOrder)
-            query = String.format(query, "date > ?");
+            query = String.format(query, ">");
         else
-            query = String.format(query, "date < ?");
+            query = String.format(query, "<");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
@@ -95,9 +95,9 @@ public class EventRepository {
     public int getCount(Connection connection, boolean futureOrder) throws SQLException {
         String query = GET_EVENTS_COUNT;
         if (futureOrder)
-            query = String.format(query, "date > ?");
+            query = String.format(query, ">");
         else
-            query = String.format(query, "date < ?");
+            query = String.format(query, "<");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));

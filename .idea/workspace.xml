@@ -12,13 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="future past events">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="sql queries for my events">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/home.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,21 +215,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="27125000" />
-    </task>
-    <task id="LOCAL-00020" summary="event order backend">
-      <created>1661516680592</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1661516680592</updated>
-    </task>
-    <task id="LOCAL-00021" summary="event order backend">
-      <created>1662280733339</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1662280733339</updated>
+      <workItem from="1662535952885" duration="31417000" />
     </task>
     <task id="LOCAL-00022" summary="event order in cookie">
       <created>1662284962981</created>
@@ -564,7 +546,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662713639179</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="my events front">
+      <created>1662750945281</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1662750945281</updated>
+    </task>
+    <task id="LOCAL-00070" summary="sql queries for my events">
+      <created>1662754278540</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1662754278540</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -582,8 +578,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="reverse order frontend btn fix" />
-    <MESSAGE value="event html page templates" />
     <MESSAGE value="event html sidebar" />
     <MESSAGE value="db-create.sql" />
     <MESSAGE value="report update" />
@@ -607,6 +601,8 @@
     <MESSAGE value="confirm report" />
     <MESSAGE value="modify report topic" />
     <MESSAGE value="future past events" />
-    <option name="LAST_COMMIT_MESSAGE" value="future past events" />
+    <MESSAGE value="my events front" />
+    <MESSAGE value="sql queries for my events" />
+    <option name="LAST_COMMIT_MESSAGE" value="sql queries for my events" />
   </component>
 </project>
