@@ -37,6 +37,21 @@ public class EventRepository {
             " WHERE events.hidden = false AND date %s ?" +
             " GROUP BY events.id" +
             " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
+
+    private static final String SELECT_EVENTS = "SELECT events.* FROM events ";
+    private static final String SELECT_EVENTS_REPORTS_COUNT = "SELECT events.*, COUNT(reports.id) AS reports_count FROM events " +
+            "LEFT JOIN reports ON events.id = reports.event_id ";
+    private static final String SELECT_EVENTS_PARTICIPANTS_COUNT = "SELECT events.*, COUNT(participants.user_id) AS participants_count " +
+            "FROM events LEFT JOIN participants " +
+            "ON events.id = participants.event_id ";
+    private static final String WHERE_HIDDEN_AND_DATE = "WHERE events.hidden = false AND date %s ? ";
+    private static final String AND_REPORT_CONFIRMED = "AND reports.confirmed = true ";
+    private static final String GROUP_BY_EVENTS_ID = "GROUP BY events.id ";
+    private static final String ORDER_BY_DATE = "ORDER BY events.date %s, events.id ";
+    private static final String ORDER_BY_REPORTS_COUNT = "ORDER BY reports_count %s, events.id ";
+    private static final String ORDER_BY_PARTICIPANTS_COUNT = "ORDER BY participants_count %s, events.id ";
+    private static final String LIMIT_OFFSET = "LIMIT ? OFFSET ?";
+
     private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false AND date %s ?";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
@@ -58,25 +73,50 @@ public class EventRepository {
 
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page) throws SQLException {
         List<Event> events = new ArrayList<>();
-        String query;
-        if (reverseOrder) {
-            query = GET_ALL_BY_DATE_REVERSE;
-            if (order == Event.Order.REPORTS)
-                query = GET_ALL_BY_REPORTS_REVERSE;
-            else if (order == Event.Order.PARTICIPANTS)
-                query = GET_ALL_BY_PARTICIPANTS_REVERSE;
+//        String query;
+//        if (reverseOrder) {
+//            query = GET_ALL_BY_DATE_REVERSE;
+//            if (order == Event.Order.REPORTS)
+//                query = GET_ALL_BY_REPORTS_REVERSE;
+//            else if (order == Event.Order.PARTICIPANTS)
+//                query = GET_ALL_BY_PARTICIPANTS_REVERSE;
+//        } else {
+//            query = GET_ALL_BY_DATE;
+//            if (order == Event.Order.REPORTS)
+//                query = GET_ALL_BY_REPORTS;
+//            else if (order == Event.Order.PARTICIPANTS)
+//                query = GET_ALL_BY_PARTICIPANTS;
+//        }
+//
+//        if (futureOrder)
+//            query = String.format(query, ">");
+//        else
+//            query = String.format(query, "<");
+
+        StringBuilder queryBuilder = new StringBuilder();
+        if (order == Event.Order.DATE) {
+            queryBuilder.append(SELECT_EVENTS)
+                    .append(WHERE_HIDDEN_AND_DATE)
+                    .append(ORDER_BY_DATE)
+                    .append(LIMIT_OFFSET);
+        } else if (order == Event.Order.REPORTS) {
+            queryBuilder.append(SELECT_EVENTS_REPORTS_COUNT)
+                    .append(AND_REPORT_CONFIRMED)
+                    .append(WHERE_HIDDEN_AND_DATE)
+                    .append(GROUP_BY_EVENTS_ID)
+                    .append(ORDER_BY_REPORTS_COUNT)
+                    .append(LIMIT_OFFSET);
         } else {
-            query = GET_ALL_BY_DATE;
-            if (order == Event.Order.REPORTS)
-                query = GET_ALL_BY_REPORTS;
-            else if (order == Event.Order.PARTICIPANTS)
-                query = GET_ALL_BY_PARTICIPANTS;
+            queryBuilder.append(SELECT_EVENTS_PARTICIPANTS_COUNT)
+                    .append(WHERE_HIDDEN_AND_DATE)
+                    .append(GROUP_BY_EVENTS_ID)
+                    .append(ORDER_BY_PARTICIPANTS_COUNT)
+                    .append(LIMIT_OFFSET);
         }
 
-        if (futureOrder)
-            query = String.format(query, ">");
-        else
-            query = String.format(query, "<");
+        if (order != Event.Order.DATE)
+            reverseOrder = !reverseOrder;
+        String query = String.format(queryBuilder.toString(), futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
