@@ -2,6 +2,7 @@ package com.my.conferences.controllers;
 
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.Event;
+import com.my.conferences.entity.User;
 import com.my.conferences.logic.EventManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -30,6 +31,7 @@ public class HomeServlet extends HttpServlet {
         boolean reverseOrder = false;
         boolean futureOrder = true;
         boolean onlyMyEvents = false;
+        User user = null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("event-order")) {
                 try {
@@ -40,16 +42,18 @@ public class HomeServlet extends HttpServlet {
                 reverseOrder = true;
             if (cookie.getName().equals("event-order-time-past"))
                 futureOrder = false;
-            if (cookie.getName().equals("event-order-my-events"))
+            if (cookie.getName().equals("event-order-my-events")) {
                 onlyMyEvents = true;
+                user = (User) request.getSession().getAttribute("user");
+            }
         }
 
         int pages;
         try {
-            pages = eventManager.countPages(futureOrder);
+            pages = eventManager.countPages(futureOrder, user);
             if (page > pages)
                 page = pages;
-            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder));
+            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder, user));
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());

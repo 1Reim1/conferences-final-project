@@ -31,13 +31,16 @@ public class EventManager {
 
     }
 
-    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder) throws DBException {
+    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, User user) throws DBException {
         if (page == 0)
             return new ArrayList<>();
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
-            events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page);
+            if (user == null)
+                events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page);
+            else
+                events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user);
             for (Event event : events) {
                 reportRepository.findAll(connection, event, true);
                 userRepository.findAllParticipants(connection, event);
@@ -83,10 +86,12 @@ public class EventManager {
         return event;
     }
 
-    public int countPages(boolean futureOrder) throws DBException {
+    public int countPages(boolean futureOrder, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {
-            return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder) / PAGE_SIZE);
+            if (user == null)
+                return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder) / PAGE_SIZE);
+            return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder, user) / PAGE_SIZE);
         } catch (SQLException e) {
             throw new DBException("count of pages was not loaded");
         }   finally {
