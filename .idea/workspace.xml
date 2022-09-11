@@ -12,12 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="sql event get all queries rewritten">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="my events">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/create-event.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +26,11 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="Jsp File" />
         <option value="JavaScript File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -218,14 +216,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="45160000" />
-    </task>
-    <task id="LOCAL-00024" summary="reverse order frontend">
-      <created>1662287481200</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1662287481201</updated>
+      <workItem from="1662535952885" duration="47770000" />
     </task>
     <task id="LOCAL-00025" summary="reverse order backend">
       <created>1662288940941</created>
@@ -563,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662760236916</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="my events">
+      <created>1662896898238</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1662896898239</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -581,7 +579,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="db-create.sql" />
     <MESSAGE value="report update" />
     <MESSAGE value="event hidden field" />
     <MESSAGE value="event page servlet skeleton" />
@@ -606,6 +603,7 @@
     <MESSAGE value="my events front" />
     <MESSAGE value="sql queries for my events" />
     <MESSAGE value="sql event get all queries rewritten" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql event get all queries rewritten" />
+    <MESSAGE value="my events" />
+    <option name="LAST_COMMIT_MESSAGE" value="my events" />
   </component>
 </project>

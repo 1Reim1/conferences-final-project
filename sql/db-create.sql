@@ -258,4 +258,4 @@ WHERE moderator_id = 1
 GROUP BY events.id
 ORDER BY id;
 
-SELECT COUNT(DISTINCT events.id) AS total FROM events LEFT JOIN participants p ON events.id = p.event_id WHERE p.user_id = 1 OR events.moderator_id = 1
+# SELECT COUNT(DISTINCT events.id) AS total FROM events LEFT JOIN participants p ON events.id = p.event_id WHERE p.user_id = 1 OR events.moderator_id = 1
