@@ -1,6 +1,7 @@
 package com.my.conferences.db;
 
 import com.my.conferences.entity.Event;
+import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 
 import java.sql.*;
@@ -57,6 +58,7 @@ public class EventRepository {
     private static final String SELECT_COUNT_DISTINCT = "SELECT COUNT(DISTINCT events.id) AS total FROM events ";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
+    private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ? WHERE id = ?";
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
@@ -257,6 +259,23 @@ public class EventRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 rs.next();
                 return extractEvent(rs);
+            }
+        }
+    }
+
+    public void insert(Connection connection, Event event) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            stmt.setString(++k, event.getTitle());
+            stmt.setString(++k, event.getDescription());
+            stmt.setString(++k, event.getPlace());
+            stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
+            stmt.setInt(++k, event.getModerator().getId());
+            stmt.setBoolean(++k, event.isHidden());
+            stmt.executeUpdate();
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                rs.next();
+                event.setId(rs.getInt(1));
             }
         }
     }

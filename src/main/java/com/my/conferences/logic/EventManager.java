@@ -93,7 +93,26 @@ public class EventManager {
                 return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder) / PAGE_SIZE);
             return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder, user) / PAGE_SIZE);
         } catch (SQLException e) {
-            throw new DBException("count of pages was not loaded");
+            throw new DBException("Count of pages was not loaded", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void create(Event event) throws DBException {
+        if (event.getTitle().length() < 3)
+            throw new DBException("Title min length: 3");
+        if (event.getDescription().length() < 20)
+            throw new DBException("Description min length: 20");
+        if (event.getDate().compareTo(new Date()) < 0)
+            throw new DBException("Required future date");
+        if (event.getPlace().length() < 5)
+            throw new DBException("Place min length: 5");
+        Connection connection = connectionManager.getConnection();
+        try {
+            eventRepository.insert(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to insert an event", e);
         }   finally {
             connectionManager.closeConnection(connection);
         }

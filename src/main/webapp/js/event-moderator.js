@@ -112,17 +112,6 @@ $("#show-event-btn").on("click", function (e) {
     })
 })
 
-function validateTitle(element) {
-    if ($.trim(element.val()).length < 3) {
-        element.removeClass("is-valid")
-        element.addClass("is-invalid")
-        return false
-    }
-    element.addClass("is-valid")
-    element.removeClass("is-invalid")
-    return true
-}
-
 $("#new-event-title").on("autocompletechange keyup", function (e) {
     validateTitle($(this))
 })
@@ -151,17 +140,6 @@ $("#save-title-btn").on("click", function (e) {
         })
     }
 })
-
-function validateDescription(element) {
-    if ($.trim(element.val()).length < 20) {
-        element.removeClass("is-valid")
-        element.addClass("is-invalid")
-        return false
-    }
-    element.addClass("is-valid")
-    element.removeClass("is-invalid")
-    return true
-}
 
 $("#new-event-description").on("autocompletechange keyup", function (e) {
     validateDescription($(this))
@@ -202,47 +180,30 @@ $("#save-date-btn").on("click", function (e) {
     e.preventDefault()
     let newEventDateInput = $("#new-event-date")
     let newEventDate = new Date(newEventDateInput.val()).getTime()
-    let now = new Date().getTime()
-    if (newEventDate < now) {
-        newEventDateInput.removeClass("is-valid")
-        newEventDateInput.addClass("is-invalid")
-        return false
+    if (validateDate(newEventDateInput)) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-date",
+                eventId: $("#event").attr("event-id"),
+                date: newEventDate
+            },
+            success: function (data, status, xhr) {
+                let d = new Date(newEventDateInput.val())
+                let dateString = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+                    d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+                $("#event-date").text(dateString)
+                $("#error-alert").fadeOut("fast")
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
     }
-    newEventDateInput.addClass("is-valid")
-    newEventDateInput.removeClass("is-invalid")
-    $.ajax({
-        type: "POST",
-        url: window.location.href,
-        data: {
-            command: "modify-date",
-            eventId: $("#event").attr("event-id"),
-            date: newEventDate
-        },
-        success: function (data, status, xhr) {
-            let d = new Date(newEventDateInput.val())
-            let dateString = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
-                d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-            $("#event-date").text(dateString)
-            $("#error-alert").fadeOut("fast")
-        },
-        error: function (jqXhr, textStatus, errorMessage) {
-            console.log(jqXhr.responseText)
-            $("#error-alert").text(jqXhr.responseText)
-            $("#error-alert").fadeIn("slow")
-        }
-    })
 })
-
-function validatePlace(element) {
-    if ($.trim(element.val()).length < 5) {
-        element.removeClass("is-valid")
-        element.addClass("is-invalid")
-        return false
-    }
-    element.addClass("is-valid")
-    element.removeClass("is-invalid")
-    return true
-}
 
 $("#new-event-place").on("autocompletechange keyup", function (e) {
     validatePlace($(this))

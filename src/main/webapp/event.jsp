@@ -365,6 +365,7 @@
     <script src="js/event-speaker.js"></script>
 </c:if>
 <c:if test="${sessionScope.user.id == event.moderator.id}">
+    <script src="js/validate-functions.js"></script>
     <script src="js/event-moderator.js"></script>
 </c:if>
 </body>
