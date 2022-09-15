@@ -12,11 +12,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="create event">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/ModeratorFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="ModeratorFilter.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,9 +31,9 @@
         <option value="CSS File" />
         <option value="Jsp File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -218,14 +220,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="55871000" />
-    </task>
-    <task id="LOCAL-00027" summary="pagination tag small fix">
-      <created>1662290957179</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1662290957179</updated>
+      <workItem from="1662535952885" duration="56482000" />
     </task>
     <task id="LOCAL-00028" summary="reverse order frontend btn fix">
       <created>1662295951472</created>
@@ -563,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663081226456</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="ModeratorFilter.java">
+      <created>1663241824600</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1663241824601</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -581,7 +583,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="event page servlet skeleton" />
     <MESSAGE value="event page" />
     <MESSAGE value="participants modal, event command skeleton" />
     <MESSAGE value="event command skeleton" />
@@ -606,6 +607,7 @@
     <MESSAGE value="my events" />
     <MESSAGE value="create-event.html" />
     <MESSAGE value="create event" />
-    <option name="LAST_COMMIT_MESSAGE" value="create event" />
+    <MESSAGE value="ModeratorFilter.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="ModeratorFilter.java" />
   </component>
 </project>
