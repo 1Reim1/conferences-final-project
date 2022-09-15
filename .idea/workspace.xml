@@ -12,16 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="create-event.html">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/CreateEventServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/new-event.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/validate-functions.js" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="create event">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/ModeratorFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/create-event.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/create-event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +95,7 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.my.conferences.filters" />
       <recent name="com.my.conferences.controllers.commands.report" />
       <recent name="com.my.conferences.controllers.commands.event" />
     </key>
@@ -222,14 +218,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="52314000" />
-    </task>
-    <task id="LOCAL-00026" summary="page limiting">
-      <created>1662290516463</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1662290516463</updated>
+      <workItem from="1662535952885" duration="55871000" />
     </task>
     <task id="LOCAL-00027" summary="pagination tag small fix">
       <created>1662290957179</created>
@@ -567,7 +556,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662908736417</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="create event">
+      <created>1663081226456</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1663081226456</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +581,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="event hidden field" />
     <MESSAGE value="event page servlet skeleton" />
     <MESSAGE value="event page" />
     <MESSAGE value="participants modal, event command skeleton" />
@@ -610,6 +605,7 @@
     <MESSAGE value="sql event get all queries rewritten" />
     <MESSAGE value="my events" />
     <MESSAGE value="create-event.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="create-event.html" />
+    <MESSAGE value="create event" />
+    <option name="LAST_COMMIT_MESSAGE" value="create event" />
   </component>
 </project>
