@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,24 +11,7 @@
 </head>
 <body>
 
-<!-- Sidebar -->
-<sidebar class="col-3 bg-light">
-    <div class="position-relative col-12">
-        <h3 class="text-center">Conferences</h3>
-        <hr>
-        <button id="home-btn" type="button" class="btn btn-dark col-12 text-start">Home</button>
-        <button type="button" class="btn btn-dark col-12 text-start">My events</button>
-        <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
-        <div class="down-menu col-12 position-absolute bottom-0 start-0">
-            <p style="font-size: 12px">You are logged as ${sessionScope.user.firstName} ${sessionScope.user.lastName}
-                <c:if test="${sessionScope.user.role != 'USER'}">
-                    <span class="text-lowercase">(${sessionScope.user.role})</span>
-                </c:if>
-            </p>
-            <button type="button" class="btn btn-primary col-12 text-start" id="logout-btn">Logout</button>
-        </div>
-    </div>
-</sidebar>
+<my:sidebar/>
 
 <!-- Event -->
 
