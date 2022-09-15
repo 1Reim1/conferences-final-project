@@ -12,13 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="ReportManager">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tags/sidebar.tag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/create-event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/create-event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="sidebar into tag">
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/authorization.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/authorization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event-moderator.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event-speaker.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/event.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +92,7 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\WEB-INF\jsp" />
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -103,7 +102,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
-    <configuration name="event.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/conferences/event.jsp">
+    <configuration name="event.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/conferences/WEB-INF/jsp/event.jsp">
       <method v="2" />
     </configuration>
     <configuration name="home.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/conferences/src/main/webapp/home.html" useBuiltInWebServerPort="true">
@@ -220,14 +219,7 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="58856000" />
-    </task>
-    <task id="LOCAL-00029" summary="reverse order frontend btn fix">
-      <created>1662295995521</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1662295995521</updated>
+      <workItem from="1662535952885" duration="59169000" />
     </task>
     <task id="LOCAL-00030" summary="event html page templates">
       <created>1662330110932</created>
@@ -565,7 +557,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663242462577</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="sidebar into tag">
+      <created>1663245163718</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1663245163718</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -583,7 +582,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="participants modal, event command skeleton" />
     <MESSAGE value="event command skeleton" />
     <MESSAGE value="event join command" />
     <MESSAGE value="event leave command" />
@@ -608,6 +606,7 @@
     <MESSAGE value="create event" />
     <MESSAGE value="ModeratorFilter.java" />
     <MESSAGE value="ReportManager" />
-    <option name="LAST_COMMIT_MESSAGE" value="ReportManager" />
+    <MESSAGE value="sidebar into tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="sidebar into tag" />
   </component>
 </project>

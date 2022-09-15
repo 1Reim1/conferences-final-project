@@ -82,7 +82,7 @@ public class EventServlet extends HttpServlet {
             request.setAttribute("hasReport", hasReport);
         }
 
-        getServletContext().getRequestDispatcher("/event.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/event.jsp").forward(request, response);
     }
 
     @Override

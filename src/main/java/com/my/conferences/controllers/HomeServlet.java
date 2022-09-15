@@ -66,6 +66,6 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("reverseOrder", reverseOrder);
         request.setAttribute("futureOrder", futureOrder);
         request.setAttribute("onlyMyEvents", onlyMyEvents);
-        getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
     }
 }

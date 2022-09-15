@@ -24,12 +24,12 @@
                     <h3 class="text-center"><span id="event-title">${event.title}</span>
                         <c:if test="${event.hidden}">(hidden)</c:if>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
-                            <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
+                            <img class="modify-icon" src="../../svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
                         </c:if>
                     </h3>
                     <p><span id="event-description">${event.description}</span>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
-                            <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal">
+                            <img class="modify-icon" src="../../svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal">
                         </c:if>
                     </p>
                     <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#participants-modal">
@@ -46,7 +46,7 @@
                     <p class="event-description">
                         Place: <b id="event-place">${event.place}</b>
                         <c:if test="${event.moderator.id == sessionScope.user.id}">
-                            <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
+                            <img class="modify-icon" src="../../svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
                         </c:if>
                     </p>
                     <hr>
@@ -58,7 +58,7 @@
                                     <span class="col-5">
                                             <span class="topic">${report.topic}</span>
                                             <c:if test="${event.moderator.id == sessionScope.user.id}">
-                                                <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal">
+                                                <img class="modify-icon" src="../../svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal">
                                             </c:if>
                                             <c:if test="${!report.confirmed}">
                                                 <c:if test="${report.speaker.id == report.creator.id}">

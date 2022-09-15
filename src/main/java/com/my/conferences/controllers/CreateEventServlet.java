@@ -16,7 +16,7 @@ public class CreateEventServlet extends HttpServlet {
     private static final EventManager eventManager = EventManager.getInstance();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/create-event.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/create-event.jsp").forward(request, response);
     }
 
     @Override
