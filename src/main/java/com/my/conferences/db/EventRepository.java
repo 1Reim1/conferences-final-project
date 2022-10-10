@@ -1,7 +1,6 @@
 package com.my.conferences.db;
 
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 
 import java.sql.*;
@@ -12,33 +11,6 @@ import java.util.List;
 public class EventRepository {
 
     private static EventRepository instance;
-    private static final String GET_ALL_BY_DATE = "SELECT * FROM events WHERE hidden = false AND date %s ? ORDER BY `date`, `id` LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_DATE_REVERSE = "SELECT * FROM events WHERE hidden = false AND date %s ? ORDER BY `date` DESC, `id` LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_REPORTS = "SELECT events.*, COUNT(reports.id) AS reports_count" +
-            " FROM events LEFT JOIN reports " +
-            " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false AND date %s ?" +
-            " GROUP BY events.id" +
-            " ORDER BY reports_count DESC, events.id LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_REPORTS_REVERSE = "SELECT events.*, COUNT(reports.id) AS reports_count" +
-            " FROM events LEFT JOIN reports " +
-            " ON events.id = reports.event_id" +
-            " WHERE events.hidden = false AND date %s ?" +
-            " GROUP BY events.id" +
-            " ORDER BY reports_count, events.id LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_PARTICIPANTS = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
-            " FROM events LEFT JOIN participants " +
-            " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false AND date %s ?" +
-            " GROUP BY events.id" +
-            " ORDER BY participants_count DESC, events.id LIMIT ? OFFSET ?";
-    private static final String GET_ALL_BY_PARTICIPANTS_REVERSE = "SELECT events.*, COUNT(participants.user_id) AS participants_count" +
-            " FROM events LEFT JOIN participants " +
-            " ON events.id = participants.event_id" +
-            " WHERE events.hidden = false AND date %s ?" +
-            " GROUP BY events.id" +
-            " ORDER BY participants_count, events.id LIMIT ? OFFSET ?";
-
     private static final String SELECT_EVENTS = "SELECT events.* FROM events ";
     private static final String SELECT_EVENTS_REPORTS_COUNT = "SELECT events.*, COUNT(r.id) AS reports_count FROM events ";
     private static final String SELECT_EVENTS_PARTICIPANTS_COUNT = "SELECT events.*, COUNT(p.user_id) AS participants_count FROM events ";
@@ -52,8 +24,6 @@ public class EventRepository {
     private static final String ORDER_BY_REPORTS_COUNT = "ORDER BY reports_count %s, events.id ";
     private static final String ORDER_BY_PARTICIPANTS_COUNT = "ORDER BY participants_count %s, events.id ";
     private static final String LIMIT_OFFSET = "LIMIT ? OFFSET ?";
-
-    private static final String GET_EVENTS_COUNT = "SELECT COUNT(*) AS total FROM events WHERE events.hidden = false AND date %s ?";
     private static final String SELECT_COUNT = "SELECT COUNT(events.id) AS total FROM events ";
     private static final String SELECT_COUNT_DISTINCT = "SELECT COUNT(DISTINCT events.id) AS total FROM events ";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
@@ -120,49 +90,17 @@ public class EventRepository {
 
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, User user) throws SQLException {
         List<Event> events = new ArrayList<>();
-        StringBuilder queryBuilder = new StringBuilder();
-
-        if (order == Event.Order.DATE)
-            queryBuilder.append(SELECT_EVENTS);
-        else if (order == Event.Order.REPORTS)
-            queryBuilder.append(SELECT_EVENTS_REPORTS_COUNT);
-        else
-            queryBuilder.append(SELECT_EVENTS_PARTICIPANTS_COUNT);
-
-        queryBuilder.append(LEFT_JOIN_PARTICIPANTS);
-        if (order == Event.Order.REPORTS || user.getRole() == User.Role.SPEAKER) {
-            queryBuilder.append(LEFT_JOIN_REPORTS);
-            if (user.getRole() == User.Role.USER)
-                queryBuilder.append(AND_REPORT_CONFIRMED);
-        }
-
+        String query;
         if (user.getRole() == User.Role.USER)
-            queryBuilder.append(WHERE_HIDDEN_AND_DATE);
+            query = buildFindAllSqlForUser(order);
+        else if (user.getRole() == User.Role.SPEAKER)
+            query = buildFindAllSqlForSpeaker(order);
         else
-            queryBuilder.append(WHERE_DATE);
-
-        queryBuilder.append("AND ( ")
-                .append("p.user_id = ? ");
-
-        if (user.getRole() == User.Role.SPEAKER)
-            queryBuilder.append("OR r.speaker_id = ? ");
-        else if (user.getRole() == User.Role.MODERATOR)
-            queryBuilder.append("OR events.moderator_id = ? ");
-
-        queryBuilder.append(") ")
-                .append(GROUP_BY_EVENTS_ID);
-
-        if (order == Event.Order.DATE)
-            queryBuilder.append(ORDER_BY_DATE);
-        else if (order == Event.Order.REPORTS)
-            queryBuilder.append(ORDER_BY_REPORTS_COUNT);
-        else
-            queryBuilder.append(ORDER_BY_PARTICIPANTS_COUNT);
-        queryBuilder.append(LIMIT_OFFSET);
+            query = buildFindAllSqlForModerator(order);
 
         if (order != Event.Order.DATE)
             reverseOrder = !reverseOrder;
-        String query = String.format(queryBuilder.toString(), futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
+        query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             int k = 0;
@@ -180,6 +118,98 @@ public class EventRepository {
                 return events;
             }
         }
+    }
+
+    private String buildFindAllSqlForUser(Event.Order order) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (order == Event.Order.DATE)
+            queryBuilder.append(SELECT_EVENTS);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(SELECT_EVENTS_REPORTS_COUNT);
+        else
+            queryBuilder.append(SELECT_EVENTS_PARTICIPANTS_COUNT);
+        queryBuilder.append(LEFT_JOIN_PARTICIPANTS);
+
+        if (order == Event.Order.REPORTS) {
+            queryBuilder.append(LEFT_JOIN_REPORTS)
+                    .append(AND_REPORT_CONFIRMED);
+        }
+
+        queryBuilder.append(WHERE_HIDDEN_AND_DATE)
+                .append("AND ( ")
+                .append("p.user_id = ? ")
+                .append(") ")
+                .append(GROUP_BY_EVENTS_ID);
+
+        if (order == Event.Order.DATE)
+            queryBuilder.append(ORDER_BY_DATE);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(ORDER_BY_REPORTS_COUNT);
+        else
+            queryBuilder.append(ORDER_BY_PARTICIPANTS_COUNT);
+        queryBuilder.append(LIMIT_OFFSET);
+
+        return queryBuilder.toString();
+    }
+
+    private String buildFindAllSqlForSpeaker(Event.Order order) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (order == Event.Order.DATE)
+            queryBuilder.append(SELECT_EVENTS);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(SELECT_EVENTS_REPORTS_COUNT);
+        else
+            queryBuilder.append(SELECT_EVENTS_PARTICIPANTS_COUNT);
+
+        queryBuilder.append(LEFT_JOIN_PARTICIPANTS)
+                    .append(LEFT_JOIN_REPORTS)
+                    .append(WHERE_DATE)
+                    .append("AND ( ")
+                    .append("p.user_id = ? ")
+                    .append("OR r.speaker_id = ? ")
+                    .append(") ")
+                    .append(GROUP_BY_EVENTS_ID);
+
+        if (order == Event.Order.DATE)
+            queryBuilder.append(ORDER_BY_DATE);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(ORDER_BY_REPORTS_COUNT);
+        else
+            queryBuilder.append(ORDER_BY_PARTICIPANTS_COUNT);
+        queryBuilder.append(LIMIT_OFFSET);
+
+        return queryBuilder.toString();
+    }
+
+    private String buildFindAllSqlForModerator(Event.Order order) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (order == Event.Order.DATE)
+            queryBuilder.append(SELECT_EVENTS);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(SELECT_EVENTS_REPORTS_COUNT);
+        else
+            queryBuilder.append(SELECT_EVENTS_PARTICIPANTS_COUNT);
+        queryBuilder.append(LEFT_JOIN_PARTICIPANTS);
+        if (order == Event.Order.REPORTS) {
+            queryBuilder.append(LEFT_JOIN_REPORTS);
+        }
+
+        queryBuilder.append(WHERE_DATE)
+                .append("AND ( ")
+                .append("p.user_id = ? ")
+                .append("OR events.moderator_id = ? ")
+                .append(") ")
+                .append(GROUP_BY_EVENTS_ID);
+
+        if (order == Event.Order.DATE)
+            queryBuilder.append(ORDER_BY_DATE);
+        else if (order == Event.Order.REPORTS)
+            queryBuilder.append(ORDER_BY_REPORTS_COUNT);
+        else
+            queryBuilder.append(ORDER_BY_PARTICIPANTS_COUNT);
+        queryBuilder.append(LIMIT_OFFSET);
+
+        return queryBuilder.toString();
     }
 
     public int getCount(Connection connection, boolean futureOrder) throws SQLException {

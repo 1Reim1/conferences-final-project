@@ -231,31 +231,29 @@ values (17, 4);
 insert into participants
 values (18, 4);
 
-# For user
-SELECT events.*
-FROM events
-         JOIN participants on id = event_id
-WHERE hidden = false
-  AND user_id = 7
-ORDER BY `date`, `id`;
-
-# For speaker
-SELECT events.*
-FROM events
-         LEFT JOIN participants p on events.id = p.event_id
-         LEFT JOIN reports r on events.id = r.event_id
-WHERE p.user_id = 5
-   OR r.speaker_id = 5
-GROUP BY events.id
-ORDER BY events.id;
-
-# For moderator
-SELECT events.*
-FROM events
-         LEFT JOIN participants on id = event_id
-WHERE moderator_id = 1
-   OR user_id = 1
-GROUP BY events.id
-ORDER BY id;
-
-# SELECT COUNT(DISTINCT events.id) AS total FROM events LEFT JOIN participants p ON events.id = p.event_id WHERE p.user_id = 1 OR events.moderator_id = 1
+# # For user
+# SELECT events.*
+# FROM events
+#          JOIN participants on id = event_id
+# WHERE hidden = false
+#   AND user_id = 7
+# ORDER BY `date`, `id`;
+#
+# # For speaker
+# SELECT events.*
+# FROM events
+#          LEFT JOIN participants p on events.id = p.event_id
+#          LEFT JOIN reports r on events.id = r.event_id
+# WHERE p.user_id = 5
+#    OR r.speaker_id = 5
+# GROUP BY events.id
+# ORDER BY events.id;
+#
+# # For moderator
+# SELECT events.*
+# FROM events
+#          LEFT JOIN participants on id = event_id
+# WHERE moderator_id = 1
+#    OR user_id = 1
+# GROUP BY events.id
+# ORDER BY id;

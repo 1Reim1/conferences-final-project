@@ -12,9 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="jsp into WEB-INF">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="modify-icon fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,14 +218,8 @@
       <workItem from="1661438089525" duration="27038000" />
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
-      <workItem from="1662535952885" duration="66484000" />
-    </task>
-    <task id="LOCAL-00031" summary="event html sidebar">
-      <created>1662369393624</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1662369393624</updated>
+      <workItem from="1662535952885" duration="71104000" />
+      <workItem from="1665394919930" duration="2361000" />
     </task>
     <task id="LOCAL-00032" summary="db-create.sql">
       <created>1662378914087</created>
@@ -562,7 +557,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663245649792</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="modify-icon fix">
+      <created>1663675707890</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1663675707890</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -580,7 +582,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="event join command" />
     <MESSAGE value="event leave command" />
     <MESSAGE value="cancel report" />
     <MESSAGE value="naming fix" />
@@ -605,6 +606,7 @@
     <MESSAGE value="ReportManager" />
     <MESSAGE value="sidebar into tag" />
     <MESSAGE value="jsp into WEB-INF" />
-    <option name="LAST_COMMIT_MESSAGE" value="jsp into WEB-INF" />
+    <MESSAGE value="modify-icon fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify-icon fix" />
   </component>
 </project>
