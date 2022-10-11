@@ -12,26 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="EventRepository">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/NewReportsServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dto/ReportWithEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/NoUserFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/new-reports.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/new-reports.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/sidebar.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/new-reports.js" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="new-reports page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tags/sidebar.tag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/tags/sidebar.tag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/event.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/event.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,14 +220,7 @@
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
       <workItem from="1662535952885" duration="71104000" />
-      <workItem from="1665394919930" duration="18378000" />
-    </task>
-    <task id="LOCAL-00033" summary="report update">
-      <created>1662388958159</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1662388958159</updated>
+      <workItem from="1665394919930" duration="20475000" />
     </task>
     <task id="LOCAL-00034" summary="report update">
       <created>1662389193037</created>
@@ -581,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665397303896</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="new-reports page">
+      <created>1665487050072</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1665487050072</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,7 +583,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cancel report" />
     <MESSAGE value="naming fix" />
     <MESSAGE value="confirm event" />
     <MESSAGE value="offer report (speaker)" />
@@ -624,6 +607,7 @@
     <MESSAGE value="jsp into WEB-INF" />
     <MESSAGE value="modify-icon fix" />
     <MESSAGE value="EventRepository" />
-    <option name="LAST_COMMIT_MESSAGE" value="EventRepository" />
+    <MESSAGE value="new-reports page" />
+    <option name="LAST_COMMIT_MESSAGE" value="new-reports page" />
   </component>
 </project>

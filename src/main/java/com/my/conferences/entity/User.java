@@ -59,6 +59,10 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public boolean sameId(User user) {
+        return id == user.id;
+    }
+
     @Override
     public String toString() {
         return "User{" +

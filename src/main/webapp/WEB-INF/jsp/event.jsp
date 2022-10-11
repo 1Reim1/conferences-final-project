@@ -24,29 +24,29 @@
                     <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
                     <h3 class="text-center"><span id="event-title">${event.title}</span>
                         <c:if test="${event.hidden}">(hidden)</c:if>
-                        <c:if test="${event.moderator.id == sessionScope.user.id}">
+                        <c:if test="${event.moderator.sameId(sessionScope.user)}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-title-modal">
                         </c:if>
                     </h3>
                     <p><span id="event-description">${event.description}</span>
-                        <c:if test="${event.moderator.id == sessionScope.user.id}">
+                        <c:if test="${event.moderator.sameId(sessionScope.user)}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-description-modal">
                         </c:if>
                     </p>
-                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#participants-modal">
+                    <span class="col-4 text-center <c:if test="${event.moderator.sameId(sessionScope.user)}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#participants-modal">
                         Participants: <b>${event.participants.size()}</b>
                     </span>
                     <span class="col-4 text-center event-description">
                         Reports: <b>${event.reports.size()}</b>
                     </span>
-                    <span class="col-4 text-center <c:if test="${event.moderator.id == sessionScope.user.id}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">
+                    <span class="col-4 text-center <c:if test="${event.moderator.sameId(sessionScope.user)}">control-element</c:if>" data-bs-toggle="modal" data-bs-target="#modify-date-modal">
                         Date:
                         <b id="event-date"><fmt:formatDate value="${event.date}" pattern="dd-MM-yyyy HH:mm"/></b>
                     </span>
                     <hr class="col-12">
                     <p class="event-description">
                         Place: <b id="event-place">${event.place}</b>
-                        <c:if test="${event.moderator.id == sessionScope.user.id}">
+                        <c:if test="${event.moderator.sameId(sessionScope.user)}">
                             <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-place-modal">
                         </c:if>
                     </p>
@@ -58,14 +58,14 @@
                                 <div class="row report" report-id="${report.id}">
                                     <span class="col-5">
                                             <span class="topic">${report.topic}</span>
-                                            <c:if test="${event.moderator.id == sessionScope.user.id}">
+                                            <c:if test="${event.moderator.sameId(sessionScope.user)}">
                                                 <img class="modify-icon" src="svg/magic.svg" alt="modify" data-bs-toggle="modal" data-bs-target="#modify-report-topic-modal">
                                             </c:if>
                                             <c:if test="${!report.confirmed}">
-                                                <c:if test="${report.speaker.id == report.creator.id}">
+                                                <c:if test="${report.speaker.sameId(report.creator)}">
                                                     (Not confirmed by moderator)
                                                 </c:if>
-                                                <c:if test="${report.speaker.id != report.creator.id}">
+                                                <c:if test="${!report.speaker.sameId(report.creator)}">
                                                     (Not confirmed by speaker)
                                                 </c:if>
                                             </c:if>
@@ -74,21 +74,21 @@
                                         <c:if test="${!report.confirmed}">
                                             <div class="row">
                                                 <c:choose>
-                                                    <c:when test="${report.speaker.id != report.creator.id && report.speaker.id == sessionScope.user.id}">
+                                                    <c:when test="${!report.speaker.sameId(report.creator) && report.speaker.sameId(sessionScope.user)}">
                                                         <button type="button" class="btn btn-outline-success col-5 confirm-report-btn">Accept report</button>
                                                         <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Reject report</button>
                                                     </c:when>
-                                                    <c:when test="${report.speaker.id == report.creator.id && event.moderator.id == sessionScope.user.id}">
+                                                    <c:when test="${report.speaker.sameId(report.creator) && event.moderator.sameId(sessionScope.user)}">
                                                         <button type="button" class="btn btn-outline-success col-5 confirm-report-btn">Confirm report</button>
                                                         <button type="button" class="btn btn-outline-danger col-5 offset-2 cancel-report-btn">Cancel report</button>
                                                     </c:when>
-                                                    <c:when test="${event.moderator.id == sessionScope.user.id || (report.speaker.id == report.creator.id && report.speaker.id == sessionScope.user.id)}">
+                                                    <c:when test="${event.moderator.sameId(sessionScope.user) || (report.speaker.sameId(report.creator) && report.speaker.sameId(sessionScope.user))}">
                                                             <button type="button" class="btn btn-outline-danger col-6 offset-3 cancel-report-btn">Cancel report</button>
                                                     </c:when>
                                                 </c:choose>
                                             </div>
                                         </c:if>
-                                        <c:if test="${report.confirmed && (event.moderator.id == sessionScope.user.id || report.speaker.id == sessionScope.user.id)}">
+                                        <c:if test="${report.confirmed && (event.moderator.sameId(sessionScope.user) || report.speaker.sameId(sessionScope.user))}">
                                             <div class="row">
                                                 <button type="button" class="btn btn-outline-danger col-6 offset-3 cancel-report-btn">Cancel report</button>
                                             </div>
@@ -123,7 +123,7 @@
                             </c:choose>
                         </c:when>
                         <c:when test="${sessionScope.user.role == 'MODERATOR'}">
-                            <c:if test="${event.moderator.id == sessionScope.user.id}">
+                            <c:if test="${event.moderator.sameId(sessionScope.user)}">
                                 <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#offer-report-modal">Offer report</button>
                                 <c:if test="${event.hidden}">
                                     <button id="show-event-btn" type="button" class="btn btn-success">Show the conference</button>
@@ -132,7 +132,7 @@
                                     <button id="hide-event-btn" type="button" class="btn btn-danger">Hide the conference</button>
                                 </c:if>
                             </c:if>
-                            <c:if test="${event.moderator.id != sessionScope.user.id}">
+                            <c:if test="${!event.moderator.sameId(sessionScope.user)}">
                                 <c:if test="${isParticipant}">
                                     <button id="leave-btn" type="button" class="btn btn-danger mb-2">Leave from the conference</button>
                                 </c:if>
@@ -175,7 +175,7 @@
         </div>
     </c:when>
     <%--Offer report modal (moderator)--%>
-    <c:when test="${sessionScope.user.id == event.moderator.id}">
+    <c:when test="${sessionScope.user.sameId(event.moderator)}">
         <div class="modal fade" id="offer-report-modal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -349,7 +349,7 @@
 <c:if test="${sessionScope.user.role != 'USER'}">
     <script src="js/event-speaker.js"></script>
 </c:if>
-<c:if test="${sessionScope.user.id == event.moderator.id}">
+<c:if test="${sessionScope.user.sameId(event.moderator)}">
     <script src="js/validate-functions.js"></script>
     <script src="js/event-moderator.js"></script>
 </c:if>
