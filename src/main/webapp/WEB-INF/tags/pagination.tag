@@ -1,11 +1,14 @@
+<%@tag pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${cookie['lang'].value}"/>
+<fmt:setBundle basename="internationalization"/>
 <%@attribute name="page" required="true" type="java.lang.Integer" %>
 <%@attribute name="pages" required="true" type="java.lang.Integer" %>
-
 <c:if test="${page > 0}">
     <nav>
         <ul class="pagination">
-            <li class="page-item <c:if test="${page == 1}">disabled</c:if>"><a class="page-link" href="?page=${page-1}">Previous</a>
+            <li class="page-item <c:if test="${page == 1}">disabled</c:if>"><a class="page-link" href="?page=${page-1}"><fmt:message key="home.previous"/></a>
             </li>
             <li class="page-item <c:if test="${page == 1}">active</c:if>"><a class="page-link" href="?page=1">1</a></li>
 
@@ -44,7 +47,7 @@
                 </li>
             </c:if>
             <li class="page-item <c:if test="${page == pages}">disabled</c:if>"><a class="page-link"
-                                                                                   href="?page=${page+1}">Next</a>
+                                                                                   href="?page=${page+1}"><fmt:message key="home.next"/></a>
             </li>
         </ul>
     </nav>

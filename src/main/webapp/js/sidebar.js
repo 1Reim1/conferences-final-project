@@ -13,3 +13,13 @@ $("#create-event-btn").on("click", function (e) {
 $("#new-reports-btn").on("click", function (e) {
     window.location.href = "new-reports"
 })
+
+$("#ukrainian-language-btn").on("click", function (e) {
+    document.cookie = "lang=uk"
+    location.reload()
+})
+
+$("#english-language-btn").on("click", function (e) {
+    document.cookie = "lang=en"
+    location.reload()
+})

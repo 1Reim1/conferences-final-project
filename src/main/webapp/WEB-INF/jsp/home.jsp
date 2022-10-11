@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <!doctype html>
@@ -8,7 +9,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sidebar.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
-    <title>Home</title>
+    <title>Home page</title>
 </head>
 <body>
 

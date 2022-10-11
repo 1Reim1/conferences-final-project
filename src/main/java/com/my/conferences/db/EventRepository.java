@@ -262,7 +262,6 @@ public class EventRepository {
         else
             query = String.format(queryBuilder.toString(), "<");
 
-        System.out.println(query);
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             int k = 0;

@@ -13,6 +13,6 @@ public class AuthServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.removeAttribute("user");
 
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/authorization.html").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/auth.jsp").forward(request, response);
     }
 }
