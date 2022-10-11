@@ -12,10 +12,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="new-reports page">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="jsp refactoring">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Report.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,14 +224,7 @@
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
       <workItem from="1662535952885" duration="71104000" />
-      <workItem from="1665394919930" duration="20475000" />
-    </task>
-    <task id="LOCAL-00034" summary="report update">
-      <created>1662389193037</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1662389193037</updated>
+      <workItem from="1665394919930" duration="23726000" />
     </task>
     <task id="LOCAL-00035" summary="report update">
       <created>1662389764580</created>
@@ -565,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665487050072</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="jsp refactoring">
+      <created>1665496331249</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1665496331249</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -583,7 +587,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="naming fix" />
     <MESSAGE value="confirm event" />
     <MESSAGE value="offer report (speaker)" />
     <MESSAGE value="hide event" />
@@ -608,6 +611,7 @@
     <MESSAGE value="modify-icon fix" />
     <MESSAGE value="EventRepository" />
     <MESSAGE value="new-reports page" />
-    <option name="LAST_COMMIT_MESSAGE" value="new-reports page" />
+    <MESSAGE value="jsp refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="jsp refactoring" />
   </component>
 </project>

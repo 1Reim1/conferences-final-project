@@ -2,6 +2,7 @@ package com.my.conferences.controllers.commands.report;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
+import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.ReportManager;
 import jakarta.servlet.ServletException;
@@ -34,8 +35,17 @@ public class OfferCommand implements Command {
             return;
         }
 
+        Report report = new Report();
+        report.setTopic(topic);
+        report.setEventId(eventId);
+        report.setCreator((User) request.getSession().getAttribute("user"));
+        User speaker = new User();
+        speaker.setId(speakerId);
+        report.setSpeaker(speaker);
+        report.setConfirmed(false);
+
         try {
-            reportManager.offerReport(eventId, topic, speakerId, (User) request.getSession().getAttribute("user"));
+            reportManager.offerReport(report);
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

@@ -100,14 +100,7 @@ public class EventManager {
     }
 
     public void create(Event event) throws DBException {
-        if (event.getTitle().length() < 3)
-            throw new DBException("Title min length: 3");
-        if (event.getDescription().length() < 20)
-            throw new DBException("Description min length: 20");
-        if (event.getDate().compareTo(new Date()) < 0)
-            throw new DBException("Required future date");
-        if (event.getPlace().length() < 5)
-            throw new DBException("Place min length: 5");
+        event.validate();
         Connection connection = connectionManager.getConnection();
         try {
             eventRepository.insert(connection, event);
@@ -125,9 +118,8 @@ public class EventManager {
             if (event.getModerator().equals(user))
                 throw new DBException("You are a moderator");
             if (user.getRole() == User.Role.SPEAKER)
-                for (Report report : event.getReports())
-                    if (report.getSpeaker().equals(user))
-                        throw new DBException("You have a report");
+                if (event.getReports().stream().map(Report::getSpeaker).anyMatch(s -> s.equals(user)))
+                    throw new DBException("You have a report");
             if (event.getParticipants().contains(user))
                 throw new DBException("You are already a participant");
             eventRepository.insertParticipant(connection, event, user);
@@ -187,9 +179,7 @@ public class EventManager {
     }
 
     public void modifyTitle(int eventId, String newTitle, User user) throws DBException {
-        newTitle = newTitle.trim();
-        if (newTitle.length() < 3)
-            throw new DBException("Title min length: 3");
+        Event.validateTitle(newTitle);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -205,9 +195,7 @@ public class EventManager {
     }
 
     public void modifyDescription(int eventId, String newDescription, User user) throws DBException {
-        newDescription = newDescription.trim();
-        if (newDescription.length() < 20)
-            throw new DBException("Description min length: 20");
+        Event.validateDescription(newDescription);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -223,8 +211,7 @@ public class EventManager {
     }
 
     public void modifyDate(int eventId, Date newDate, User user) throws DBException {
-        if (newDate.compareTo(new Date()) < 0)
-            throw new DBException("Required future date");
+        Event.validateDate(newDate);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -240,8 +227,7 @@ public class EventManager {
     }
 
     public void modifyPlace(int eventId, String newPlace, User user) throws DBException {
-        if (newPlace.length() < 5)
-            throw new DBException("Place min length: 5");
+        Event.validatePlace(newPlace);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);

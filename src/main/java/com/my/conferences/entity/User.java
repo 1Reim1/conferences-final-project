@@ -1,9 +1,13 @@
 package com.my.conferences.entity;
 
+import com.my.conferences.db.DBException;
+
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 public class User implements Serializable {
-
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern VALID_NAME_REGEX = Pattern.compile("^[a-zA-Z]{3,}$");
     private int id;
     private String email;
     private String firstName;
@@ -24,7 +28,7 @@ public class User implements Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     public String getFirstName() {
@@ -32,7 +36,7 @@ public class User implements Serializable {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = firstName.trim();
     }
 
     public String getLastName() {
@@ -40,7 +44,7 @@ public class User implements Serializable {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = lastName.trim();
     }
 
     public String getPassHash() {
@@ -48,7 +52,7 @@ public class User implements Serializable {
     }
 
     public void setPassHash(String passHash) {
-        this.passHash = passHash;
+        this.passHash = passHash.trim();
     }
 
     public Role getRole() {
@@ -61,6 +65,25 @@ public class User implements Serializable {
 
     public boolean sameId(User user) {
         return id == user.id;
+    }
+
+    public void validateNames() throws DBException {
+        if (!VALID_NAME_REGEX.matcher(firstName).find())
+            throw new DBException("First name is bad");
+        if (!VALID_NAME_REGEX.matcher(lastName).find())
+            throw new DBException("Last name is bad");
+    }
+
+    public void validateEmailAndPassword() throws DBException {
+        validateEmailAndPassword(email, passHash);
+    }
+
+    public static void validateEmailAndPassword(String email, String password) throws DBException {
+        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
+            throw new DBException("Email is bad");
+        if (password.length() < 6) {
+            throw new DBException("Password is bad");
+        }
     }
 
     @Override

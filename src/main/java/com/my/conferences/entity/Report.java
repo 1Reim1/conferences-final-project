@@ -1,5 +1,7 @@
 package com.my.conferences.entity;
 
+import com.my.conferences.db.DBException;
+
 public class Report {
     private int id;
     private String topic;
@@ -21,7 +23,7 @@ public class Report {
     }
 
     public void setTopic(String topic) {
-        this.topic = topic;
+        this.topic = topic.trim();
     }
 
     public int getEventId() {
@@ -54,5 +56,14 @@ public class Report {
 
     public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public void validate() throws DBException {
+        validateTopic(topic);
+    }
+
+    public static void validateTopic(String topic) throws DBException {
+        if (topic.trim().length() < 3)
+            throw new DBException("Topic length min: 3");
     }
 }
