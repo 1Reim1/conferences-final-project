@@ -1,12 +1,15 @@
 package com.my.conferences.logic;
 
 import com.my.conferences.db.*;
+import com.my.conferences.dto.ReportWithEvent;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportManager {
     private static ReportManager instance;
@@ -21,6 +24,39 @@ public class ReportManager {
         }
 
         return instance;
+    }
+
+    public List<ReportWithEvent> findNewReports(User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        List<Report> reports;
+        List<ReportWithEvent> reportsWithEvents;
+        try {
+            if (user.getRole() == User.Role.MODERATOR)
+                reports = reportRepository.findNewForModerator(connection, user);
+            else if (user.getRole() == User.Role.SPEAKER)
+                reports = reportRepository.findNewForSpeaker(connection, user);
+            else
+                throw new DBException("You have not permissions");
+
+            reportsWithEvents = new ArrayList<>(reports.size());
+            for (Report report : reports) {
+                Event event = eventRepository.findOne(connection, report.getEventId(), true);
+
+                if (user.getRole() == User.Role.MODERATOR)
+                    userRepository.findOne(connection, report.getSpeaker());
+                else
+                    userRepository.findOne(connection, event.getModerator());
+
+                reportsWithEvents.add(new ReportWithEvent(report, event));
+            }
+
+        }   catch (SQLException e) {
+            throw new DBException("Unable to find new reports", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+
+        return reportsWithEvents;
     }
 
     public void cancelReport(int reportId, User user) throws DBException {

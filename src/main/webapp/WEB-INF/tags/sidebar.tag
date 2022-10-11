@@ -40,6 +40,9 @@
         <c:if test="${sessionScope.user.role == 'MODERATOR' && pageContext.request.requestURL.indexOf('/create-event') == -1}">
             <button id="create-event-btn" type="button" class="btn btn-primary col-12 text-start">Create event</button>
         </c:if>
+        <c:if test="${sessionScope.user.role != 'USER' && pageContext.request.requestURL.indexOf('/new-reports') == -1}">
+            <button id="new-reports-btn" type="button" class="btn btn-primary col-12 text-start">New reports</button>
+        </c:if>
         <hr>
         <button type="button" class="btn btn-primary col-12 text-start">My profile</button>
         <div class="down-menu col-12 position-absolute bottom-0 start-0">

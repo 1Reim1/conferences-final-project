@@ -14,10 +14,10 @@ public class ReportRepository {
     private static final String GET_ALL_ONLY_CONFIRMED = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
     private static final String GET_ONE = "SELECT * FROM reports WHERE id = ?";
     private static final String DELETE_ONE = "DELETE FROM reports WHERE id = ?";
-    private static final String CONFIRM_ONE = "UPDATE reports SET confirmed = true WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO reports VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE reports SET topic = ?, event_id = ?, creator_id = ?, speaker_id = ?, confirmed = ? WHERE id = ?";
-
+    private static final String GET_NEW_FOR_MODERATOR = "SELECT reports.* FROM reports JOIN events e ON reports.event_id = e.id WHERE confirmed = false AND e.moderator_id = ? AND creator_id = speaker_id";
+    private static final String GET_NEW_FOR_SPEAKER = "SELECT reports.* FROM reports WHERE confirmed = false AND speaker_id = ? AND creator_id != speaker_id";
     public static synchronized ReportRepository getInstance() {
         if (instance == null) {
             instance = new ReportRepository();
@@ -56,6 +56,27 @@ public class ReportRepository {
                 return extractReport(rs);
             }
         }
+    }
+
+    public List<Report> findNewForModerator(Connection connection, User user) throws SQLException {
+        return findNew(connection, user, GET_NEW_FOR_MODERATOR);
+    }
+
+    public List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException {
+        return findNew(connection, user, GET_NEW_FOR_SPEAKER);
+    }
+
+    private List<Report> findNew(Connection connection, User user, String query) throws SQLException {
+        List<Report> reports = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, user.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(extractReport(rs));
+                }
+            }
+        }
+        return reports;
     }
 
     public void delete(Connection connection, Report report) throws SQLException {

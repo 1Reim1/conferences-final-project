@@ -9,9 +9,14 @@
         <url-pattern>/home</url-pattern>
         <url-pattern>/event</url-pattern>
         <url-pattern>/create-event</url-pattern>
+        <url-pattern>/new-reports</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>moderator</filter-name>
         <url-pattern>/create-event</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>noUser</filter-name>
+        <url-pattern>/new-reports</url-pattern>
     </filter-mapping>
 </web-app>
