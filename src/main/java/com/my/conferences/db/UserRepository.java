@@ -10,7 +10,8 @@ import java.util.List;
 public class UserRepository {
 
     private static final String GET_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
-    private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?)";
+    private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, passhash = ?, role = ?, language = ? WHERE id = ?";
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
     private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
     private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
@@ -24,9 +25,7 @@ public class UserRepository {
         return instance;
     }
 
-    private UserRepository() {
-
-    }
+    private UserRepository() {}
 
     public void findOne(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
@@ -56,6 +55,7 @@ public class UserRepository {
             stmt.setString(++k, user.getLastName());
             stmt.setString(++k, user.getPassHash());
             stmt.setString(++k, user.getRole().toString());
+            stmt.setString(++k, user.getLanguage());
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
@@ -63,6 +63,21 @@ public class UserRepository {
             }
         }
     }
+
+    public void update(Connection connection, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE, Statement.RETURN_GENERATED_KEYS)) {
+            int k = 0;
+            stmt.setString(++k, user.getEmail());
+            stmt.setString(++k, user.getFirstName());
+            stmt.setString(++k, user.getLastName());
+            stmt.setString(++k, user.getPassHash());
+            stmt.setString(++k, user.getRole().toString());
+            stmt.setString(++k, user.getLanguage());
+            stmt.setInt(++k, user.getId());
+            stmt.executeUpdate();
+        }
+    }
+
     public void findAllParticipants(Connection connection, Event event) throws SQLException {
         List<User> participants = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
@@ -102,5 +117,6 @@ public class UserRepository {
         user.setLastName(rs.getString("last_name"));
         user.setPassHash(rs.getString("passhash"));
         user.setRole(User.Role.valueOf(rs.getString("role").toUpperCase()));
+        user.setLanguage(rs.getString("language"));
     }
 }

@@ -15,6 +15,8 @@ public class User implements Serializable {
     private String passHash;
     private Role role;
 
+    private String language;
+
     public int getId() {
         return id;
     }
@@ -61,6 +63,19 @@ public class User implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        if (language.equals("uk") || language.equals("en")) {
+            this.language = language;
+            return;
+        }
+
+        this.language = "en";
     }
 
     public boolean sameId(User user) {

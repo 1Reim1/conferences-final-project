@@ -29,12 +29,16 @@ public class UserManager {
 
     }
 
-    public User login(String email, String password) throws DBException {
+    public User login(String email, String password, String language) throws DBException {
         User.validateEmailAndPassword(email, password);
         Connection connection = connectionManager.getConnection();
         User user;
         try {
             user = userRepository.findByEmail(connection, email);
+            if (!user.getLanguage().equals(language)) {
+                user.setLanguage(language);
+                userRepository.update(connection, user);
+            }
         } catch (SQLException e) {
             throw new DBException("User with this email not found", e);
         } finally {
@@ -68,6 +72,18 @@ public class UserManager {
             userRepository.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void setLanguage(User user, String language) throws DBException {
+        user.setLanguage(language);
+        Connection connection = connectionManager.getConnection();
+        try {
+            userRepository.update(connection, user);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to change a language");
         }   finally {
             connectionManager.closeConnection(connection);
         }

@@ -20,18 +20,29 @@ public class RegisterServlet extends HttpServlet {
         user.setPassHash(request.getParameter("password"));
         user.setRole(User.Role.valueOf(request.getParameter("role").toUpperCase()));
 
+        Cookie[] cookies = request.getCookies();
+        Cookie langCookie = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("lang"))
+                    langCookie = cookie;
+            }
+        }
+
+        if (langCookie != null)
+            user.setLanguage(langCookie.getValue());
+        else
+            user.setLanguage("en");
+
         try {
-            if (!user.getPassHash().equals(request.getParameter("password_repeated")))
-                throw new DBException("Passwords do not match");
             userManager.register(user);
         } catch (DBException e) {
             e.printStackTrace();
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;
         }
 
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
+        request.getSession().setAttribute("user", user);
     }
 }

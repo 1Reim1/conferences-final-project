@@ -11,7 +11,8 @@ create table users
     first_name varchar(255) not null,
     last_name  varchar(255) not null,
     passhash   varchar(255) not null,
-    role       varchar(255) not null
+    role       varchar(255) not null,
+    language   varchar(2) not null
 );
 
 create table events
@@ -58,86 +59,86 @@ create table participants
 insert into users
 values (default, 'timereim@gmail.com', 'Rostyslav', 'Yavorskiy',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'MODERATOR');
+        'MODERATOR', 'en');
 
 insert into users
 values (default, 'adamjames@gmail.com', 'Adam', 'James',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'SPEAKER');
+        'SPEAKER', 'en');
 insert into users
 values (default, 'montellwoodard@gmail.com', 'Montell', 'Woodard',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'SPEAKER');
+        'SPEAKER', 'en');
 insert into users
 values (default, 'tonibullock@gmail.com', 'Toni', 'Bullock',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'SPEAKER');
+        'SPEAKER', 'en');
 insert into users
 values (default, 'lyndenlarsen@gmail.com', 'Lynden', 'Larsen',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'SPEAKER');
+        'SPEAKER', 'en');
 insert into users
 values (default, 'caitlinroy@gmail.com', 'Caitlin', 'Roy',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'SPEAKER');
+        'SPEAKER', 'en');
 
 insert into users
 values (default, 'andriyloyal@gmail.com', 'Andriy', 'Loyal',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'olegharrison@gmail.com', 'Oleg', 'Harrison',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'barryalien@gmail.com', 'Barry', 'Alien',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'carolinayoder@gmail.com', 'Carolina', 'Yoder',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'hadassahdodd@gmail.com', 'Hadassah', 'Dodd',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'reissvillanueva@gmail.com', 'Reiss', 'Villanueva',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'rhiannansenior@gmail.com', 'Rhiannan', 'Senior',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'raheelflores@gmail.com', 'Raheel', 'Flores',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'garinmelia@gmail.com', 'Garin', 'Melia',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'christianhorton@gmail.com', 'Christian', 'Horton',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'ayubryder@gmail.com', 'Ayub', 'Ryder',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'heidilee@gmail.com', 'Heidi', 'Lee',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 insert into users
 values (default, 'brunolewis@gmail.com', 'Bruno', 'Lewis',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'USER');
+        'USER', 'en');
 
 insert into users
 values (default, 'timereim2@gmail.com', 'Rostyslav', 'Yavorskiy',
         'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413',
-        'MODERATOR');
+        'MODERATOR', 'en');
 
 # Events
 insert into events

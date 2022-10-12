@@ -16,10 +16,34 @@ $("#new-reports-btn").on("click", function (e) {
 
 $("#ukrainian-language-btn").on("click", function (e) {
     document.cookie = "lang=uk"
-    location.reload()
+    $.ajax({
+        type: "POST",
+        url: "select-language",
+        data: {
+            language: "uk"
+        },
+        success: function (data, status, xhr) {
+            location.reload()
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(jqXhr.responseText)
+        }
+    })
 })
 
 $("#english-language-btn").on("click", function (e) {
     document.cookie = "lang=en"
-    location.reload()
+    $.ajax({
+        type: "POST",
+        url: "select-language",
+        data: {
+            language: "en"
+        },
+        success: function (data, status, xhr) {
+            location.reload()
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(jqXhr.responseText)
+        }
+    })
 })
