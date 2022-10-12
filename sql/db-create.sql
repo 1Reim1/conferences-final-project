@@ -257,6 +257,3 @@ values (18, 4);
 #    OR user_id = 1
 # GROUP BY events.id
 # ORDER BY id;
-
-SELECT reports.* FROM reports JOIN events e ON reports.event_id = e.id WHERE confirmed = false AND e.moderator_id = 1 AND creator_id = speaker_id
-# SELECT reports.* FROM reports WHERE confirmed = false AND speaker_id = 5 AND creator_id != speaker_id
