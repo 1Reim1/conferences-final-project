@@ -64,6 +64,7 @@ public class ReportManager {
         try {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            EventManager.canInteractWithEvent(event);
             userRepository.findOne(connection, event.getModerator());
             userRepository.findOne(connection, report.getSpeaker());
             if (!(report.getSpeaker().equals(user) || event.getModerator().equals(user)))
@@ -81,6 +82,7 @@ public class ReportManager {
         try {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            EventManager.canInteractWithEvent(event);
             userRepository.findOne(connection, event.getModerator());
             userRepository.findOne(connection, report.getCreator());
             userRepository.findOne(connection, report.getSpeaker());
@@ -104,6 +106,7 @@ public class ReportManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            EventManager.canInteractWithEvent(event);
             userRepository.findAllParticipants(connection, event);
             userRepository.findOne(connection, report.getSpeaker());
             if (report.getCreator().getRole() == User.Role.USER)
@@ -130,6 +133,7 @@ public class ReportManager {
         try {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
+            EventManager.canInteractWithEvent(event);
             userRepository.findOne(connection, event.getModerator());
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permissions");

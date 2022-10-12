@@ -12,10 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="internationalization">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="EventRepository refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,21 +221,7 @@
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
       <workItem from="1662535952885" duration="71104000" />
-      <workItem from="1665394919930" duration="49216000" />
-    </task>
-    <task id="LOCAL-00039" summary="event page">
-      <created>1662400101941</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1662400101941</updated>
-    </task>
-    <task id="LOCAL-00040" summary="event page">
-      <created>1662407602973</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1662407602973</updated>
+      <workItem from="1665394919930" duration="50051000" />
     </task>
     <task id="LOCAL-00041" summary="event page">
       <created>1662411655954</created>
@@ -566,7 +552,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665523824943</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="EventRepository refactoring">
+      <created>1665570516186</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1665570516186</updated>
+    </task>
+    <task id="LOCAL-00089" summary="EventRepository refactoring">
+      <created>1665570531762</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1665570531762</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="show event" />
     <MESSAGE value="modify title" />
     <MESSAGE value="modify description" />
     <MESSAGE value="modify date" />
@@ -609,6 +608,7 @@
     <MESSAGE value="validation refactoring" />
     <MESSAGE value="EmailUtil" />
     <MESSAGE value="internationalization" />
-    <option name="LAST_COMMIT_MESSAGE" value="internationalization" />
+    <MESSAGE value="EventRepository refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="EventRepository refactoring" />
   </component>
 </project>

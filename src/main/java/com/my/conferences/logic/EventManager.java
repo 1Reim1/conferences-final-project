@@ -115,6 +115,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
+            canInteractWithEvent(event);
             if (event.getModerator().equals(user))
                 throw new DBException("You are a moderator");
             if (user.getRole() == User.Role.SPEAKER)
@@ -134,6 +135,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
+            canInteractWithEvent(event);
             if (!event.getParticipants().contains(user))
                 throw new DBException("You are not a participant");
             eventRepository.deleteParticipant(connection, event, user);
@@ -183,6 +185,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+            canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setTitle(newTitle);
@@ -199,6 +202,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+            canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setDescription(newDescription);
@@ -215,6 +219,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+            canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setDate(newDate);
@@ -231,6 +236,7 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+            canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setPlace(newPlace);
@@ -239,6 +245,14 @@ public class EventManager {
             throw new DBException("Unable to modify a place", e);
         }   finally {
             connectionManager.closeConnection(connection);
+        }
+    }
+
+    static void canInteractWithEvent(Event event) throws DBException {
+        try {
+            Event.validateDate(event.getDate());
+        }   catch (DBException e) {
+            throw new DBException("You can’t interact with a past event", e);
         }
     }
 }
