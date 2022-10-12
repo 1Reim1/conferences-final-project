@@ -182,7 +182,7 @@ public class EventManager {
         }
     }
 
-    public void modifyTitle(int eventId, String newTitle, User user, String lang) throws DBException {
+    public void modifyTitle(int eventId, String newTitle, User user) throws DBException {
         Event.validateTitle(newTitle);
         Connection connection = connectionManager.getConnection();
         try {
@@ -190,12 +190,16 @@ public class EventManager {
             canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
+            String prevTitle = event.getTitle();
             event.setTitle(newTitle);
             userRepository.findAllParticipants(connection, event);
             reportRepository.findAll(connection, event, false);
+            for (Report report : event.getReports())
+                userRepository.findOne(connection, report.getSpeaker());
+            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
 
-            emailManager.sendTitleChanged(event, lang);
+            emailManager.sendTitleChanged(event, prevTitle);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a title", e);
         }   finally {
@@ -212,7 +216,13 @@ public class EventManager {
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setDescription(newDescription);
+            reportRepository.findAll(connection, event, false);
+            for (Report report : event.getReports())
+                userRepository.findOne(connection, report.getSpeaker());
+            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
+
+            emailManager.sendDescriptionChanged(event);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a description", e);
         }   finally {
@@ -228,8 +238,15 @@ public class EventManager {
             canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
+            Date prevDate = event.getDate();
             event.setDate(newDate);
+            reportRepository.findAll(connection, event, false);
+            for (Report report : event.getReports())
+                userRepository.findOne(connection, report.getSpeaker());
+            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
+
+            emailManager.sendDateChanged(event, prevDate);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a date", e);
         }   finally {
@@ -245,8 +262,15 @@ public class EventManager {
             canInteractWithEvent(event);
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
+            String prevPlace = event.getPlace();
             event.setPlace(newPlace);
+            reportRepository.findAll(connection, event, false);
+            for (Report report : event.getReports())
+                userRepository.findOne(connection, report.getSpeaker());
+            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
+
+            emailManager.sendPlaceChanged(event, prevPlace);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a place", e);
         }   finally {

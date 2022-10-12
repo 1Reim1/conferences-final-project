@@ -19,10 +19,8 @@ public class SelectLanguageServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String language = request.getParameter("language");
-        System.out.println("New language: " + language);
         try {
-            userManager.setLanguage((User) request.getSession().getAttribute("user"), language);
+            userManager.setLanguage((User) request.getSession().getAttribute("user"), request.getParameter("language"));
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

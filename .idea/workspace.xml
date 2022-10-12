@@ -13,16 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="email notifications">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/LoginServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/RegisterServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/emails.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/emails.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/emails_uk.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/emails_uk.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,21 +211,7 @@
       <workItem from="1662416986844" duration="44475000" />
       <workItem from="1662535952885" duration="71104000" />
       <workItem from="1665394919930" duration="66230000" />
-      <workItem from="1665594248959" duration="4558000" />
-    </task>
-    <task id="LOCAL-00045" summary="event leave command">
-      <created>1662458877539</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1662458877539</updated>
-    </task>
-    <task id="LOCAL-00046" summary="event leave command">
-      <created>1662459419313</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1662459419313</updated>
+      <workItem from="1665594248959" duration="12143000" />
     </task>
     <task id="LOCAL-00047" summary="event leave command">
       <created>1662459914499</created>
@@ -560,7 +542,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665594760598</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="user language field">
+      <created>1665598898695</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1665598898695</updated>
+    </task>
+    <task id="LOCAL-00095" summary="email notifications">
+      <created>1665602692185</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1665602692185</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,7 +574,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modify date" />
     <MESSAGE value="modify place" />
     <MESSAGE value="confirm report" />
     <MESSAGE value="modify report topic" />
@@ -602,6 +597,7 @@
     <MESSAGE value="internationalization" />
     <MESSAGE value="EventRepository refactoring" />
     <MESSAGE value="prevent interaction with a past event" />
+    <MESSAGE value="user language field" />
     <MESSAGE value="email notifications" />
     <option name="LAST_COMMIT_MESSAGE" value="email notifications" />
   </component>
