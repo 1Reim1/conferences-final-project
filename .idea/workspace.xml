@@ -12,10 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="EventRepository refactoring">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="email notifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +29,8 @@
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
-        <option value="Class" />
         <option value="XML Properties File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -69,22 +68,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "18",
-    "last_opened_file_path": "C:/Users/timer/IdeaProjects/conferences/src/main/webapp",
-    "list.type.of.created.stylesheet": "CSS",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.23563218",
-    "settings.editor.selected.configurable": "File.Encoding"
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
+    "settings.editor.selected.configurable": "Console"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -110,6 +95,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Tomcat 10.0.23" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.23" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="redeploy-artifacts" />
       <deployment>
         <artifact name="conferences:war exploded">
           <settings>
@@ -203,7 +189,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="JavaScript Debug.event.jsp" />
-        <item itemvalue="JavaScript Debug.home.html" />
       </list>
     </recent_temporary>
   </component>
@@ -221,28 +206,8 @@
       <workItem from="1662283027243" duration="58299000" />
       <workItem from="1662416986844" duration="44475000" />
       <workItem from="1662535952885" duration="71104000" />
-      <workItem from="1665394919930" duration="50051000" />
-    </task>
-    <task id="LOCAL-00041" summary="event page">
-      <created>1662411655954</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1662411655954</updated>
-    </task>
-    <task id="LOCAL-00042" summary="participants modal, event command skeleton">
-      <created>1662453498684</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1662453498684</updated>
-    </task>
-    <task id="LOCAL-00043" summary="event command skeleton">
-      <created>1662454651823</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1662454651823</updated>
+      <workItem from="1665394919930" duration="66230000" />
+      <workItem from="1665594248959" duration="235000" />
     </task>
     <task id="LOCAL-00044" summary="event join command">
       <created>1662457136316</created>
@@ -566,7 +531,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665570531762</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="prevent interaction with a past event">
+      <created>1665571494926</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1665571494926</updated>
+    </task>
+    <task id="LOCAL-00091" summary="email notifications">
+      <created>1665590189495</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1665590189495</updated>
+    </task>
+    <task id="LOCAL-00092" summary="email notifications">
+      <created>1665593416578</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1665593416578</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,8 +570,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modify title" />
-    <MESSAGE value="modify description" />
     <MESSAGE value="modify date" />
     <MESSAGE value="modify place" />
     <MESSAGE value="confirm report" />
@@ -609,6 +593,8 @@
     <MESSAGE value="EmailUtil" />
     <MESSAGE value="internationalization" />
     <MESSAGE value="EventRepository refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="EventRepository refactoring" />
+    <MESSAGE value="prevent interaction with a past event" />
+    <MESSAGE value="email notifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="email notifications" />
   </component>
 </project>

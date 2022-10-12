@@ -4,6 +4,7 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.EventManager;
+import com.my.conferences.util.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class ModifyTitleCommand implements Command {
         }
 
         try {
-            eventManager.modifyTitle(eventId, title, (User) request.getSession().getAttribute("user"));
+            eventManager.modifyTitle(eventId, title, (User) request.getSession().getAttribute("user"), CookieUtil.getLang(request));
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

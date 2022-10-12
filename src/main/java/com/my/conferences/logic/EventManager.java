@@ -1,6 +1,7 @@
 package com.my.conferences.logic;
 
 import com.my.conferences.db.*;
+import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
@@ -17,6 +18,7 @@ public class EventManager {
     private static final EventRepository eventRepository = EventRepository.getInstance();
     private static final ReportRepository reportRepository = ReportRepository.getInstance();
     private static final UserRepository userRepository = UserRepository.getInstance();
+    private static final EmailManager emailManager = EmailManager.getInstance();
     private static final int PAGE_SIZE = 2;
 
     public static synchronized EventManager getInstance() {
@@ -180,7 +182,7 @@ public class EventManager {
         }
     }
 
-    public void modifyTitle(int eventId, String newTitle, User user) throws DBException {
+    public void modifyTitle(int eventId, String newTitle, User user, String lang) throws DBException {
         Event.validateTitle(newTitle);
         Connection connection = connectionManager.getConnection();
         try {
@@ -189,7 +191,11 @@ public class EventManager {
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permission");
             event.setTitle(newTitle);
+            userRepository.findAllParticipants(connection, event);
+            reportRepository.findAll(connection, event, false);
             eventRepository.update(connection, event);
+
+            emailManager.sendTitleChanged(event, lang);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a title", e);
         }   finally {
