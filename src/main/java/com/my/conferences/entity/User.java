@@ -78,10 +78,6 @@ public class User implements Serializable {
         this.language = "en";
     }
 
-    public boolean sameId(User user) {
-        return id == user.id;
-    }
-
     public void validateNames() throws DBException {
         if (!VALID_NAME_REGEX.matcher(firstName).find())
             throw new DBException("First name is bad");

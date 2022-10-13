@@ -29,9 +29,7 @@ public class EventManager {
         return instance;
     }
 
-    private EventManager() {
-
-    }
+    private EventManager() {}
 
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, User user) throws DBException {
         if (page == 0)
@@ -102,6 +100,8 @@ public class EventManager {
     }
 
     public void create(Event event) throws DBException {
+        event.setStatistics(-1);
+        event.setHidden(true);
         event.validate();
         Connection connection = connectionManager.getConnection();
         try {
@@ -273,6 +273,27 @@ public class EventManager {
             emailManager.sendPlaceChanged(event, prevPlace);
         }   catch (SQLException e) {
             throw new DBException("Unable to modify a place", e);
+        }   finally {
+            connectionManager.closeConnection(connection);
+        }
+    }
+
+    public void modifyStatistics(int eventId, int newStatistics, User user) throws DBException {
+        Connection connection = connectionManager.getConnection();
+        try {
+            Event event = findOne(connection, eventId, true);
+            if (!event.getModerator().equals(user))
+                throw new DBException("You have not permission");
+            if (event.getDate().compareTo(new Date()) > 0)
+                throw new DBException("Unable to modify statistics for a future event");
+            if (newStatistics < 0)
+                throw new DBException("Statistics should be greater than zero");
+            if (event.getParticipants().size() < newStatistics)
+                throw new DBException("Statistics should be lesser than a number of participants");
+            event.setStatistics(newStatistics);
+            eventRepository.update(connection, event);
+        }   catch (SQLException e) {
+            throw new DBException("Unable to modify a statistics", e);
         }   finally {
             connectionManager.closeConnection(connection);
         }

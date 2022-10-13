@@ -266,3 +266,31 @@ $("#save-report-topic-btn").on("click", function (e) {
         })
     }
 })
+
+$("#new-statistics").on("autocompletechange keyup", function (e) {
+    validateStatistics($(this))
+})
+
+$("#save-statistics-btn").on("click", function (e) {
+    e.preventDefault()
+    let statistics = $("#new-statistics")
+    if (validateStatistics(statistics)) {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-statistics",
+                eventId: $("#event").attr("event-id"),
+                statistics: $.trim(statistics.val())
+            },
+            success: function (data, status, xhr) {
+                location.reload()
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(jqXhr.responseText)
+                $("#error-alert").text(jqXhr.responseText)
+                $("#error-alert").fadeIn("slow")
+            }
+        })
+    }
+})

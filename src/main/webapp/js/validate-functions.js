@@ -43,3 +43,15 @@ function validateDate(element) {
     element.removeClass("is-invalid")
     return true
 }
+
+function validateStatistics(element) {
+    let statistics = parseInt(element.val(), 10)
+    if (statistics < 0 || statistics > parseInt($("#event-statistics-max").text(), 10)) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}

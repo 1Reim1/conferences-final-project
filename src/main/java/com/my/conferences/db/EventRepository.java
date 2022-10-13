@@ -33,8 +33,8 @@ public class EventRepository {
 
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
-    private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ? WHERE id = ?";
+    private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ? WHERE id = ?";
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
@@ -192,6 +192,7 @@ public class EventRepository {
             stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
             stmt.setInt(++k, event.getModerator().getId());
             stmt.setBoolean(++k, event.isHidden());
+            stmt.setInt(++k, event.getStatistics());
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
@@ -209,6 +210,7 @@ public class EventRepository {
             stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
             stmt.setInt(++k, event.getModerator().getId());
             stmt.setBoolean(++k, event.isHidden());
+            stmt.setInt(++k, event.getStatistics());
             stmt.setInt(++k, event.getId());
             stmt.executeUpdate();
         }
@@ -248,5 +250,6 @@ public class EventRepository {
         moderator.setId(rs.getInt("moderator_id"));
         event.setModerator(moderator);
         event.setHidden(rs.getBoolean("hidden"));
+        event.setStatistics(rs.getInt("statistics"));
     }
 }

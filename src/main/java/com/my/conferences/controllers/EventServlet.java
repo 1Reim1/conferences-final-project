@@ -17,6 +17,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 @WebServlet(value = "/event")
@@ -34,6 +35,7 @@ public class EventServlet extends HttpServlet {
         commandMap.put("modify-description", new ModifyDescriptionCommand());
         commandMap.put("modify-date", new ModifyDateCommand());
         commandMap.put("modify-place", new ModifyPlaceCommand());
+        commandMap.put("modify-statistics", new ModifyStatisticsCommand());
         commandMap.put("cancel-report", new CancelCommand());
         commandMap.put("confirm-report", new ConfirmCommand());
         commandMap.put("offer-report", new OfferCommand());
@@ -82,6 +84,8 @@ public class EventServlet extends HttpServlet {
             request.setAttribute("hasReport", hasReport);
         }
 
+        request.setAttribute("isModerator", event.getModerator().equals(user));
+        request.setAttribute("isFutureEvent", event.getDate().compareTo(new Date()) > 0);
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/event.jsp").forward(request, response);
     }
 

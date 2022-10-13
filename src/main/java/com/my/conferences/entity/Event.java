@@ -15,6 +15,7 @@ public class Event {
     private List<Report> reports;
     private List<User> participants;
     private boolean hidden;
+    private int statistics;
 
     public int getId() {
         return id;
@@ -86,6 +87,14 @@ public class Event {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public int getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(int statistics) {
+        this.statistics = statistics;
     }
 
     public void validate() throws DBException {

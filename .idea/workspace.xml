@@ -12,11 +12,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="email notifications">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="past event statistics">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/ReportManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/emails.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/emails.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/emails_uk.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/emails_uk.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validate-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/validate-functions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,10 +86,10 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.my.conferences.controllers.commands.event" />
       <recent name="com.my.conferences.controllers" />
       <recent name="com.my.conferences.filters" />
       <recent name="com.my.conferences.controllers.commands.report" />
-      <recent name="com.my.conferences.controllers.commands.event" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
@@ -210,28 +213,7 @@
       <workItem from="1662535952885" duration="71104000" />
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
-      <workItem from="1665655513918" duration="10930000" />
-    </task>
-    <task id="LOCAL-00049" summary="cancel report">
-      <created>1662467384028</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1662467384028</updated>
-    </task>
-    <task id="LOCAL-00050" summary="naming fix">
-      <created>1662467855840</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1662467855841</updated>
-    </task>
-    <task id="LOCAL-00051" summary="confirm event">
-      <created>1662469871508</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1662469871508</updated>
+      <workItem from="1665655513918" duration="17863000" />
     </task>
     <task id="LOCAL-00052" summary="offer report (speaker)">
       <created>1662471214518</created>
@@ -555,7 +537,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665673973030</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="email notifications">
+      <created>1665685162486</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1665685162486</updated>
+    </task>
+    <task id="LOCAL-00099" summary="past event statistics">
+      <created>1665687695596</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1665687695596</updated>
+    </task>
+    <task id="LOCAL-00100" summary="past event statistics">
+      <created>1665691470983</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1665691470983</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -573,7 +576,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modify place" />
     <MESSAGE value="confirm report" />
     <MESSAGE value="modify report topic" />
     <MESSAGE value="future past events" />
@@ -598,6 +600,7 @@
     <MESSAGE value="prevent interaction with a past event" />
     <MESSAGE value="user language field" />
     <MESSAGE value="email notifications" />
-    <option name="LAST_COMMIT_MESSAGE" value="email notifications" />
+    <MESSAGE value="past event statistics" />
+    <option name="LAST_COMMIT_MESSAGE" value="past event statistics" />
   </component>
 </project>
