@@ -121,12 +121,84 @@ public class EmailManager {
                 .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId()));
     }
 
+    public void sendReportOfferedByModerator(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(report.getSpeaker());
+        addEmail("report.offered_by_moderator", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportOfferedBySpeaker(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(event.getModerator());
+        addEmail("report.offered_by_speaker", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendAddedNewReport(Report report, Event event) {
+        List<User> recipients = getRecipientsFromEvent(event);
+        addEmail("report.added_new", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportConfirmedByModerator(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(report.getSpeaker());
+        addEmail("report.confirmed_by_moderator", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportConfirmedBySpeaker(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(event.getModerator());
+        addEmail("report.confirmed_by_speaker", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportCancelledByModerator(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(report.getSpeaker());
+        addEmail("report.cancelled_by_moderator", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportCancelledBySpeaker(Report report, Event event) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(event.getModerator());
+        addEmail("report.cancelled_by_speaker", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendConfirmedReportCancelled(Report report, Event event) {
+        List<User> recipients = getRecipientsFromEvent(event);
+        addEmail("report.confirmed_cancelled", recipients, getEmailModifierForReport(report, event));
+    }
+
+    public void sendReportTopicChanged(Report report, Event event, String prevTopic) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(report.getSpeaker());
+        Consumer<Email> emailModifier = getEmailModifierForReport(report, event);
+        addEmail("report.topic_changed", recipients, email -> {
+            emailModifier.accept(email);
+            email.content = email.content.replace("{{prev_topic}}", prevTopic);
+        });
+    }
+
+    public void sendConfirmedReportTopicChanged(Report report, Event event, String prevTopic) {
+        List<User> recipients = getRecipientsFromEvent(event);
+        Consumer<Email> emailModifier = getEmailModifierForReport(report, event);
+        addEmail("report.confirmed_topic_changed", recipients, email -> {
+            emailModifier.accept(email);
+            email.content = email.content.replace("{{prev_topic}}", prevTopic);
+        });
+    }
+
     private List<User> getRecipientsFromEvent(Event event) {
         List<User> recipients = new ArrayList<>(event.getParticipants().size() + 1);
         recipients.addAll(event.getParticipants());
         recipients.addAll(event.getReports().stream().map(Report::getSpeaker).collect(Collectors.toList()));
         recipients.add(event.getModerator());
         return recipients;
+    }
+
+    private Consumer<Email> getEmailModifierForReport(Report report, Event event) {
+        return email -> email.content = email.content
+                .replace("{{topic}}", report.getTopic())
+                .replace("{{title}}", event.getTitle())
+                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId());
     }
 
     private void addEmail(String emailTemplateProperty, List<User> recipients, Consumer<Email> emailModifier) {

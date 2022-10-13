@@ -2,6 +2,7 @@ package com.my.conferences.logic;
 
 import com.my.conferences.db.*;
 import com.my.conferences.dto.ReportWithEvent;
+import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
@@ -17,6 +18,7 @@ public class ReportManager {
     private static final EventRepository eventRepository = EventRepository.getInstance();
     private static final ReportRepository reportRepository = ReportRepository.getInstance();
     private static final UserRepository userRepository = UserRepository.getInstance();
+    private static final EmailManager emailManager = EmailManager.getInstance();
 
     public static synchronized ReportManager getInstance() {
         if (instance == null) {
@@ -65,11 +67,25 @@ public class ReportManager {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
             EventManager.canInteractWithEvent(event);
+            reportRepository.findAll(connection, event, false);
             userRepository.findOne(connection, event.getModerator());
             userRepository.findOne(connection, report.getSpeaker());
             if (!(report.getSpeaker().equals(user) || event.getModerator().equals(user)))
                 throw new DBException("You have not permissions");
             reportRepository.delete(connection, report);
+
+            if (report.isConfirmed()) {
+                for (Report r : event.getReports())
+                    userRepository.findOne(connection, r.getSpeaker());
+                userRepository.findAllParticipants(connection, event);
+                emailManager.sendConfirmedReportCancelled(report, event);
+            }   else {
+                if (user.getRole() == User.Role.MODERATOR)
+                    emailManager.sendReportCancelledByModerator(report, event);
+                else
+                    emailManager.sendReportCancelledBySpeaker(report, event);
+            }
+
         }   catch (SQLException e) {
             throw new DBException("Unable to cancel a report");
         }   finally {
@@ -86,6 +102,7 @@ public class ReportManager {
             userRepository.findOne(connection, event.getModerator());
             userRepository.findOne(connection, report.getCreator());
             userRepository.findOne(connection, report.getSpeaker());
+            userRepository.findAllParticipants(connection, event);
             if (report.isConfirmed())
                 throw new DBException("Report is already confirmed");
             if (!((event.getModerator().equals(user) && report.getCreator().equals(report.getSpeaker())) ||
@@ -94,6 +111,17 @@ public class ReportManager {
             }
             report.setConfirmed(true);
             reportRepository.update(connection, report);
+
+            reportRepository.findAll(connection, event, false);
+            for (Report r : event.getReports())
+                userRepository.findOne(connection, r.getSpeaker());
+
+            if (user.getRole() == User.Role.MODERATOR)
+                emailManager.sendReportConfirmedByModerator(report, event);
+            else
+                emailManager.sendReportConfirmedBySpeaker(report, event);
+            emailManager.sendAddedNewReport(report, event);
+
         } catch (SQLException e) {
             throw new DBException("Unable to confirm a report");
         }   finally {
@@ -120,6 +148,14 @@ public class ReportManager {
 
             report.setConfirmed(false);
             reportRepository.insert(connection, report);
+
+            if (report.getCreator().getRole() == User.Role.SPEAKER) {
+                userRepository.findOne(connection, event.getModerator());
+                emailManager.sendReportOfferedBySpeaker(report, event);
+            }   else {
+                emailManager.sendReportOfferedByModerator(report, event);
+            }
+
         } catch (SQLException e) {
             throw new DBException("Unable to offer a report");
         }   finally {
@@ -138,8 +174,20 @@ public class ReportManager {
             if (!event.getModerator().equals(user))
                 throw new DBException("You have not permissions");
 
+            String prevTopic = report.getTopic();
             report.setTopic(topic);
             reportRepository.update(connection, report);
+
+            if (report.isConfirmed()) {
+                userRepository.findAllParticipants(connection, event);
+                reportRepository.findAll(connection, event, false);
+                for (Report r : event.getReports())
+                    userRepository.findOne(connection, r.getSpeaker());
+                emailManager.sendConfirmedReportTopicChanged(report, event, prevTopic);
+            }   else {
+                emailManager.sendReportTopicChanged(report, event, prevTopic);
+            }
+
         } catch (SQLException e) {
             throw new DBException("Unable to modify a topic");
         }   finally {
