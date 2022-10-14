@@ -13,9 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="internationalization">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoginCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/RegisterCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +83,7 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.my.conferences.controllers.commands.user" />
       <recent name="com.my.conferences.controllers.commands.event" />
       <recent name="com.my.conferences.controllers" />
       <recent name="com.my.conferences.filters" />
@@ -209,14 +211,7 @@
       <workItem from="1662535952885" duration="71104000" />
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
-      <workItem from="1665655513918" duration="24696000" />
-    </task>
-    <task id="LOCAL-00055" summary="offer report (speaker)">
-      <created>1662476271531</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1662476271532</updated>
+      <workItem from="1665655513918" duration="25015000" />
     </task>
     <task id="LOCAL-00056" summary="offer report (speaker)">
       <created>1662487349935</created>
@@ -554,7 +549,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665729957907</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="internationalization">
+      <created>1665734182104</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1665734182104</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

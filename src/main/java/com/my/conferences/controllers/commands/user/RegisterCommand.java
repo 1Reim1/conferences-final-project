@@ -1,18 +1,20 @@
-package com.my.conferences.controllers;
+package com.my.conferences.controllers.commands.user;
 
+import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+public class RegisterCommand implements Command {
     private static final UserManager userManager = UserManager.getInstance();
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
         user.setEmail(request.getParameter("email"));
         user.setFirstName(request.getParameter("first_name"));

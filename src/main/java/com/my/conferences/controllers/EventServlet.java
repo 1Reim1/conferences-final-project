@@ -19,10 +19,11 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
-    private static final HashMap<String, Command> commandMap = new HashMap<>();
+    private static final Map<String, Command> commandMap = new HashMap<>();
     private static final EventManager eventManager = EventManager.getInstance();
 
     @Override

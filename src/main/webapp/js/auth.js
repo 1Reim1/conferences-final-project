@@ -82,8 +82,9 @@ $("#pills-login > form").on("submit", function (e) {
             $("#error-alert").hide()
             $.ajax({
                 type: "POST",
-                url: $("#pills-login > form").attr("action"),
+                url: window.location.href,
                 data: {
+                    command: "login",
                     email: $("#login-email").val(),
                     password: $("#login-password").val(),
                 },
@@ -113,13 +114,13 @@ $("#pills-register > form").on("submit", function (e) {
             $("#error-alert").hide()
             $.ajax({
                 type: "POST",
-                url: $("#pills-register > form").attr("action"),
+                url: window.location.href,
                 data: {
+                    command: "register",
                     email: $("#register-email").val(),
                     first_name: $("#register-first-name").val(),
                     last_name: $("#register-last-name").val(),
                     password: $("#register-password").val(),
-                    password_repeated: $("#register-password-2").val(),
                     role: $("#register-role").val(),
                 },
                 success: function (data, status, xhr) {

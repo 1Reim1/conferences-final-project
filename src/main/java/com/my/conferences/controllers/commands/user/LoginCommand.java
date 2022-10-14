@@ -1,18 +1,21 @@
-package com.my.conferences.controllers;
+package com.my.conferences.controllers.commands.user;
 
-import java.io.*;
-
+import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-@WebServlet(value = "/login")
-public class LoginServlet extends HttpServlet {
+import java.io.IOException;
+
+public class LoginCommand implements Command {
     private static final UserManager userManager = UserManager.getInstance();
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String language;
