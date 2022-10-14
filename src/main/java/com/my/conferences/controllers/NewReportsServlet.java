@@ -20,7 +20,7 @@ public class NewReportsServlet extends HttpServlet {
         try {
             request.setAttribute("reportWithEventList", reportManager.findNewReports((User) request.getSession().getAttribute("user")));
         } catch (DBException e) {
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;
         }

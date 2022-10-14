@@ -74,12 +74,12 @@ public class EventManager {
         return event;
     }
 
-    public Event findOne(int id, boolean showHidden) throws DBException {
+    public Event findOne(int id, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
 
         Event event;
         try {
-            event = findOne(connection, id, showHidden);
+            event = findOne(connection, id, user.getRole() != User.Role.USER);
         } finally {
             connectionManager.closeConnection(connection);
         }

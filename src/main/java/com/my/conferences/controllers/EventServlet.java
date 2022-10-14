@@ -9,9 +9,10 @@ import com.my.conferences.controllers.commands.report.OfferCommand;
 import com.my.conferences.controllers.commands.user.SearchAvailableSpeakersCommand;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.EventManager;
+import com.my.conferences.logic.ValidationException;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -46,47 +47,37 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id;
-        try {
-            id = Integer.parseInt(request.getParameter("id"));
-        } catch (NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Expected 'id' should be integer");
-            return;
-        }
-
+        User user = (User) request.getSession().getAttribute("user");
         Event event;
         try {
-            event = eventManager.findOne(id, ((User) request.getSession().getAttribute("user")).getRole() != User.Role.USER);
-            request.setAttribute("event", event);
+            int id = RequestUtil.getIntParameter(request, "id");
+            event = eventManager.findOne(id, user);
+        } catch (ValidationException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println(e.getMessage());
+            return;
         } catch (DBException e) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;
         }
 
-        User user = (User) request.getSession().getAttribute("user");
+        boolean isModerator = event.getModerator().equals(user);
+        boolean isFutureEvent = event.getDate().compareTo(new Date()) > 0;
         boolean isParticipant = false;
-        if (!user.equals(event.getModerator())) {
-            for (User participant : event.getParticipants())
-                if (participant.equals(user)) {
-                    isParticipant = true;
-                    break;
-                }
-            request.setAttribute("isParticipant", isParticipant);
+        boolean hasReport = false;
+        if (!isModerator) {
+            isParticipant = event.getParticipants().contains(user);
         }
         if (user.getRole() == User.Role.SPEAKER) {
-            boolean hasReport = false;
-            for (Report report : event.getReports())
-                if (report.getSpeaker().equals(user)) {
-                    hasReport = true;
-                    break;
-                }
-            request.setAttribute("hasReport", hasReport);
+            hasReport = event.getReports().stream().anyMatch(r -> r.getSpeaker().equals(user));
         }
 
-        request.setAttribute("isModerator", event.getModerator().equals(user));
-        request.setAttribute("isFutureEvent", event.getDate().compareTo(new Date()) > 0);
+        request.setAttribute("event", event);
+        request.setAttribute("isModerator", isModerator);
+        request.setAttribute("isFutureEvent", isFutureEvent);
+        request.setAttribute("isParticipant", isParticipant);
+        request.setAttribute("hasReport", hasReport);
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/event.jsp").forward(request, response);
     }
 
