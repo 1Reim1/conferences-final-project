@@ -70,12 +70,7 @@ public class User implements Serializable {
     }
 
     public void setLanguage(String language) {
-        if (language.equals("uk") || language.equals("en")) {
-            this.language = language;
-            return;
-        }
-
-        this.language = "en";
+        this.language = validateLanguage(language);
     }
 
     public void validateNames() throws DBException {
@@ -95,6 +90,14 @@ public class User implements Serializable {
         if (password.length() < 6) {
             throw new DBException("Password is bad");
         }
+    }
+
+    public static String validateLanguage(String language) {
+        if (!language.equals("en") && !language.equals("uk")) {
+            return "en";
+        }
+
+        return language;
     }
 
     @Override

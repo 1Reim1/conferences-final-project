@@ -4,41 +4,41 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
+import com.my.conferences.logic.ValidationException;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class LoginCommand implements Command {
     private static final UserManager userManager = UserManager.getInstance();
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String language;
+        String email;
+        String password;
 
-        Cookie[] cookies = request.getCookies();
-        Cookie langCookie = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("lang"))
-                    langCookie = cookie;
-            }
+        try {
+            email = RequestUtil.getStringParameter(request, "email");
+            password = RequestUtil.getStringParameter(request, "password");
+        }   catch (ValidationException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println(e.getMessage());
+            return;
         }
 
-        if (langCookie != null)
-            language = langCookie.getValue();
-        else
-            language = "en";
+        Map<String, String> cookiesMap = RequestUtil.getCookiesMap(request);
+        String language = cookiesMap.getOrDefault("lang", "en");
+        User.validateLanguage(language);
 
         User user;
         try {
             user = userManager.login(email, password, language);
         } catch (DBException e) {
-            response.setStatus(404);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().println(e.getMessage());
             return;
         }

@@ -4,7 +4,7 @@ $("#join-btn").on('click', function (e) {
         url: window.location.href,
         data: {
             command: "join",
-            eventId: $("#event").attr("event-id"),
+            event_id: $("#event").attr("event-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -23,7 +23,7 @@ $("#leave-btn").on('click', function (e) {
         url: window.location.href,
         data: {
             command: "leave",
-            eventId: $("#event").attr("event-id"),
+            event_id: $("#event").attr("event-id"),
         },
         success: function (data, status, xhr) {
             location.reload()

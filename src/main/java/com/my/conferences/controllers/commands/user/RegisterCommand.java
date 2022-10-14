@@ -4,8 +4,9 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
+import com.my.conferences.logic.ValidationException;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,25 +17,24 @@ public class RegisterCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
-        user.setEmail(request.getParameter("email"));
-        user.setFirstName(request.getParameter("first_name"));
-        user.setLastName(request.getParameter("last_name"));
-        user.setPassHash(request.getParameter("password"));
-        user.setRole(User.Role.valueOf(request.getParameter("role").toUpperCase()));
-
-        Cookie[] cookies = request.getCookies();
-        Cookie langCookie = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("lang"))
-                    langCookie = cookie;
-            }
+        String role;
+        try {
+            user.setEmail(RequestUtil.getStringParameter(request, "email"));
+            user.setFirstName(RequestUtil.getStringParameter(request,"first_name"));
+            user.setLastName(RequestUtil.getStringParameter(request, "last_name"));
+            user.setPassHash(RequestUtil.getStringParameter(request,"password"));
+            role = RequestUtil.getStringParameter(request,"role").toUpperCase();
+        }   catch (ValidationException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println(e.getMessage());
+            return;
         }
 
-        if (langCookie != null)
-            user.setLanguage(langCookie.getValue());
-        else
-            user.setLanguage("en");
+        if (!role.equals(User.Role.USER.toString()) && !role.equals(User.Role.SPEAKER.toString())) {
+            role = User.Role.USER.toString();
+        }
+        user.setRole(User.Role.valueOf(role));
+        user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
 
         try {
             userManager.register(user);

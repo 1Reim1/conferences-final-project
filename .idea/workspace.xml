@@ -12,11 +12,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="internationalization">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoginCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/AuthServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="commands refactoring">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-speaker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-speaker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,11 +97,11 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.my.conferences.logic" />
       <recent name="com.my.conferences.controllers.commands.user" />
       <recent name="com.my.conferences.controllers.commands.event" />
       <recent name="com.my.conferences.controllers" />
       <recent name="com.my.conferences.filters" />
-      <recent name="com.my.conferences.controllers.commands.report" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
@@ -211,21 +225,8 @@
       <workItem from="1662535952885" duration="71104000" />
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
-      <workItem from="1665655513918" duration="25015000" />
-    </task>
-    <task id="LOCAL-00056" summary="offer report (speaker)">
-      <created>1662487349935</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1662487349935</updated>
-    </task>
-    <task id="LOCAL-00057" summary="offer report (speaker)">
-      <created>1662490896862</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1662490896862</updated>
+      <workItem from="1665655513918" duration="29531000" />
+      <workItem from="1665746448324" duration="1218000" />
     </task>
     <task id="LOCAL-00058" summary="offer report (speaker)">
       <created>1662492653125</created>
@@ -556,7 +557,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665734182104</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="auth commands">
+      <created>1665734791201</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1665734791201</updated>
+    </task>
+    <task id="LOCAL-00106" summary="commands refactoring">
+      <created>1665737135611</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1665737135611</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -574,8 +589,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="confirm report" />
-    <MESSAGE value="modify report topic" />
     <MESSAGE value="future past events" />
     <MESSAGE value="my events front" />
     <MESSAGE value="sql queries for my events" />
@@ -599,6 +612,8 @@
     <MESSAGE value="email notifications" />
     <MESSAGE value="past event statistics" />
     <MESSAGE value="internationalization" />
-    <option name="LAST_COMMIT_MESSAGE" value="internationalization" />
+    <MESSAGE value="auth commands" />
+    <MESSAGE value="commands refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="commands refactoring" />
   </component>
 </project>

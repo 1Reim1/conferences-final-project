@@ -30,8 +30,8 @@ $("#speaker").on("autocompletechange keyup", function (e) {
             url: window.location.href,
             data: {
                 command: "search-speaker",
-                eventId: $("#event").attr("event-id"),
-                searchQuery: $(this).val()
+                event_id: $("#event").attr("event-id"),
+                search_query: $(this).val()
             },
             success: function (data, status, xhr) {
                 let speakers = $.parseJSON(data)
@@ -58,9 +58,9 @@ $("#offer-report-btn-moderator").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "offer-report",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 topic: $("#report-topic").val(),
-                speakerId: $("#speaker").attr("user-id")
+                speaker_id: $("#speaker").attr("user-id")
             },
             success: function (data, status, xhr) {
                 location.reload()
@@ -80,7 +80,7 @@ $("#hide-event-btn").on("click", function (e) {
         url: window.location.href,
         data: {
             command: "hide",
-            eventId: $("#event").attr("event-id"),
+            event_id: $("#event").attr("event-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -99,7 +99,7 @@ $("#show-event-btn").on("click", function (e) {
         url: window.location.href,
         data: {
             command: "show",
-            eventId: $("#event").attr("event-id"),
+            event_id: $("#event").attr("event-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -125,7 +125,7 @@ $("#save-title-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-title",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 title: $.trim(newEventTitle.val())
             },
             success: function (data, status, xhr) {
@@ -154,7 +154,7 @@ $("#save-description-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-description",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 description: $.trim(newEventDescription.val())
             },
             success: function (data, status, xhr) {
@@ -186,7 +186,7 @@ $("#save-date-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-date",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 date: newEventDate
             },
             success: function (data, status, xhr) {
@@ -218,7 +218,7 @@ $("#save-place-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-place",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 place: $.trim(newEventPlace.val())
             },
             success: function (data, status, xhr) {
@@ -252,7 +252,7 @@ $("#save-report-topic-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-report-topic",
-                reportId: $("#modify-report-topic-modal").attr("report-id"),
+                report_id: $("#modify-report-topic-modal").attr("report-id"),
                 topic: $.trim(newReportTopic.val())
             },
             success: function (data, status, xhr) {
@@ -280,7 +280,7 @@ $("#save-statistics-btn").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "modify-statistics",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 statistics: $.trim(statistics.val())
             },
             success: function (data, status, xhr) {

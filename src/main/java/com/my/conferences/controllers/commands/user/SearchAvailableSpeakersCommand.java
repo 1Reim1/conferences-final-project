@@ -4,6 +4,8 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.db.DBException;
 import com.my.conferences.entity.User;
 import com.my.conferences.logic.UserManager;
+import com.my.conferences.logic.ValidationException;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,25 +15,22 @@ import java.util.List;
 
 public class SearchAvailableSpeakersCommand implements Command {
     private static final UserManager userManager = UserManager.getInstance();
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String searchQuery = request.getParameter("searchQuery");
-
+        String searchQuery;
         int eventId;
-        try {
-            eventId = Integer.parseInt(request.getParameter("eventId"));
-        } catch (NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Expected 'eventId' should be integer");
-            return;
-        }
-
         List<User> speakers;
         try {
+            searchQuery = RequestUtil.getStringParameter(request, "search_query");
+            eventId = RequestUtil.getIntParameter(request, "event_id");
             speakers = userManager.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
+        } catch (ValidationException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println(e.getMessage());
+            return;
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            System.out.println(e.getMessage());
             response.getWriter().println(e.getMessage());
             return;
         }
@@ -54,7 +53,8 @@ public class SearchAvailableSpeakersCommand implements Command {
                     .append(speaker.getEmail())
                     .append("\"},");
         }
-        jsonResponse.deleteCharAt(jsonResponse.length()-1).append("]");
+
+        jsonResponse.deleteCharAt(jsonResponse.length() - 1).append("]");
         response.getWriter().println(jsonResponse);
     }
 }

@@ -4,7 +4,7 @@ $(".cancel-report-btn").on('click', function (e) {
         url: window.location.href,
         data: {
             command: "cancel-report",
-            reportId: $(this).closest(".report").attr("report-id"),
+            report_id: $(this).closest(".report").attr("report-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -23,7 +23,7 @@ $(".confirm-report-btn").on('click', function (e) {
         url: window.location.href,
         data: {
             command: "confirm-report",
-            reportId: $(this).closest(".report").attr("report-id"),
+            report_id: $(this).closest(".report").attr("report-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -59,9 +59,9 @@ $("#offer-report-btn-speaker").on("click", function (e) {
             url: window.location.href,
             data: {
                 command: "offer-report",
-                eventId: $("#event").attr("event-id"),
+                event_id: $("#event").attr("event-id"),
                 topic: $("#report-topic").val(),
-                speakerId: $("#report-topic").closest(".modal-body").attr("speaker-id")
+                speaker_id: $("#report-topic").closest(".modal-body").attr("speaker-id")
             },
             success: function (data, status, xhr) {
                 location.reload()
