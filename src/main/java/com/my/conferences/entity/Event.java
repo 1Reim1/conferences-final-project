@@ -16,6 +16,7 @@ public class Event {
     private List<User> participants;
     private boolean hidden;
     private int statistics;
+    private String language;
 
     public int getId() {
         return id;
@@ -95,6 +96,14 @@ public class Event {
 
     public void setStatistics(int statistics) {
         this.statistics = statistics;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public void validate() throws DBException {

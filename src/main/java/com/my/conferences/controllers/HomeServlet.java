@@ -31,7 +31,6 @@ public class HomeServlet extends HttpServlet {
         boolean reverseOrder = false;
         boolean futureOrder = true;
         boolean onlyMyEvents = false;
-        User user = null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("event-order")) {
                 try {
@@ -44,16 +43,16 @@ public class HomeServlet extends HttpServlet {
                 futureOrder = false;
             if (cookie.getName().equals("event-order-my-events")) {
                 onlyMyEvents = true;
-                user = (User) request.getSession().getAttribute("user");
             }
         }
 
+        User user = (User) request.getSession().getAttribute("user");
         int pages;
         try {
-            pages = eventManager.countPages(futureOrder, user);
+            pages = eventManager.countPages(futureOrder, onlyMyEvents, user);
             if (page > pages)
                 page = pages;
-            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder, user));
+            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder, onlyMyEvents, user));
         } catch (DBException e) {
             response.setStatus(404);
             response.getWriter().println(e.getMessage());

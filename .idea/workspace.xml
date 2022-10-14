@@ -12,14 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="past event statistics">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="internationalization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/event-moderator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/validate-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/validate-functions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,28 +209,7 @@
       <workItem from="1662535952885" duration="71104000" />
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
-      <workItem from="1665655513918" duration="17863000" />
-    </task>
-    <task id="LOCAL-00052" summary="offer report (speaker)">
-      <created>1662471214518</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1662471214519</updated>
-    </task>
-    <task id="LOCAL-00053" summary="offer report (speaker)">
-      <created>1662472527352</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1662472527352</updated>
-    </task>
-    <task id="LOCAL-00054" summary="offer report (speaker)">
-      <created>1662475334338</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1662475334338</updated>
+      <workItem from="1665655513918" duration="24696000" />
     </task>
     <task id="LOCAL-00055" summary="offer report (speaker)">
       <created>1662476271531</created>
@@ -558,7 +533,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665691470983</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="past event statistics">
+      <created>1665693511204</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1665693511204</updated>
+    </task>
+    <task id="LOCAL-00102" summary="internationalization">
+      <created>1665725309222</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1665725309222</updated>
+    </task>
+    <task id="LOCAL-00103" summary="internationalization">
+      <created>1665729957907</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1665729957907</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -595,12 +591,12 @@
     <MESSAGE value="jsp refactoring" />
     <MESSAGE value="validation refactoring" />
     <MESSAGE value="EmailUtil" />
-    <MESSAGE value="internationalization" />
     <MESSAGE value="EventRepository refactoring" />
     <MESSAGE value="prevent interaction with a past event" />
     <MESSAGE value="user language field" />
     <MESSAGE value="email notifications" />
     <MESSAGE value="past event statistics" />
-    <option name="LAST_COMMIT_MESSAGE" value="past event statistics" />
+    <MESSAGE value="internationalization" />
+    <option name="LAST_COMMIT_MESSAGE" value="internationalization" />
   </component>
 </project>

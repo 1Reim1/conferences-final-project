@@ -31,16 +31,17 @@ public class EventManager {
 
     private EventManager() {}
 
-    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, User user) throws DBException {
+    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         if (page == 0)
             return new ArrayList<>();
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
-            if (user == null)
-                events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page);
+            if (onlyMyEvents)
+                events = eventRepository.findAllMy(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user);
             else
-                events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user);
+                events = eventRepository.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user.getLanguage());
+
             for (Event event : events) {
                 reportRepository.findAll(connection, event, true);
                 userRepository.findAllParticipants(connection, event);
@@ -86,12 +87,12 @@ public class EventManager {
         return event;
     }
 
-    public int countPages(boolean futureOrder, User user) throws DBException {
+    public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {
-            if (user == null)
-                return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder) / PAGE_SIZE);
-            return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder, user) / PAGE_SIZE);
+            if (onlyMyEvents)
+                return (int) Math.ceil((double) eventRepository.getCountMy(connection, futureOrder, user) / PAGE_SIZE);
+            return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
         } catch (SQLException e) {
             throw new DBException("Count of pages was not loaded", e);
         }   finally {
@@ -102,6 +103,7 @@ public class EventManager {
     public void create(Event event) throws DBException {
         event.setStatistics(-1);
         event.setHidden(true);
+        event.setLanguage(event.getModerator().getLanguage());
         event.validate();
         Connection connection = connectionManager.getConnection();
         try {
