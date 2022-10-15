@@ -7,10 +7,7 @@ import com.my.conferences.entity.User;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +23,7 @@ public class EmailManager {
     private final Properties TEMPLATES_UK;
     private final static String SUBJECT_PROPERTY = ".subject";
     private final static String CONTENT_PROPERTY = ".content";
-    private final String APP_URL = "http://localhost:8080/conferences";
+    private final String appUrl;
     private final String fromEmail;
     private final Session session;
     private final List<Email> emailList;
@@ -46,17 +43,13 @@ public class EmailManager {
         loadEmailTemplates();
 
         emailList = new LinkedList<>();
-        fromEmail = "balacknafs@gmail.com";
-        String password = "bcnhfmkrfiuhcxjz";
 
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        Properties config = loadEmailConfig();
+        appUrl = config.getProperty("app.url");
+        fromEmail = config.getProperty("email");
+        String password = config.getProperty("password");
 
-        session = Session.getInstance(properties, new Authenticator() {
+        session = Session.getInstance(config, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(fromEmail, password);
@@ -85,19 +78,30 @@ public class EmailManager {
         }
     }
 
+    private Properties loadEmailConfig() {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        try (InputStream inputStream = loader.getResourceAsStream("email.properties")) {
+            Properties config = new Properties();
+            config.load(inputStream);
+            return config;
+        } catch (IOException e) {
+            throw new RuntimeException("Loading email config exception", e);
+        }
+    }
+
     public void sendTitleChanged(Event event, String prevTitle) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.title_changed", recipients, email -> email.content = email.content
                 .replace("{{previous_title}}", prevTitle)
                 .replace("{{title}}", event.getTitle())
-                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId()));
+                .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
     public void sendDescriptionChanged(Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.description_changed", recipients, email -> email.content = email.content
                 .replace("{{title}}", event.getTitle())
-                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId()));
+                .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
     public void sendDateChanged(Event event, Date prevDate) {
@@ -108,7 +112,7 @@ public class EmailManager {
                 .replace("{{previous_date}}", df.format(prevDate))
                 .replace("{{date}}", df.format(event.getDate()))
                 .replace("{{title}}", event.getTitle())
-                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId()));
+                .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
     public void sendPlaceChanged(Event event, String prevPlace) {
@@ -117,7 +121,7 @@ public class EmailManager {
                 .replace("{{previous_place}}", prevPlace)
                 .replace("{{place}}", event.getPlace())
                 .replace("{{title}}", event.getTitle())
-                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId()));
+                .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
     public void sendReportOfferedByModerator(Report report, Event event) {
@@ -197,7 +201,7 @@ public class EmailManager {
         return email -> email.content = email.content
                 .replace("{{topic}}", report.getTopic())
                 .replace("{{title}}", event.getTitle())
-                .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId());
+                .replace("{{event_address}}", appUrl + "/event?id=" + event.getId());
     }
 
     private void addEmail(String emailTemplateProperty, List<User> recipients, EmailModifier emailModifier) {
