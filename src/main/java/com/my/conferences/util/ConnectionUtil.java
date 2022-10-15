@@ -1,4 +1,6 @@
-package com.my.conferences.db;
+package com.my.conferences.util;
+
+import com.my.conferences.service.DBException;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -7,20 +9,10 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionManager {
+public class ConnectionUtil {
+    private static DataSource dataSource;
 
-    private static ConnectionManager instance;
-    private DataSource dataSource;
-
-    public static synchronized ConnectionManager getInstance() {
-        if (instance == null) {
-            instance = new ConnectionManager();
-        }
-
-        return instance;
-    }
-
-    private ConnectionManager() {
+    static {
         try {
             Context initContext = new InitialContext();
             Context envContext  = (Context)initContext.lookup("java:/comp/env");
@@ -30,7 +22,7 @@ public class ConnectionManager {
         }
     }
 
-    public Connection getConnection() throws DBException {
+    public static Connection getConnection() throws DBException {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -38,7 +30,7 @@ public class ConnectionManager {
         }
     }
 
-    public void closeConnection(Connection connection) {
+    public static void closeConnection(Connection connection) {
         try {
             connection.close();
         } catch (SQLException e) {

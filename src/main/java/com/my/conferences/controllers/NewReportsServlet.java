@@ -1,9 +1,9 @@
 package com.my.conferences.controllers;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.ReportManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.ReportService;
+import com.my.conferences.service.ValidationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,12 +14,17 @@ import java.io.IOException;
 
 @WebServlet(value = "/new-reports")
 public class NewReportsServlet extends HttpServlet {
-    private static final ReportManager reportManager = ReportManager.getInstance();
+    private ReportService reportService;
+
+    @Override
+    public void init() {
+        reportService = (ReportService) getServletContext().getAttribute("app/reportService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("reportWithEventList", reportManager.findNewReports((User) request.getSession().getAttribute("user")));
+            request.setAttribute("reportWithEventList", reportService.findNewReports((User) request.getSession().getAttribute("user")));
         } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

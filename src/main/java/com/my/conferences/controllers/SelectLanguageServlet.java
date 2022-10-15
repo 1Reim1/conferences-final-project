@@ -1,9 +1,9 @@
 package com.my.conferences.controllers;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.UserManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.UserService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,12 +14,17 @@ import java.io.IOException;
 
 @WebServlet(value = "/select-language")
 public class SelectLanguageServlet extends HttpServlet {
-    private static final UserManager userManager = UserManager.getInstance();
+    private UserService userService;
+
+    @Override
+    public void init() {
+        userService = (UserService) getServletContext().getAttribute("app/userService");
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String language = RequestUtil.getStringParameter(request, "language");
-            userManager.setLanguage((User) request.getSession().getAttribute("user"), language);
+            userService.setLanguage((User) request.getSession().getAttribute("user"), language);
         } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

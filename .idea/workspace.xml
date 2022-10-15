@@ -12,9 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="db-create.sql refactoring">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/Email.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="dao">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/factory/MysqlDaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/factory/MysqlDaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlUserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlUserDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +27,11 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Jsp File" />
-        <option value="Interface" />
         <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
         <option value="XML Properties File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -66,12 +68,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Console&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "Console"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp" />
@@ -210,28 +215,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="20455000" />
-    </task>
-    <task id="LOCAL-00069" summary="my events front">
-      <created>1662750945281</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1662750945281</updated>
-    </task>
-    <task id="LOCAL-00070" summary="sql queries for my events">
-      <created>1662754278540</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1662754278540</updated>
-    </task>
-    <task id="LOCAL-00071" summary="sql queries for my events">
-      <created>1662757149621</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1662757149621</updated>
+      <workItem from="1665746448324" duration="32288000" />
     </task>
     <task id="LOCAL-00072" summary="sql event get all queries rewritten">
       <created>1662760236916</created>
@@ -555,7 +539,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665841193799</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="EmailManager refactoring">
+      <created>1665841801277</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1665841801277</updated>
+    </task>
+    <task id="LOCAL-00119" summary="dao">
+      <created>1665855940978</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1665855940978</updated>
+    </task>
+    <task id="LOCAL-00120" summary="dao">
+      <created>1665856791146</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1665856791146</updated>
+    </task>
+    <option name="localTasksCounter" value="121" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -573,8 +578,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ModeratorFilter.java" />
-    <MESSAGE value="ReportManager" />
     <MESSAGE value="sidebar into tag" />
     <MESSAGE value="jsp into WEB-INF" />
     <MESSAGE value="modify-icon fix" />
@@ -598,6 +601,8 @@
     <MESSAGE value="UserManager refactoring" />
     <MESSAGE value="logic refactoring" />
     <MESSAGE value="db-create.sql refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="db-create.sql refactoring" />
+    <MESSAGE value="EmailManager refactoring" />
+    <MESSAGE value="dao" />
+    <option name="LAST_COMMIT_MESSAGE" value="dao" />
   </component>
 </project>

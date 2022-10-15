@@ -1,10 +1,10 @@
 package com.my.conferences.controllers;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.EventManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.EventService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -16,7 +16,12 @@ import java.util.Map;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
-    private static final EventManager eventManager = EventManager.getInstance();
+    private EventService eventService;
+
+    @Override
+    public void init() {
+        eventService = (EventService) getServletContext().getAttribute("app/eventService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -41,9 +46,9 @@ public class HomeServlet extends HttpServlet {
 
         int pages;
         try {
-            pages = eventManager.countPages(futureOrder, onlyMyEvents, user);
+            pages = eventService.countPages(futureOrder, onlyMyEvents, user);
             page = Math.min(page, pages);
-            request.setAttribute("events", eventManager.findAll(page, order, reverseOrder, futureOrder, onlyMyEvents, user));
+            request.setAttribute("events", eventService.findAll(page, order, reverseOrder, futureOrder, onlyMyEvents, user));
         } catch (DBException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

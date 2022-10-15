@@ -1,5 +1,6 @@
-package com.my.conferences.db;
+package com.my.conferences.dao.implementation.mysql;
 
+import com.my.conferences.dao.UserDao;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
 
@@ -7,9 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository {
-
-    private static final String GET_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
+public class MysqlUserDaoImpl implements UserDao {
+    private static final String GET_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, password = ?, role = ?, language = ? WHERE id = ?";
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
@@ -17,17 +17,6 @@ public class UserRepository {
     private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
-    private static UserRepository instance;
-
-    public static synchronized UserRepository getInstance() {
-        if (instance == null) {
-            instance = new UserRepository();
-        }
-
-        return instance;
-    }
-
-    private UserRepository() {}
 
     public void findOne(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
@@ -68,20 +57,6 @@ public class UserRepository {
         }
     }
 
-    public void findAllParticipants(Connection connection, Event event) throws SQLException {
-        List<User> participants = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
-            stmt.setInt(1, event.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    participants.add(extractUser(rs));
-                }
-            }
-        }
-
-        event.setParticipants(participants);
-    }
-
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
         List<User> speakers = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL)) {
@@ -95,6 +70,20 @@ public class UserRepository {
         }
 
         return speakers;
+    }
+
+    public void findAllParticipants(Connection connection, Event event) throws SQLException {
+        List<User> participants = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
+            stmt.setInt(1, event.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    participants.add(extractUser(rs));
+                }
+            }
+        }
+
+        event.setParticipants(participants);
     }
 
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
@@ -129,6 +118,7 @@ public class UserRepository {
         extractUser(rs, user);
         return user;
     }
+
     private void extractUser(ResultSet rs, User user) throws SQLException {
         user.setId(rs.getInt("id"));
         user.setEmail(rs.getString("email"));

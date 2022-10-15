@@ -7,11 +7,13 @@ import com.my.conferences.controllers.commands.report.ConfirmCommand;
 import com.my.conferences.controllers.commands.report.ModifyTopicCommand;
 import com.my.conferences.controllers.commands.report.OfferCommand;
 import com.my.conferences.controllers.commands.user.SearchAvailableSpeakersCommand;
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.EventManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.EventService;
+import com.my.conferences.service.ReportService;
+import com.my.conferences.service.UserService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -24,25 +26,28 @@ import java.util.Map;
 
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
-    private static final Map<String, Command> commandMap = new HashMap<>();
-    private static final EventManager eventManager = EventManager.getInstance();
+    private final Map<String, Command> commandMap = new HashMap<>();
+    private EventService eventService;
 
     @Override
     public void init() {
-        commandMap.put("join", new JoinCommand());
-        commandMap.put("leave", new LeaveCommand());
-        commandMap.put("hide", new HideCommand());
-        commandMap.put("show", new ShowCommand());
-        commandMap.put("modify-title", new ModifyTitleCommand());
-        commandMap.put("modify-description", new ModifyDescriptionCommand());
-        commandMap.put("modify-date", new ModifyDateCommand());
-        commandMap.put("modify-place", new ModifyPlaceCommand());
-        commandMap.put("modify-statistics", new ModifyStatisticsCommand());
-        commandMap.put("cancel-report", new CancelCommand());
-        commandMap.put("confirm-report", new ConfirmCommand());
-        commandMap.put("offer-report", new OfferCommand());
-        commandMap.put("modify-report-topic", new ModifyTopicCommand());
-        commandMap.put("search-speaker", new SearchAvailableSpeakersCommand());
+        eventService = (EventService) getServletContext().getAttribute("app/eventService");
+        ReportService reportService = (ReportService) getServletContext().getAttribute("app/reportService");
+        UserService userService = (UserService) getServletContext().getAttribute("app/userService");
+        commandMap.put("join", new JoinCommand(eventService));
+        commandMap.put("leave", new LeaveCommand(eventService));
+        commandMap.put("hide", new HideCommand(eventService));
+        commandMap.put("show", new ShowCommand(eventService));
+        commandMap.put("modify-title", new ModifyTitleCommand(eventService));
+        commandMap.put("modify-description", new ModifyDescriptionCommand(eventService));
+        commandMap.put("modify-date", new ModifyDateCommand(eventService));
+        commandMap.put("modify-place", new ModifyPlaceCommand(eventService));
+        commandMap.put("modify-statistics", new ModifyStatisticsCommand(eventService));
+        commandMap.put("cancel-report", new CancelCommand(reportService));
+        commandMap.put("confirm-report", new ConfirmCommand(reportService));
+        commandMap.put("offer-report", new OfferCommand(reportService));
+        commandMap.put("modify-report-topic", new ModifyTopicCommand(reportService));
+        commandMap.put("search-speaker", new SearchAvailableSpeakersCommand(userService));
     }
 
     @Override
@@ -51,7 +56,7 @@ public class EventServlet extends HttpServlet {
         Event event;
         try {
             int id = RequestUtil.getIntParameter(request, "id");
-            event = eventManager.findOne(id, user);
+            event = eventService.findOne(id, user);
         } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

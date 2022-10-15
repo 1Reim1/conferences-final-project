@@ -3,6 +3,7 @@ package com.my.conferences.controllers;
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.controllers.commands.user.LoginCommand;
 import com.my.conferences.controllers.commands.user.RegisterCommand;
+import com.my.conferences.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,8 +18,9 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     public void init() {
-        commandMap.put("login", new LoginCommand());
-        commandMap.put("register", new RegisterCommand());
+        UserService userService = (UserService) getServletContext().getAttribute("app/userService");
+        commandMap.put("login", new LoginCommand(userService));
+        commandMap.put("register", new RegisterCommand(userService));
     }
 
     @Override

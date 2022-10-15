@@ -1,5 +1,6 @@
-package com.my.conferences.db;
+package com.my.conferences.dao.implementation.mysql;
 
+import com.my.conferences.dao.ReportDao;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
@@ -8,8 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportRepository {
-    private static ReportRepository instance;
+public class MysqlReportDaoImpl implements ReportDao {
     private static final String GET_ALL = "SELECT * FROM reports WHERE event_id = ?";
     private static final String GET_ALL_ONLY_CONFIRMED = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
     private static final String GET_ONE = "SELECT * FROM reports WHERE id = ?";
@@ -18,15 +18,6 @@ public class ReportRepository {
     private static final String UPDATE_ONE = "UPDATE reports SET topic = ?, event_id = ?, creator_id = ?, speaker_id = ?, confirmed = ? WHERE id = ?";
     private static final String GET_NEW_FOR_MODERATOR = "SELECT reports.* FROM reports JOIN events e ON reports.event_id = e.id WHERE confirmed = false AND e.moderator_id = ? AND creator_id = speaker_id";
     private static final String GET_NEW_FOR_SPEAKER = "SELECT reports.* FROM reports WHERE confirmed = false AND speaker_id = ? AND creator_id != speaker_id";
-    public static synchronized ReportRepository getInstance() {
-        if (instance == null) {
-            instance = new ReportRepository();
-        }
-
-        return instance;
-    }
-
-    private ReportRepository() {}
 
     public void findAll(Connection connection, Event event, boolean onlyConfirmed) throws SQLException {
         List<Report> reports = new ArrayList<>();

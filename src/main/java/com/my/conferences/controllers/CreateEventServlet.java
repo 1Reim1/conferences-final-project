@@ -1,10 +1,10 @@
 package com.my.conferences.controllers;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.EventManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.EventService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -15,7 +15,12 @@ import java.util.Date;
 
 @WebServlet("/create-event")
 public class CreateEventServlet extends HttpServlet {
-    private static final EventManager eventManager = EventManager.getInstance();
+    private EventService eventService;
+
+    @Override
+    public void init() {
+        eventService = (EventService) getServletContext().getAttribute("app/eventService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +36,7 @@ public class CreateEventServlet extends HttpServlet {
             event.setPlace(RequestUtil.getStringParameter(request, "place"));
             event.setModerator((User) request.getSession().getAttribute("user"));
             event.setDate(new Date(RequestUtil.getLongParameter(request, "date")));
-            eventManager.create(event);
+            eventService.create(event);
             response.getWriter().println(event.getId());
         } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

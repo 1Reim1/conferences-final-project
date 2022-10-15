@@ -1,10 +1,10 @@
 package com.my.conferences.controllers.commands.user;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.UserManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.UserService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +14,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class SearchAvailableSpeakersCommand implements Command {
-    private static final UserManager userManager = UserManager.getInstance();
+    private final UserService userService;
+
+    public SearchAvailableSpeakersCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +28,7 @@ public class SearchAvailableSpeakersCommand implements Command {
         try {
             searchQuery = RequestUtil.getStringParameter(request, "search_query");
             eventId = RequestUtil.getIntParameter(request, "event_id");
-            speakers = userManager.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
+            speakers = userService.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());

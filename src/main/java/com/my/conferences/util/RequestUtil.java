@@ -1,6 +1,6 @@
 package com.my.conferences.util;
 
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.ValidationException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 

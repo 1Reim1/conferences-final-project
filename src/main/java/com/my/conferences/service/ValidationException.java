@@ -1,4 +1,4 @@
-package com.my.conferences.logic;
+package com.my.conferences.service;
 
 public class ValidationException extends Exception {
 

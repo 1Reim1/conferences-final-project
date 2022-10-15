@@ -1,6 +1,6 @@
 package com.my.conferences.entity;
 
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.ValidationException;
 
 import java.util.Date;
 import java.util.List;

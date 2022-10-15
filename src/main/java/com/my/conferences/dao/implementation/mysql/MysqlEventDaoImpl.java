@@ -1,5 +1,6 @@
-package com.my.conferences.db;
+package com.my.conferences.dao.implementation.mysql;
 
+import com.my.conferences.dao.EventDao;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
 
@@ -8,9 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EventRepository {
-
-    private static EventRepository instance;
+public class MysqlEventDaoImpl implements EventDao {
     private static final String GET_ALL_COUNT = "SELECT COUNT(events.id) AS total FROM events WHERE events.hidden = false AND events.date %s ? AND events.language = ?";
     private static final String GET_ALL_ORDER_BY_DATE = "SELECT events.* FROM events WHERE events.hidden = false AND events.date %s ? AND events.language = ? ORDER BY events.date %s, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_ORDER_BY_REPORTS = "SELECT events.*, COUNT(r.id) AS reports_count FROM events LEFT JOIN reports r ON events.id = r.event_id AND r.confirmed = true WHERE events.hidden = false AND events.date %s ? AND events.language = ? GROUP BY events.id ORDER BY reports_count %s, events.id LIMIT ? OFFSET ?";
@@ -35,16 +34,6 @@ public class EventRepository {
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ?, language = ? WHERE id = ?";
-
-    public static synchronized EventRepository getInstance() {
-        if (instance == null) {
-            instance = new EventRepository();
-        }
-
-        return instance;
-    }
-
-    private EventRepository() {}
 
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, String language) throws SQLException {
         String query = getFindAllQuery(order);

@@ -1,10 +1,10 @@
 package com.my.conferences.controllers.commands.user;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.UserManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.UserService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +14,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public class LoginCommand implements Command {
-    private static final UserManager userManager = UserManager.getInstance();
+    private final UserService userService;
+
+    public LoginCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +28,7 @@ public class LoginCommand implements Command {
 
             Map<String, String> cookiesMap = RequestUtil.getCookiesMap(request);
             String language = User.validateLanguage(cookiesMap.getOrDefault("lang", "en"));
-            User user = userManager.login(email, password, language);
+            User user = userService.login(email, password, language);
 
             request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {

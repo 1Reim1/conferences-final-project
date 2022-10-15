@@ -1,9 +1,9 @@
-package com.my.conferences.logic;
+package com.my.conferences.service;
 
-import com.my.conferences.db.ConnectionManager;
-import com.my.conferences.db.DBException;
-import com.my.conferences.db.UserRepository;
+import com.my.conferences.dao.UserDao;
+import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.entity.User;
+import com.my.conferences.util.ConnectionUtil;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -11,37 +11,27 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserManager {
+public class UserService {
+    private final UserDao userDao;
 
-    private static UserManager instance;
-    private static final ConnectionManager connectionManager = ConnectionManager.getInstance();
-    private static final UserRepository userRepository = UserRepository.getInstance();
-
-    public static synchronized UserManager getInstance() {
-        if (instance == null) {
-            instance = new UserManager();
-        }
-
-        return instance;
-    }
-
-    private UserManager() {
+    public UserService(DaoFactory daoFactory) {
+        userDao = daoFactory.getUserDao();
     }
 
     public User login(String email, String password, String language) throws DBException, ValidationException {
         User.validateEmailAndPassword(email, password);
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionUtil.getConnection();
         User user;
         try {
-            user = userRepository.findByEmail(connection, email);
+            user = userDao.findByEmail(connection, email);
             if (!user.getLanguage().equals(language)) {
                 user.setLanguage(language);
-                userRepository.update(connection, user);
+                userDao.update(connection, user);
             }
         } catch (SQLException e) {
             throw new DBException("User with this email not found", e);
         } finally {
-            connectionManager.closeConnection(connection);
+            ConnectionUtil.closeConnection(connection);
         }
 
         if (!encryptPassword(password).equals(user.getPassword()))
@@ -54,37 +44,37 @@ public class UserManager {
         user.validateNames();
         user.validateEmailAndPassword();
         user.setPassword(encryptPassword(user.getPassword()));
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionUtil.getConnection();
         boolean userExists = true;
         try {
-            userRepository.findByEmail(connection, user.getEmail());
+            userDao.findByEmail(connection, user.getEmail());
         } catch (SQLException e) {
             userExists = false;
         }
 
         if (userExists) {
-            connectionManager.closeConnection(connection);
+            ConnectionUtil.closeConnection(connection);
             throw new DBException("The user with this email already exists");
         }
 
         try {
-            userRepository.insert(connection, user);
+            userDao.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
         } finally {
-            connectionManager.closeConnection(connection);
+            ConnectionUtil.closeConnection(connection);
         }
     }
 
     public void setLanguage(User user, String language) throws DBException {
         user.setLanguage(language);
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionUtil.getConnection();
         try {
-            userRepository.update(connection, user);
+            userDao.update(connection, user);
         } catch (SQLException e) {
             throw new DBException("Unable to change a language");
         } finally {
-            connectionManager.closeConnection(connection);
+            ConnectionUtil.closeConnection(connection);
         }
     }
 
@@ -92,13 +82,13 @@ public class UserManager {
         if (user.getRole() != User.Role.MODERATOR)
             throw new ValidationException("You have not permissions");
 
-        Connection connection = connectionManager.getConnection();
+        Connection connection = ConnectionUtil.getConnection();
         try {
-            return userRepository.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
+            return userDao.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
         } catch (SQLException e) {
             throw new DBException("not found", e);
         } finally {
-            connectionManager.closeConnection(connection);
+            ConnectionUtil.closeConnection(connection);
         }
     }
 

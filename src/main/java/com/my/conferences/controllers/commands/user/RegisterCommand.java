@@ -1,10 +1,10 @@
 package com.my.conferences.controllers.commands.user;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.db.DBException;
+import com.my.conferences.service.DBException;
 import com.my.conferences.entity.User;
-import com.my.conferences.logic.UserManager;
-import com.my.conferences.logic.ValidationException;
+import com.my.conferences.service.UserService;
+import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +13,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RegisterCommand implements Command {
-    private static final UserManager userManager = UserManager.getInstance();
+    private final UserService userService;
+
+    public RegisterCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +35,7 @@ public class RegisterCommand implements Command {
 
             user.setRole(User.Role.valueOf(role));
             user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
-            userManager.register(user);
+            userService.register(user);
 
             request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {
