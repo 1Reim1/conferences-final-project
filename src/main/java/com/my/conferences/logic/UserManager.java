@@ -25,9 +25,10 @@ public class UserManager {
         return instance;
     }
 
-    private UserManager() {}
+    private UserManager() {
+    }
 
-    public User login(String email, String password, String language) throws DBException {
+    public User login(String email, String password, String language) throws DBException, ValidationException {
         User.validateEmailAndPassword(email, password);
         Connection connection = connectionManager.getConnection();
         User user;
@@ -49,7 +50,7 @@ public class UserManager {
         return user;
     }
 
-    public void register(User user) throws DBException {
+    public void register(User user) throws DBException, ValidationException {
         user.validateNames();
         user.validateEmailAndPassword();
         user.setPassword(encryptPassword(user.getPassword()));
@@ -70,7 +71,7 @@ public class UserManager {
             userRepository.insert(connection, user);
         } catch (SQLException e) {
             throw new DBException("The user is not inserted", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
@@ -80,40 +81,37 @@ public class UserManager {
         Connection connection = connectionManager.getConnection();
         try {
             userRepository.update(connection, user);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to change a language");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public List<User> searchAvailableSpeakers(int eventId, String searchQuery, User user) throws DBException {
+    public List<User> searchAvailableSpeakers(int eventId, String searchQuery, User user) throws DBException, ValidationException {
         if (user.getRole() != User.Role.MODERATOR)
-            throw new DBException("You have not permissions");
+            throw new ValidationException("You have not permissions");
+
         Connection connection = connectionManager.getConnection();
         try {
             return userRepository.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
         } catch (SQLException e) {
             throw new DBException("not found", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
     private String encryptPassword(String password) {
         String encrypted = null;
-        try
-        {
+        try {
             MessageDigest m = MessageDigest.getInstance("SHA-512");
             m.update(password.getBytes());
             byte[] bytes = m.digest();
             StringBuilder s = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-                s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) s.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             encrypted = s.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 

@@ -29,13 +29,16 @@ public class EventManager {
         return instance;
     }
 
-    private EventManager() {}
+    private EventManager() {
+    }
 
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         if (page == 0)
             return new ArrayList<>();
+
         if (order != Event.Order.DATE)
             reverseOrder = !reverseOrder;
+
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
@@ -49,9 +52,8 @@ public class EventManager {
                 userRepository.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("events was not loaded", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
 
@@ -92,222 +94,228 @@ public class EventManager {
     public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         Connection connection = connectionManager.getConnection();
         try {
-            if (onlyMyEvents)
+            if (onlyMyEvents) {
                 return (int) Math.ceil((double) eventRepository.findCountMy(connection, futureOrder, user) / PAGE_SIZE);
+            }
+
             return (int) Math.ceil((double) eventRepository.findCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
         } catch (SQLException e) {
             throw new DBException("Count of pages was not loaded", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void create(Event event) throws DBException {
+    public void create(Event event) throws DBException, ValidationException {
         event.setStatistics(-1);
         event.setHidden(true);
         event.setLanguage(event.getModerator().getLanguage());
         event.validate();
+
         Connection connection = connectionManager.getConnection();
         try {
             eventRepository.insert(connection, event);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to insert an event", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void join(int eventId, User user) throws DBException {
+    public void join(int eventId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
             canInteractWithEvent(event);
+
             if (event.getModerator().equals(user))
-                throw new DBException("You are a moderator");
-            if (user.getRole() == User.Role.SPEAKER)
+                throw new ValidationException("You are a moderator");
+            if (user.getRole() == User.Role.SPEAKER) {
                 if (event.getReports().stream().map(Report::getSpeaker).anyMatch(s -> s.equals(user)))
-                    throw new DBException("You have a report");
+                    throw new ValidationException("You have a report");
+            }
+
             if (event.getParticipants().contains(user))
-                throw new DBException("You are already a participant");
+                throw new ValidationException("You are already a participant");
+
             userRepository.insertParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to join to the event", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void leave(int eventId, User user) throws DBException {
+    public void leave(int eventId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
             canInteractWithEvent(event);
+
             if (!event.getParticipants().contains(user))
-                throw new DBException("You are not a participant");
+                throw new ValidationException("You are not a participant");
+
             userRepository.deleteParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to leave from the event", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void hide(int eventId, User user) throws DBException {
+    public void hide(int eventId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+
             if (event.isHidden())
-                throw new DBException("Event is already hidden");
+                throw new ValidationException("Event is already hidden");
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
+
             event.setHidden(true);
             eventRepository.update(connection, event);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to hide the event");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void show(int eventId, User user) throws DBException {
+    public void show(int eventId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+
             if (!event.isHidden())
-                throw new DBException("Event is already shown");
+                throw new ValidationException("Event is already shown");
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
+
             event.setHidden(false);
             eventRepository.update(connection, event);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to show the event", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyTitle(int eventId, String newTitle, User user) throws DBException {
+    public void modifyTitle(int eventId, String newTitle, User user) throws DBException, ValidationException {
         Event.validateTitle(newTitle);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEvent(event);
+
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
+
             String prevTitle = event.getTitle();
             event.setTitle(newTitle);
-            userRepository.findAllParticipants(connection, event);
-            reportRepository.findAll(connection, event, false);
-            for (Report report : event.getReports())
-                userRepository.findOne(connection, report.getSpeaker());
-            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
 
             emailManager.sendTitleChanged(event, prevTitle);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to modify a title", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyDescription(int eventId, String newDescription, User user) throws DBException {
+    public void modifyDescription(int eventId, String newDescription, User user) throws DBException, ValidationException {
         Event.validateDescription(newDescription);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEvent(event);
+
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
+
             event.setDescription(newDescription);
-            reportRepository.findAll(connection, event, false);
-            for (Report report : event.getReports())
-                userRepository.findOne(connection, report.getSpeaker());
-            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
 
             emailManager.sendDescriptionChanged(event);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to modify a description", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyDate(int eventId, Date newDate, User user) throws DBException {
+    public void modifyDate(int eventId, Date newDate, User user) throws DBException, ValidationException {
         Event.validateDate(newDate);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEvent(event);
+
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
+
             Date prevDate = event.getDate();
             event.setDate(newDate);
-            reportRepository.findAll(connection, event, false);
-            for (Report report : event.getReports())
-                userRepository.findOne(connection, report.getSpeaker());
-            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
 
             emailManager.sendDateChanged(event, prevDate);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to modify a date", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyPlace(int eventId, String newPlace, User user) throws DBException {
+    public void modifyPlace(int eventId, String newPlace, User user) throws DBException, ValidationException {
         Event.validatePlace(newPlace);
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEvent(event);
+
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
+
             String prevPlace = event.getPlace();
             event.setPlace(newPlace);
-            reportRepository.findAll(connection, event, false);
-            for (Report report : event.getReports())
-                userRepository.findOne(connection, report.getSpeaker());
-            userRepository.findOne(connection, event.getModerator());
             eventRepository.update(connection, event);
 
             emailManager.sendPlaceChanged(event, prevPlace);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to modify a place", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyStatistics(int eventId, int newStatistics, User user) throws DBException {
+    public void modifyStatistics(int eventId, int newStatistics, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
+
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
             if (event.getDate().compareTo(new Date()) > 0)
-                throw new DBException("Unable to modify statistics for a future event");
+                throw new ValidationException("Unable to modify statistics for a future event");
             if (newStatistics < 0)
-                throw new DBException("Statistics should be greater than zero");
-            if (event.getParticipants().size() < newStatistics)
-                throw new DBException("Statistics should be lesser than a number of participants");
+                throw new ValidationException("Statistics should be greater than zero");
+            if (newStatistics > event.getParticipants().size())
+                throw new ValidationException("Statistics should be lesser than a number of participants");
+
             event.setStatistics(newStatistics);
             eventRepository.update(connection, event);
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to modify a statistics", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    static void canInteractWithEvent(Event event) throws DBException {
+    static void canInteractWithEvent(Event event) throws ValidationException {
         try {
             Event.validateDate(event.getDate());
-        }   catch (DBException e) {
-            throw new DBException("You can’t interact with a past event", e);
+        } catch (ValidationException e) {
+            throw new ValidationException("You can’t interact with a past event", e);
         }
     }
 }

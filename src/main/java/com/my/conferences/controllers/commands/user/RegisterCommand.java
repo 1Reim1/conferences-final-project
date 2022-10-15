@@ -14,38 +14,33 @@ import java.io.IOException;
 
 public class RegisterCommand implements Command {
     private static final UserManager userManager = UserManager.getInstance();
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = new User();
-        String role;
         try {
+            User user = new User();
             user.setEmail(RequestUtil.getStringParameter(request, "email"));
-            user.setFirstName(RequestUtil.getStringParameter(request,"first_name"));
+            user.setFirstName(RequestUtil.getStringParameter(request, "first_name"));
             user.setLastName(RequestUtil.getStringParameter(request, "last_name"));
-            user.setPassword(RequestUtil.getStringParameter(request,"password"));
-            role = RequestUtil.getStringParameter(request,"role").toUpperCase();
-        }   catch (ValidationException e) {
+            user.setPassword(RequestUtil.getStringParameter(request, "password"));
+            String role = RequestUtil.getStringParameter(request, "role").toUpperCase();
+
+            if (!role.equals(User.Role.USER.toString()) && !role.equals(User.Role.SPEAKER.toString())) {
+                role = User.Role.USER.toString();
+            }
+
+            user.setRole(User.Role.valueOf(role));
+            user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
+            userManager.register(user);
+
+            request.getSession().setAttribute("user", user);
+        } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
-            return;
-        }
-
-        if (!role.equals(User.Role.USER.toString()) && !role.equals(User.Role.SPEAKER.toString())) {
-            role = User.Role.USER.toString();
-        }
-
-        user.setRole(User.Role.valueOf(role));
-        user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
-
-        try {
-            userManager.register(user);
         } catch (DBException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
-            return;
         }
-
-        request.getSession().setAttribute("user", user);
     }
 }

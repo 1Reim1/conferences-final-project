@@ -1,6 +1,6 @@
 package com.my.conferences.entity;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.logic.ValidationException;
 
 import java.util.Date;
 import java.util.List;
@@ -106,31 +106,31 @@ public class Event {
         this.language = language;
     }
 
-    public void validate() throws DBException {
+    public void validate() throws ValidationException {
         validateTitle(title);
         validateDescription(description);
         validateDate(date);
         validatePlace(place);
     }
 
-    public static void validateTitle(String title) throws DBException {
+    public static void validateTitle(String title) throws ValidationException {
         if (title.trim().length() < 3)
-            throw new DBException("Title min length: 3");
+            throw new ValidationException("Title min length: 3");
     }
 
-    public static void validateDescription(String description) throws DBException {
+    public static void validateDescription(String description) throws ValidationException {
         if (description.trim().length() < 20)
-            throw new DBException("Description min length: 20");
+            throw new ValidationException("Description min length: 20");
     }
 
-    public static void validateDate(Date date) throws DBException {
+    public static void validateDate(Date date) throws ValidationException {
         if (date.compareTo(new Date()) < 0)
-            throw new DBException("Required future date");
+            throw new ValidationException("Required future date");
     }
 
-    public static void validatePlace(String place) throws DBException {
+    public static void validatePlace(String place) throws ValidationException {
         if (place.trim().length() < 5)
-            throw new DBException("Place min length: 5");
+            throw new ValidationException("Place min length: 5");
     }
 
     public enum Order {

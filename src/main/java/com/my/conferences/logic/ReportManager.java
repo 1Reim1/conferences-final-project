@@ -28,17 +28,21 @@ public class ReportManager {
         return instance;
     }
 
-    public List<ReportWithEvent> findNewReports(User user) throws DBException {
+    private ReportManager() {
+    }
+
+    public List<ReportWithEvent> findNewReports(User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         List<Report> reports;
         List<ReportWithEvent> reportsWithEvents;
+
         try {
             if (user.getRole() == User.Role.MODERATOR)
                 reports = reportRepository.findNewForModerator(connection, user);
             else if (user.getRole() == User.Role.SPEAKER)
                 reports = reportRepository.findNewForSpeaker(connection, user);
             else
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
 
             reportsWithEvents = new ArrayList<>(reports.size());
             for (Report report : reports) {
@@ -51,17 +55,16 @@ public class ReportManager {
 
                 reportsWithEvents.add(new ReportWithEvent(report, event));
             }
-
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to find new reports", e);
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
 
         return reportsWithEvents;
     }
 
-    public void cancelReport(int reportId, User user) throws DBException {
+    public void cancelReport(int reportId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Report report = reportRepository.findOne(connection, reportId);
@@ -69,31 +72,33 @@ public class ReportManager {
             EventManager.canInteractWithEvent(event);
             reportRepository.findAll(connection, event, false);
             userRepository.findOne(connection, event.getModerator());
+
             userRepository.findOne(connection, report.getSpeaker());
             if (!(report.getSpeaker().equals(user) || event.getModerator().equals(user)))
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
+
             reportRepository.delete(connection, report);
 
             if (report.isConfirmed()) {
                 for (Report r : event.getReports())
                     userRepository.findOne(connection, r.getSpeaker());
+
                 userRepository.findAllParticipants(connection, event);
                 emailManager.sendConfirmedReportCancelled(report, event);
-            }   else {
+            } else {
                 if (user.getRole() == User.Role.MODERATOR)
                     emailManager.sendReportCancelledByModerator(report, event);
                 else
                     emailManager.sendReportCancelledBySpeaker(report, event);
             }
-
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("Unable to cancel a report");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void confirmReport(int reportId, User user) throws DBException {
+    public void confirmReport(int reportId, User user) throws DBException, ValidationException {
         Connection connection = connectionManager.getConnection();
         try {
             Report report = reportRepository.findOne(connection, reportId);
@@ -103,11 +108,12 @@ public class ReportManager {
             userRepository.findOne(connection, report.getCreator());
             userRepository.findOne(connection, report.getSpeaker());
             userRepository.findAllParticipants(connection, event);
+
             if (report.isConfirmed())
-                throw new DBException("Report is already confirmed");
+                throw new ValidationException("Report is already confirmed");
             if (!((event.getModerator().equals(user) && report.getCreator().equals(report.getSpeaker())) ||
                     (report.getSpeaker().equals(user) && report.getCreator().equals(event.getModerator())))) {
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
             }
             report.setConfirmed(true);
             reportRepository.update(connection, report);
@@ -120,16 +126,16 @@ public class ReportManager {
                 emailManager.sendReportConfirmedByModerator(report, event);
             else
                 emailManager.sendReportConfirmedBySpeaker(report, event);
-            emailManager.sendAddedNewReport(report, event);
 
+            emailManager.sendAddedNewReport(report, event);
         } catch (SQLException e) {
             throw new DBException("Unable to confirm a report");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void offerReport(Report report) throws DBException {
+    public void offerReport(Report report) throws DBException, ValidationException {
         report.validate();
         Connection connection = connectionManager.getConnection();
         try {
@@ -137,14 +143,15 @@ public class ReportManager {
             EventManager.canInteractWithEvent(event);
             userRepository.findAllParticipants(connection, event);
             userRepository.findOne(connection, report.getSpeaker());
+
             if (report.getCreator().getRole() == User.Role.USER)
-                throw new DBException("You have not permission");
+                throw new ValidationException("You have not permission");
             if (report.getCreator().getRole() == User.Role.SPEAKER && !report.getCreator().equals(report.getSpeaker()))
-                throw new DBException("Speaker can not offer a report to someone");
+                throw new ValidationException("Speaker can not offer a report to someone");
             if (report.getSpeaker().getRole() != User.Role.SPEAKER)
-                throw new DBException("User is not a speaker");
+                throw new ValidationException("User is not a speaker");
             if (event.getParticipants().contains(report.getSpeaker()))
-                throw new DBException("Speaker is already a participant");
+                throw new ValidationException("Speaker is already a participant");
 
             report.setConfirmed(false);
             reportRepository.insert(connection, report);
@@ -152,27 +159,27 @@ public class ReportManager {
             if (report.getCreator().getRole() == User.Role.SPEAKER) {
                 userRepository.findOne(connection, event.getModerator());
                 emailManager.sendReportOfferedBySpeaker(report, event);
-            }   else {
+            } else {
                 emailManager.sendReportOfferedByModerator(report, event);
             }
-
         } catch (SQLException e) {
             throw new DBException("Unable to offer a report");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }
 
-    public void modifyReportTopic(int reportId, String topic, User user) throws DBException {
+    public void modifyReportTopic(int reportId, String topic, User user) throws DBException, ValidationException {
         Report.validateTopic(topic);
         Connection connection = connectionManager.getConnection();
         try {
             Report report = reportRepository.findOne(connection, reportId);
             Event event = eventRepository.findOne(connection, report.getEventId(), true);
             EventManager.canInteractWithEvent(event);
+
             userRepository.findOne(connection, event.getModerator());
             if (!event.getModerator().equals(user))
-                throw new DBException("You have not permissions");
+                throw new ValidationException("You have not permissions");
 
             String prevTopic = report.getTopic();
             report.setTopic(topic);
@@ -181,16 +188,16 @@ public class ReportManager {
             if (report.isConfirmed()) {
                 userRepository.findAllParticipants(connection, event);
                 reportRepository.findAll(connection, event, false);
-                for (Report r : event.getReports())
+                for (Report r : event.getReports()) {
                     userRepository.findOne(connection, r.getSpeaker());
+                }
                 emailManager.sendConfirmedReportTopicChanged(report, event, prevTopic);
-            }   else {
+            } else {
                 emailManager.sendReportTopicChanged(report, event, prevTopic);
             }
-
         } catch (SQLException e) {
             throw new DBException("Unable to modify a topic");
-        }   finally {
+        } finally {
             connectionManager.closeConnection(connection);
         }
     }

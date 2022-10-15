@@ -12,12 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="RequestUtil small refactoring">
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/RegisterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/RegisterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/UserManager.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="logic refactoring">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/entity/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,35 +210,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="13759000" />
-    </task>
-    <task id="LOCAL-00062" summary="modify description">
-      <created>1662539769434</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1662539769434</updated>
-    </task>
-    <task id="LOCAL-00063" summary="modify date">
-      <created>1662561710836</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1662561710836</updated>
-    </task>
-    <task id="LOCAL-00064" summary="modify place">
-      <created>1662562497276</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1662562497276</updated>
-    </task>
-    <task id="LOCAL-00065" summary="confirm report">
-      <created>1662652640062</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1662652640063</updated>
+      <workItem from="1665746448324" duration="18817000" />
     </task>
     <task id="LOCAL-00066" summary="modify report topic">
       <created>1662658594247</created>
@@ -558,7 +527,35 @@
       <option name="project" value="LOCAL" />
       <updated>1665830669645</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="passhash -&gt; password">
+      <created>1665831283553</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1665831283553</updated>
+    </task>
+    <task id="LOCAL-00112" summary="UserManager refactoring">
+      <created>1665832943952</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1665832943952</updated>
+    </task>
+    <task id="LOCAL-00113" summary="UserManager refactoring">
+      <created>1665833000963</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1665833000963</updated>
+    </task>
+    <task id="LOCAL-00114" summary="logic refactoring">
+      <created>1665838705784</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1665838705784</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,9 +573,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="sql event get all queries rewritten" />
-    <MESSAGE value="my events" />
-    <MESSAGE value="create-event.html" />
     <MESSAGE value="create event" />
     <MESSAGE value="ModeratorFilter.java" />
     <MESSAGE value="ReportManager" />
@@ -601,6 +595,9 @@
     <MESSAGE value="servlets refactoring" />
     <MESSAGE value="repositories refactoring" />
     <MESSAGE value="RequestUtil small refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="RequestUtil small refactoring" />
+    <MESSAGE value="passhash -&gt; password" />
+    <MESSAGE value="UserManager refactoring" />
+    <MESSAGE value="logic refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="logic refactoring" />
   </component>
 </project>

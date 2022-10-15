@@ -1,6 +1,6 @@
 package com.my.conferences.entity;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.logic.ValidationException;
 
 public class Report {
     private int id;
@@ -58,12 +58,12 @@ public class Report {
         this.confirmed = confirmed;
     }
 
-    public void validate() throws DBException {
+    public void validate() throws ValidationException {
         validateTopic(topic);
     }
 
-    public static void validateTopic(String topic) throws DBException {
+    public static void validateTopic(String topic) throws ValidationException {
         if (topic.trim().length() < 3)
-            throw new DBException("Topic length min: 3");
+            throw new ValidationException("Topic length min: 3");
     }
 }

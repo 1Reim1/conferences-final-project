@@ -1,6 +1,6 @@
 package com.my.conferences.entity;
 
-import com.my.conferences.db.DBException;
+import com.my.conferences.logic.ValidationException;
 
 import java.io.Serializable;
 import java.util.regex.Pattern;
@@ -73,22 +73,22 @@ public class User implements Serializable {
         this.language = validateLanguage(language);
     }
 
-    public void validateNames() throws DBException {
+    public void validateNames() throws ValidationException {
         if (!VALID_NAME_REGEX.matcher(firstName).find())
-            throw new DBException("First name is bad");
+            throw new ValidationException("First name is bad");
         if (!VALID_NAME_REGEX.matcher(lastName).find())
-            throw new DBException("Last name is bad");
+            throw new ValidationException("Last name is bad");
     }
 
-    public void validateEmailAndPassword() throws DBException {
+    public void validateEmailAndPassword() throws ValidationException {
         validateEmailAndPassword(email, password);
     }
 
-    public static void validateEmailAndPassword(String email, String password) throws DBException {
+    public static void validateEmailAndPassword(String email, String password) throws ValidationException {
         if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
-            throw new DBException("Email is bad");
+            throw new ValidationException("Email is bad");
         if (password.length() < 6) {
-            throw new DBException("Password is bad");
+            throw new ValidationException("Password is bad");
         }
     }
 
