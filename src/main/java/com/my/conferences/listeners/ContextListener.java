@@ -10,6 +10,10 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 @WebListener
 public class ContextListener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
 
@@ -18,10 +22,20 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        int homePageSize;
+        try (InputStream inputStream = loader.getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(inputStream);
+            homePageSize = Integer.parseInt(config.getProperty("home.page.size"));
+        } catch (IOException | NumberFormatException e) {
+            throw new RuntimeException("Loading app config exception", e);
+        }
+
         DaoFactory daoFactory = new MysqlDaoFactory();
         ServletContext servletContext = sce.getServletContext();
 
-        servletContext.setAttribute("app/eventService", new EventService(daoFactory, 2));
+        servletContext.setAttribute("app/eventService", new EventService(daoFactory, homePageSize));
         servletContext.setAttribute("app/reportService", new ReportService(daoFactory));
         servletContext.setAttribute("app/userService", new UserService(daoFactory));
 
