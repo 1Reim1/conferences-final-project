@@ -12,13 +12,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="servlets refactoring">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/ReportRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/db/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/logic/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/new-reports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/new-reports.js" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="repositories refactoring">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,14 +209,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="12824000" />
-    </task>
-    <task id="LOCAL-00060" summary="show event">
-      <created>1662496405205</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1662496405205</updated>
+      <workItem from="1665746448324" duration="13423000" />
     </task>
     <task id="LOCAL-00061" summary="modify title">
       <created>1662497961239</created>
@@ -559,7 +547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665751263110</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="repositories refactoring">
+      <created>1665830195984</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1665830195984</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -577,7 +572,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="my events front" />
     <MESSAGE value="sql queries for my events" />
     <MESSAGE value="sql event get all queries rewritten" />
     <MESSAGE value="my events" />
@@ -602,6 +596,7 @@
     <MESSAGE value="auth commands" />
     <MESSAGE value="commands refactoring" />
     <MESSAGE value="servlets refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="servlets refactoring" />
+    <MESSAGE value="repositories refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="repositories refactoring" />
   </component>
 </project>

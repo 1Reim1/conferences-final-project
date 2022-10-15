@@ -20,10 +20,9 @@ public class RequestUtil {
     }
 
     public static int getIntParameter(HttpServletRequest request, String parameterName) throws ValidationException {
-        String parameterStr = getStringParameter(request, parameterName);
         int parameter;
         try {
-            parameter = Integer.parseInt(parameterStr);
+            parameter = Integer.parseInt(getStringParameter(request, parameterName));
         } catch (NumberFormatException e) {
             throw new ValidationException(String.format("Expected '%s' should be integer", parameterName));
         }
@@ -32,10 +31,9 @@ public class RequestUtil {
     }
 
     public static long getLongParameter(HttpServletRequest request, String parameterName) throws ValidationException {
-        String parameterStr = getStringParameter(request, parameterName);
         long parameter;
         try {
-            parameter = Long.parseLong(parameterStr);
+            parameter = Long.parseLong(getStringParameter(request, parameterName));
         } catch (NumberFormatException e) {
             throw new ValidationException(String.format("Expected '%s' should be integer", parameterName));
         }
