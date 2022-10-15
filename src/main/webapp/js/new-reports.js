@@ -8,7 +8,7 @@ $(".cancel-report-btn").on('click', function (e) {
         url: "event",
         data: {
             command: "cancel-report",
-            reportId: $(this).closest(".report").attr("report-id"),
+            report_id: $(this).closest(".report").attr("report-id"),
         },
         success: function (data, status, xhr) {
             location.reload()
@@ -27,7 +27,7 @@ $(".confirm-report-btn").on('click', function (e) {
         url: "event",
         data: {
             command: "confirm-report",
-            reportId: $(this).closest(".report").attr("report-id"),
+            report_id: $(this).closest(".report").attr("report-id"),
         },
         success: function (data, status, xhr) {
             location.reload()

@@ -15,6 +15,8 @@ public class UserRepository {
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
     private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
     private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
+    private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
+    private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
     private static UserRepository instance;
 
     public static synchronized UserRepository getInstance() {
@@ -49,13 +51,7 @@ public class UserRepository {
 
     public void insert(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            int k = 0;
-            stmt.setString(++k, user.getEmail());
-            stmt.setString(++k, user.getFirstName());
-            stmt.setString(++k, user.getLastName());
-            stmt.setString(++k, user.getPassHash());
-            stmt.setString(++k, user.getRole().toString());
-            stmt.setString(++k, user.getLanguage());
+            prepareStatementForUser(stmt, user);
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
@@ -66,13 +62,7 @@ public class UserRepository {
 
     public void update(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            int k = 0;
-            stmt.setString(++k, user.getEmail());
-            stmt.setString(++k, user.getFirstName());
-            stmt.setString(++k, user.getLastName());
-            stmt.setString(++k, user.getPassHash());
-            stmt.setString(++k, user.getRole().toString());
-            stmt.setString(++k, user.getLanguage());
+            int k = prepareStatementForUser(stmt, user);
             stmt.setInt(++k, user.getId());
             stmt.executeUpdate();
         }
@@ -83,12 +73,13 @@ public class UserRepository {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
             stmt.setInt(1, event.getId());
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next())
+                while (rs.next()) {
                     participants.add(extractUser(rs));
-
-                event.setParticipants(participants);
+                }
             }
         }
+
+        event.setParticipants(participants);
     }
 
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
@@ -97,12 +88,40 @@ public class UserRepository {
             stmt.setInt(1, eventId);
             stmt.setString(2, "%" + searchQuery + "%");
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next())
+                while (rs.next()) {
                     speakers.add(extractUser(rs));
-
-                return speakers;
+                }
             }
         }
+
+        return speakers;
+    }
+
+    public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, event.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {
+            stmt.setInt(1, user.getId());
+            stmt.setInt(2, event.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    private int prepareStatementForUser(PreparedStatement stmt, User user) throws SQLException {
+        int k = 0;
+        stmt.setString(++k, user.getEmail());
+        stmt.setString(++k, user.getFirstName());
+        stmt.setString(++k, user.getLastName());
+        stmt.setString(++k, user.getPassHash());
+        stmt.setString(++k, user.getRole().toString());
+        stmt.setString(++k, user.getLanguage());
+        return k;
     }
 
     private User extractUser(ResultSet rs) throws SQLException {

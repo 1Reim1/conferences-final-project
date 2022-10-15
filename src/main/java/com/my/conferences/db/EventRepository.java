@@ -35,8 +35,6 @@ public class EventRepository {
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ?, language = ? WHERE id = ?";
-    private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
-    private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
     public static synchronized EventRepository getInstance() {
         if (instance == null) {
@@ -46,95 +44,30 @@ public class EventRepository {
         return instance;
     }
 
-    private EventRepository() {
-
-    }
+    private EventRepository() {}
 
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, String language) throws SQLException {
-        List<Event> events = new ArrayList<>();
-        String query;
-        if (order == Event.Order.DATE)
-            query = GET_ALL_ORDER_BY_DATE;
-        else if (order == Event.Order.REPORTS)
-            query = GET_ALL_ORDER_BY_REPORTS;
-        else
-            query = GET_ALL_ORDER_BY_PARTICIPANTS;
-
-        if (order != Event.Order.DATE) {
-            reverseOrder = !reverseOrder;
-        }
-
+        String query = getFindAllQuery(order);
         query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             int k = 0;
             stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
-            stmt.setString(++k, language);
-            stmt.setInt(++k, pageSize);
-            stmt.setInt(++k, (page - 1) * pageSize);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    events.add(extractEvent(rs));
-                }
-
-                return events;
-            }
+            return getAll(stmt, k, page, pageSize, language);
         }
     }
 
     public List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, User user) throws SQLException {
-        List<Event> events = new ArrayList<>();
-        String query;
-        if (user.getRole() == User.Role.USER) {
-            if (order == Event.Order.DATE)
-                query = GET_ALL_MY_FOR_USER_ORDER_BY_DATE;
-            else if (order == Event.Order.REPORTS)
-                query = GET_ALL_MY_FOR_USER_ORDER_BY_REPORTS;
-            else
-                query = GET_ALL_MY_FOR_USER_ORDER_BY_PARTICIPANTS;
-        } else if (user.getRole() == User.Role.SPEAKER) {
-            if (order == Event.Order.DATE)
-                query = GET_ALL_MY_FOR_SPEAKER_ORDER_BY_DATE;
-            else if (order == Event.Order.REPORTS)
-                query = GET_ALL_MY_FOR_SPEAKER_ORDER_BY_REPORTS;
-            else
-                query = GET_ALL_MY_FOR_SPEAKER_ORDER_BY_PARTICIPANTS;
-        } else {
-            if (order == Event.Order.DATE)
-                query = GET_ALL_MY_FOR_MODERATOR_ORDER_BY_DATE;
-            else if (order == Event.Order.REPORTS)
-                query = GET_ALL_MY_FOR_MODERATOR_ORDER_BY_REPORTS;
-            else
-                query = GET_ALL_MY_FOR_MODERATOR_ORDER_BY_PARTICIPANTS;
-        }
-
-        if (order != Event.Order.DATE) {
-            reverseOrder = !reverseOrder;
-        }
+        String query = getFindAllMyQuery(order, user);
         query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            int k = 0;
-            stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
-            stmt.setInt(++k, user.getId());
-            if (user.getRole() != User.Role.USER) {
-                stmt.setInt(++k, user.getId());
-            }
-
-            stmt.setString(++k, user.getLanguage());
-            stmt.setInt(++k, pageSize);
-            stmt.setInt(++k, (page - 1) * pageSize);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    events.add(extractEvent(rs));
-                }
-
-                return events;
-            }
+            int k = prepareStatementForMyEvents(stmt, user);
+            return getAll(stmt, k, page, pageSize, user.getLanguage());
         }
     }
 
-    public int getCount(Connection connection, boolean futureOrder, String language) throws SQLException {
+    public int findCount(Connection connection, boolean futureOrder, String language) throws SQLException {
         String query = String.format(GET_ALL_COUNT, futureOrder ? ">" : "<");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -147,24 +80,12 @@ public class EventRepository {
         }
     }
 
-    public int getCountMy(Connection connection, boolean futureOrder, User user) throws SQLException {
-        String query;
-        if (user.getRole() == User.Role.USER)
-            query = GET_ALL_MY_COUNT_FOR_USER;
-        else if (user.getRole() == User.Role.SPEAKER)
-            query = GET_ALL_MY_COUNT_FOR_SPEAKER;
-        else
-            query = GET_ALL_MY_COUNT_FOR_MODERATOR;
-
+    public int findCountMy(Connection connection, boolean futureOrder, User user) throws SQLException {
+        String query = getFindCountMyQuery(user);
         query = String.format(query, futureOrder ? ">" : "<");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            int k = 0;
-            stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
-            stmt.setInt(++k, user.getId());
-            if (user.getRole() != User.Role.USER) {
-                stmt.setInt(++k, user.getId());
-            }
+            int k = prepareStatementForMyEvents(stmt, user);
 
             stmt.setString(++k, user.getLanguage());
             try (ResultSet rs = stmt.executeQuery()) {
@@ -175,9 +96,7 @@ public class EventRepository {
     }
 
     public Event findOne(Connection connection, int id, boolean showHidden) throws SQLException {
-        String query = GET_ONE;
-        if (showHidden)
-            query = GET_ONE_SHOW_HIDDEN;
+        String query = showHidden ? GET_ONE_SHOW_HIDDEN : GET_ONE;
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -190,15 +109,7 @@ public class EventRepository {
 
     public void insert(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            int k = 0;
-            stmt.setString(++k, event.getTitle());
-            stmt.setString(++k, event.getDescription());
-            stmt.setString(++k, event.getPlace());
-            stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
-            stmt.setInt(++k, event.getModerator().getId());
-            stmt.setBoolean(++k, event.isHidden());
-            stmt.setInt(++k, event.getStatistics());
-            stmt.setString(++k, event.getLanguage());
+            prepareStatementForEvent(stmt, event);
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
@@ -209,34 +120,94 @@ public class EventRepository {
 
     public void update(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
-            int k = 0;
-            stmt.setString(++k, event.getTitle());
-            stmt.setString(++k, event.getDescription());
-            stmt.setString(++k, event.getPlace());
-            stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
-            stmt.setInt(++k, event.getModerator().getId());
-            stmt.setBoolean(++k, event.isHidden());
-            stmt.setInt(++k, event.getStatistics());
-            stmt.setString(++k, event.getLanguage());
+            int k = prepareStatementForEvent(stmt, event);
             stmt.setInt(++k, event.getId());
             stmt.executeUpdate();
         }
     }
 
-    public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
-            stmt.setInt(1, user.getId());
-            stmt.setInt(2, event.getId());
-            stmt.executeUpdate();
+    private List<Event> getAll(PreparedStatement stmt, int k, int page, int pageSize, String language) throws SQLException {
+        List<Event> events = new ArrayList<>();
+        stmt.setString(++k, language);
+        stmt.setInt(++k, pageSize);
+        stmt.setInt(++k, (page - 1) * pageSize);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                events.add(extractEvent(rs));
+            }
         }
+
+        return events;
     }
 
-    public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {
-            stmt.setInt(1, user.getId());
-            stmt.setInt(2, event.getId());
-            stmt.executeUpdate();
+    private String getFindAllQuery(Event.Order order) {
+        if (order == Event.Order.DATE)
+            return GET_ALL_ORDER_BY_DATE;
+        if (order == Event.Order.REPORTS)
+            return GET_ALL_ORDER_BY_REPORTS;
+
+        return GET_ALL_ORDER_BY_PARTICIPANTS;
+    }
+
+    private String getFindAllMyQuery(Event.Order order, User user) {
+        if (user.getRole() == User.Role.USER) {
+            if (order == Event.Order.DATE)
+                return GET_ALL_MY_FOR_USER_ORDER_BY_DATE;
+            if (order == Event.Order.REPORTS)
+                return GET_ALL_MY_FOR_USER_ORDER_BY_REPORTS;
+
+            return GET_ALL_MY_FOR_USER_ORDER_BY_PARTICIPANTS;
         }
+
+        if (user.getRole() == User.Role.SPEAKER) {
+            if (order == Event.Order.DATE)
+                return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_DATE;
+            if (order == Event.Order.REPORTS)
+                return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_REPORTS;
+
+            return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_PARTICIPANTS;
+        }
+
+        if (order == Event.Order.DATE)
+            return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_DATE;
+        if (order == Event.Order.REPORTS)
+            return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_REPORTS;
+
+        return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_PARTICIPANTS;
+    }
+
+    private String getFindCountMyQuery(User user) {
+        if (user.getRole() == User.Role.USER)
+            return GET_ALL_MY_COUNT_FOR_USER;
+        if (user.getRole() == User.Role.SPEAKER)
+            return GET_ALL_MY_COUNT_FOR_SPEAKER;
+
+        return GET_ALL_MY_COUNT_FOR_MODERATOR;
+    }
+
+    private int prepareStatementForEvent(PreparedStatement stmt, Event event) throws SQLException {
+        int k = 0;
+        stmt.setString(++k, event.getTitle());
+        stmt.setString(++k, event.getDescription());
+        stmt.setString(++k, event.getPlace());
+        stmt.setTimestamp(++k, new java.sql.Timestamp(event.getDate().getTime()));
+        stmt.setInt(++k, event.getModerator().getId());
+        stmt.setBoolean(++k, event.isHidden());
+        stmt.setInt(++k, event.getStatistics());
+        stmt.setString(++k, event.getLanguage());
+        return k;
+    }
+
+    private int prepareStatementForMyEvents(PreparedStatement stmt, User user) throws SQLException {
+        int k = 0;
+        stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
+        stmt.setInt(++k, user.getId());
+
+        if (user.getRole() != User.Role.USER) {
+            stmt.setInt(++k, user.getId());
+        }
+
+        return k;
     }
 
     private Event extractEvent(ResultSet rs) throws SQLException {

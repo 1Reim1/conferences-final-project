@@ -26,15 +26,11 @@ public class ReportRepository {
         return instance;
     }
 
-    private ReportRepository() {
-
-    }
+    private ReportRepository() {}
 
     public void findAll(Connection connection, Event event, boolean onlyConfirmed) throws SQLException {
         List<Report> reports = new ArrayList<>();
-        String query = GET_ALL;
-        if (onlyConfirmed)
-            query = GET_ALL_ONLY_CONFIRMED;
+        String query = onlyConfirmed ? GET_ALL_ONLY_CONFIRMED : GET_ALL;
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, event.getId());
@@ -42,10 +38,10 @@ public class ReportRepository {
                 while (rs.next()) {
                     reports.add(extractReport(rs));
                 }
-
-                event.setReports(reports);
             }
         }
+
+        event.setReports(reports);
     }
 
     public Report findOne(Connection connection, int id) throws SQLException {
@@ -76,6 +72,7 @@ public class ReportRepository {
                 }
             }
         }
+
         return reports;
     }
 
@@ -88,12 +85,7 @@ public class ReportRepository {
 
     public void update(Connection connection, Report report) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
-            int k = 0;
-            stmt.setString(++k, report.getTopic());
-            stmt.setInt(++k, report.getEventId());
-            stmt.setInt(++k, report.getCreator().getId());
-            stmt.setInt(++k, report.getSpeaker().getId());
-            stmt.setBoolean(++k, report.isConfirmed());
+            int k = prepareStatementForReport(stmt, report);
             stmt.setInt(++k, report.getId());
             stmt.executeUpdate();
         }
@@ -101,18 +93,23 @@ public class ReportRepository {
 
     public void insert(Connection connection, Report report) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            int k = 0;
-            stmt.setString(++k, report.getTopic());
-            stmt.setInt(++k, report.getEventId());
-            stmt.setInt(++k, report.getCreator().getId());
-            stmt.setInt(++k, report.getSpeaker().getId());
-            stmt.setBoolean(++k, report.isConfirmed());
+            prepareStatementForReport(stmt, report);
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 rs.next();
                 report.setId(rs.getInt(1));
             }
         }
+    }
+
+    private int prepareStatementForReport(PreparedStatement stmt, Report report) throws SQLException {
+        int k = 0;
+        stmt.setString(++k, report.getTopic());
+        stmt.setInt(++k, report.getEventId());
+        stmt.setInt(++k, report.getCreator().getId());
+        stmt.setInt(++k, report.getSpeaker().getId());
+        stmt.setBoolean(++k, report.isConfirmed());
+        return k;
     }
 
     private Report extractReport(ResultSet rs) throws SQLException {

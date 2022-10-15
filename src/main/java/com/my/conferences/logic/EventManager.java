@@ -34,6 +34,8 @@ public class EventManager {
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         if (page == 0)
             return new ArrayList<>();
+        if (order != Event.Order.DATE)
+            reverseOrder = !reverseOrder;
         Connection connection = connectionManager.getConnection();
         List<Event> events;
         try {
@@ -91,8 +93,8 @@ public class EventManager {
         Connection connection = connectionManager.getConnection();
         try {
             if (onlyMyEvents)
-                return (int) Math.ceil((double) eventRepository.getCountMy(connection, futureOrder, user) / PAGE_SIZE);
-            return (int) Math.ceil((double) eventRepository.getCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
+                return (int) Math.ceil((double) eventRepository.findCountMy(connection, futureOrder, user) / PAGE_SIZE);
+            return (int) Math.ceil((double) eventRepository.findCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
         } catch (SQLException e) {
             throw new DBException("Count of pages was not loaded", e);
         }   finally {
@@ -127,7 +129,7 @@ public class EventManager {
                     throw new DBException("You have a report");
             if (event.getParticipants().contains(user))
                 throw new DBException("You are already a participant");
-            eventRepository.insertParticipant(connection, event, user);
+            userRepository.insertParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to join to the event", e);
         }   finally {
@@ -142,7 +144,7 @@ public class EventManager {
             canInteractWithEvent(event);
             if (!event.getParticipants().contains(user))
                 throw new DBException("You are not a participant");
-            eventRepository.deleteParticipant(connection, event, user);
+            userRepository.deleteParticipant(connection, event, user);
         } catch (SQLException e) {
             throw new DBException("Unable to leave from the event", e);
         }   finally {
