@@ -22,7 +22,7 @@ public class RegisterCommand implements Command {
             user.setEmail(RequestUtil.getStringParameter(request, "email"));
             user.setFirstName(RequestUtil.getStringParameter(request,"first_name"));
             user.setLastName(RequestUtil.getStringParameter(request, "last_name"));
-            user.setPassHash(RequestUtil.getStringParameter(request,"password"));
+            user.setPassword(RequestUtil.getStringParameter(request,"password"));
             role = RequestUtil.getStringParameter(request,"role").toUpperCase();
         }   catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -33,6 +33,7 @@ public class RegisterCommand implements Command {
         if (!role.equals(User.Role.USER.toString()) && !role.equals(User.Role.SPEAKER.toString())) {
             role = User.Role.USER.toString();
         }
+
         user.setRole(User.Role.valueOf(role));
         user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
 

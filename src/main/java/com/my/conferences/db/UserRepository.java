@@ -11,7 +11,7 @@ public class UserRepository {
 
     private static final String GET_BY_EMAIL =  "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, passhash = ?, role = ?, language = ? WHERE id = ?";
+    private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, password = ?, role = ?, language = ? WHERE id = ?";
     private static final String GET_ALL_PARTICIPANTS = "SELECT * FROM users WHERE id IN (SELECT user_id FROM participants WHERE event_id = ?) ORDER BY first_name, last_name, id";
     private static final String GET_ONE = "SELECT * FROM users WHERE id = ?";
     private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
@@ -118,7 +118,7 @@ public class UserRepository {
         stmt.setString(++k, user.getEmail());
         stmt.setString(++k, user.getFirstName());
         stmt.setString(++k, user.getLastName());
-        stmt.setString(++k, user.getPassHash());
+        stmt.setString(++k, user.getPassword());
         stmt.setString(++k, user.getRole().toString());
         stmt.setString(++k, user.getLanguage());
         return k;
@@ -134,7 +134,7 @@ public class UserRepository {
         user.setEmail(rs.getString("email"));
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));
-        user.setPassHash(rs.getString("passhash"));
+        user.setPassword(rs.getString("password"));
         user.setRole(User.Role.valueOf(rs.getString("role").toUpperCase()));
         user.setLanguage(rs.getString("language"));
     }

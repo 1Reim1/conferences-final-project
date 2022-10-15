@@ -25,9 +25,7 @@ public class UserManager {
         return instance;
     }
 
-    private UserManager() {
-
-    }
+    private UserManager() {}
 
     public User login(String email, String password, String language) throws DBException {
         User.validateEmailAndPassword(email, password);
@@ -45,7 +43,7 @@ public class UserManager {
             connectionManager.closeConnection(connection);
         }
 
-        if (!encryptPassword(password).equals(user.getPassHash()))
+        if (!encryptPassword(password).equals(user.getPassword()))
             throw new DBException("Password is incorrect");
 
         return user;
@@ -54,7 +52,7 @@ public class UserManager {
     public void register(User user) throws DBException {
         user.validateNames();
         user.validateEmailAndPassword();
-        user.setPassHash(encryptPassword(user.getPassHash()));
+        user.setPassword(encryptPassword(user.getPassword()));
         Connection connection = connectionManager.getConnection();
         boolean userExists = true;
         try {

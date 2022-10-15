@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String email;
     private String firstName;
     private String lastName;
-    private String passHash;
+    private String password;
     private Role role;
 
     private String language;
@@ -49,12 +49,12 @@ public class User implements Serializable {
         this.lastName = lastName.trim();
     }
 
-    public String getPassHash() {
-        return passHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassHash(String passHash) {
-        this.passHash = passHash.trim();
+    public void setPassword(String passHash) {
+        this.password = passHash.trim();
     }
 
     public Role getRole() {
@@ -81,7 +81,7 @@ public class User implements Serializable {
     }
 
     public void validateEmailAndPassword() throws DBException {
-        validateEmailAndPassword(email, passHash);
+        validateEmailAndPassword(email, password);
     }
 
     public static void validateEmailAndPassword(String email, String password) throws DBException {
@@ -122,7 +122,7 @@ public class User implements Serializable {
         if (!email.equals(user.email)) return false;
         if (!firstName.equals(user.firstName)) return false;
         if (!lastName.equals(user.lastName)) return false;
-        if (!passHash.equals(user.passHash)) return false;
+        if (!password.equals(user.password)) return false;
         return role == user.role;
     }
 
@@ -132,7 +132,7 @@ public class User implements Serializable {
         result = 31 * result + email.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
-        result = 31 * result + passHash.hashCode();
+        result = 31 * result + password.hashCode();
         result = 31 * result + role.hashCode();
         return result;
     }
