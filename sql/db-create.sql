@@ -26,8 +26,7 @@ create table events
     hidden       boolean    not null,
     statistics   int        not null,
     language     varchar(2) not null,
-    constraint events_users_id_fk
-        foreign key (moderator_id) references users (id)
+    foreign key (moderator_id) references users (id)
 );
 
 create table reports
@@ -38,22 +37,17 @@ create table reports
     creator_id int     not null,
     speaker_id int     not null,
     confirmed  boolean not null,
-    constraint reports_events_id_fk
-        foreign key (event_id) references events (id),
-    constraint reports_users_id_fk
-        foreign key (speaker_id) references users (id),
-    constraint reports_users_id_fk_2
-        foreign key (creator_id) references users (id)
+    foreign key (event_id) references events (id),
+    foreign key (creator_id) references users (id),
+    foreign key (speaker_id) references users (id)
 );
 
 create table participants
 (
     user_id  int not null,
     event_id int not null,
-    constraint participants_events_id_fk
-        foreign key (event_id) references events (id),
-    constraint participants_users_id_fk
-        foreign key (user_id) references users (id),
+    foreign key (user_id) references users (id),
+    foreign key (event_id) references events (id),
     unique (user_id, event_id)
 );
 
@@ -224,7 +218,8 @@ values (default, 'Глобальне потепління',
         'Земля нагрівається, і принаймні частково в цьому винні люди. Причини, наслідки та складність глобального потепління важливо розуміти, щоб ми могли боротися за здоров’я нашої планети.',
         'Луцька, 12, Полтавська область, 39232, Україна', FROM_UNIXTIME(1669122000), 1, false, -1, 'uk');
 insert into events
-values (default, 'Ядерна війна може призвести до голоду мільярдів, але одна країна може бути в більшій безпеці, ніж інші',
+values (default,
+        'Ядерна війна може призвести до голоду мільярдів, але одна країна може бути в більшій безпеці, ніж інші',
         'Вона починається з однієї грибоподібної хмаринки, яку світ сподівався більше ніколи не побачити. Відплата спонукає до атак "око за око", кожна з яких має на меті покласти край цій останній війні усіх війн, доки через тиждень або близько того Земля не почне здригатися під шаром сажі і пилу. Сценарії, що відображають і розраховують руйнування ядерної зими, не є чимось новим, вони походять з часів, коли холодна війна була нічною теленовиною. Десятиліття потому ми знаємо набагато більше про тонкий вплив твердих частинок в атмосфері на наше сільське господарство. І суми залишаються такими ж похмурими, як і раніше. Використовуючи останні дані про врожайність сільськогосподарських культур і рибні ресурси, група вчених з усього світу запропонувала шість сценаріїв, які наближено описують те, що ми можемо очікувати від постачання продовольства після швидкої ескалації ядерного конфлікту між воюючими державами.',
         'Калуш, 23, Миколаївська область, 56020, Україна', FROM_UNIXTIME(1669294800), 1, false, -1, 'uk');
 insert into events
@@ -234,7 +229,8 @@ values (default, 'Чи загрожує штучний інтелект нашо
 insert into events
 values (default, 'Наскільки шкідливим є куріння?',
         'Куріння викликає рак, хвороби серця, інсульт, хвороби легенів, діабет і хронічні обструктивні захворювання легенів (ХОЗЛ), які включають емфізему і хронічний бронхіт. Куріння також підвищує ризик розвитку туберкульозу, деяких захворювань очей та проблем з імунною системою, включаючи ревматоїдний артрит.',
-        'м. Добромиль, вул. Шевченка, 24, Вінницька область, 22036, Україна', FROM_UNIXTIME(1669379400), 1, false, -1, 'uk');
+        'м. Добромиль, вул. Шевченка, 24, Вінницька область, 22036, Україна', FROM_UNIXTIME(1669379400), 1, false, -1,
+        'uk');
 insert into events
 values (default, 'Як Уоррен Баффет вибирає акції?',
         'Інвестори вже давно високо оцінили вміння Уоррена Баффета обирати, в які акції інвестувати. Відомий за послідовне дотримання принципів ціннісного інвестування, Баффет, за даними Forbes, станом на 18 квітня 2022 року має статки у розмірі 124,3 мільярда доларів США. Він встояв перед спокусами, пов''язаними з інвестуванням в "наступну велику справу", а також використовував своє величезне багатство на благо, роблячи внески в благодійні фонди. З його надзвичайною здатністю знаходити довгострокові прибуткові інвестиції, зрозуміло, що більшість інвесторів хотіли б знати, що саме Баффет шукає в акціях.',
@@ -345,30 +341,3 @@ insert into participants
 values (17, 16);
 insert into participants
 values (18, 16);
-
-# # For user
-# SELECT events.*
-# FROM events
-#          JOIN participants on id = event_id
-# WHERE hidden = false
-#   AND user_id = 7
-# ORDER BY `date`, `id`;
-#
-# # For speaker
-# SELECT events.*
-# FROM events
-#          LEFT JOIN participants p on events.id = p.event_id
-#          LEFT JOIN reports r on events.id = r.event_id
-# WHERE p.user_id = 5
-#    OR r.speaker_id = 5
-# GROUP BY events.id
-# ORDER BY events.id;
-#
-# # For moderator
-# SELECT events.*
-# FROM events
-#          LEFT JOIN participants on id = event_id
-# WHERE moderator_id = 1
-#    OR user_id = 1
-# GROUP BY events.id
-# ORDER BY id;
