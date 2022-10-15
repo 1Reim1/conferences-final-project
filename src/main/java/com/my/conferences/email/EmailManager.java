@@ -17,7 +17,6 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class EmailManager {
@@ -170,18 +169,18 @@ public class EmailManager {
     public void sendReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
-        Consumer<Email> emailModifier = getEmailModifierForReport(report, event);
+        EmailModifier emailModifier = getEmailModifierForReport(report, event);
         addEmail("report.topic_changed", recipients, email -> {
-            emailModifier.accept(email);
+            emailModifier.modify(email);
             email.content = email.content.replace("{{prev_topic}}", prevTopic);
         });
     }
 
     public void sendConfirmedReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = getRecipientsFromEvent(event);
-        Consumer<Email> emailModifier = getEmailModifierForReport(report, event);
+        EmailModifier emailModifier = getEmailModifierForReport(report, event);
         addEmail("report.confirmed_topic_changed", recipients, email -> {
-            emailModifier.accept(email);
+            emailModifier.modify(email);
             email.content = email.content.replace("{{prev_topic}}", prevTopic);
         });
     }
@@ -194,14 +193,14 @@ public class EmailManager {
         return recipients;
     }
 
-    private Consumer<Email> getEmailModifierForReport(Report report, Event event) {
+    private EmailModifier getEmailModifierForReport(Report report, Event event) {
         return email -> email.content = email.content
                 .replace("{{topic}}", report.getTopic())
                 .replace("{{title}}", event.getTitle())
                 .replace("{{event_address}}", APP_URL + "/event?id=" + event.getId());
     }
 
-    private void addEmail(String emailTemplateProperty, List<User> recipients, Consumer<Email> emailModifier) {
+    private void addEmail(String emailTemplateProperty, List<User> recipients, EmailModifier emailModifier) {
         Email email = new Email(
                 TEMPLATES.getProperty(emailTemplateProperty + SUBJECT_PROPERTY),
                 TEMPLATES.getProperty(emailTemplateProperty + CONTENT_PROPERTY)
@@ -211,8 +210,8 @@ public class EmailManager {
                 TEMPLATES_UK.getProperty(emailTemplateProperty + CONTENT_PROPERTY)
         );
 
-        emailModifier.accept(email);
-        emailModifier.accept(emailUk);
+        emailModifier.modify(email);
+        emailModifier.modify(emailUk);
 
         for (User recipient : recipients) {
             if (recipient.getLanguage().equals("uk"))
@@ -251,18 +250,6 @@ public class EmailManager {
             Transport.send(message);
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
-    }
-
-    private static class Email {
-        Set<String> recipientEmails;
-        String subject;
-        String content;
-
-        Email(String subject, String content) {
-            this.subject = subject;
-            this.content = content;
-            recipientEmails = new HashSet<>();
         }
     }
 }

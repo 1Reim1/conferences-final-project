@@ -12,9 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="logic refactoring">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="db-create.sql refactoring">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/Email.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,14 +210,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="20093000" />
-    </task>
-    <task id="LOCAL-00068" summary="future past events">
-      <created>1662713639179</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1662713639179</updated>
+      <workItem from="1665746448324" duration="20455000" />
     </task>
     <task id="LOCAL-00069" summary="my events front">
       <created>1662750945281</created>
@@ -555,7 +548,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665840094116</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="db-create.sql refactoring">
+      <created>1665841193799</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1665841193799</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -573,7 +573,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="create event" />
     <MESSAGE value="ModeratorFilter.java" />
     <MESSAGE value="ReportManager" />
     <MESSAGE value="sidebar into tag" />
@@ -598,6 +597,7 @@
     <MESSAGE value="passhash -&gt; password" />
     <MESSAGE value="UserManager refactoring" />
     <MESSAGE value="logic refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="logic refactoring" />
+    <MESSAGE value="db-create.sql refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="db-create.sql refactoring" />
   </component>
 </project>
