@@ -16,7 +16,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * Class for sending emails
+ */
 public class EmailManager {
+
     private final ScheduledExecutorService executorService;
     private final Properties TEMPLATES;
     private final Properties TEMPLATES_UK;
@@ -32,18 +36,18 @@ public class EmailManager {
     public EmailManager(Properties config) {
         emailList = new LinkedList<>();
         executorService = Executors.newSingleThreadScheduledExecutor();
-
+        // load properties from config
         appUrl = config.getProperty("app.url");
         fromEmail = config.getProperty("email");
         nickname = config.getProperty("nickname");
-
+        // load email templates
         try {
             TEMPLATES = PropertiesUtil.loadFromResources("emails.properties");
             TEMPLATES_UK = PropertiesUtil.loadFromResources("emails_uk.properties");
         } catch (IOException e) {
             throw new RuntimeException("Email templates loading exception", e);
         }
-
+        // create session
         String password = config.getProperty("password");
         session = Session.getInstance(config, new Authenticator() {
             @Override
@@ -51,14 +55,24 @@ public class EmailManager {
                 return new PasswordAuthentication(fromEmail, password);
             }
         });
-
         startService();
     }
 
+    private void startService() {
+        executorService.scheduleAtFixedRate(this::sendAll, 0, 5, TimeUnit.SECONDS);
+    }
+
+    /**
+     * stops service
+     * usually calls when app is stopping
+     */
     public void stopService() {
         executorService.shutdown();
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendTitleChanged(Event event, String prevTitle) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.title_changed", recipients, email -> email.content = email.content
@@ -67,6 +81,9 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendDescriptionChanged(Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.description_changed", recipients, email -> email.content = email.content
@@ -74,6 +91,9 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendDateChanged(Event event, Date prevDate) {
         String pattern = "dd-MM-yyyy HH:mm";
         SimpleDateFormat df = new SimpleDateFormat(pattern);
@@ -85,6 +105,9 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendPlaceChanged(Event event, String prevPlace) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.place_changed", recipients, email -> email.content = email.content
@@ -94,52 +117,79 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportOfferedByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.offered_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportOfferedBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.offered_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendAddedNewReport(Report report, Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("report.added_new", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportConfirmedByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.confirmed_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportConfirmedBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.confirmed_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportCancelledByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.cancelled_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportCancelledBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.cancelled_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendConfirmedReportCancelled(Report report, Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("report.confirmed_cancelled", recipients, getEmailModifierForReport(report, event));
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
@@ -150,6 +200,9 @@ public class EmailManager {
         });
     }
 
+    /**
+     * add emails to the list
+     */
     public void sendConfirmedReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = getRecipientsFromEvent(event);
         EmailModifier emailModifier = getEmailModifierForReport(report, event);
@@ -183,17 +236,18 @@ public class EmailManager {
                 TEMPLATES_UK.getProperty(emailTemplateProperty + SUBJECT_PROPERTY),
                 TEMPLATES_UK.getProperty(emailTemplateProperty + CONTENT_PROPERTY)
         );
-
+        // prepare emails to sending
         emailModifier.modify(email);
         emailModifier.modify(emailUk);
-
+        // add recipients to relevant emails
         for (User recipient : recipients) {
-            if (recipient.getLanguage().equals("uk"))
+            if (recipient.getLanguage().equals("uk")) {
                 emailUk.recipientEmails.add(recipient.getEmail());
-            else
+            } else {
                 email.recipientEmails.add(recipient.getEmail());
+            }
         }
-
+        // add emails to the list
         synchronized (EMAIL_LIST_MUTEX) {
             emailList.add(email);
             emailList.add(emailUk);
@@ -225,9 +279,5 @@ public class EmailManager {
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-    }
-
-    private void startService() {
-        executorService.scheduleAtFixedRate(this::sendAll, 0, 5, TimeUnit.SECONDS);
     }
 }

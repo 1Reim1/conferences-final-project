@@ -15,6 +15,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/select-language")
 public class SelectLanguageServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(SelectLanguageServlet.class);
     private UserService userService;
 

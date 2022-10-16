@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Class with logic for interaction with events
+ */
 public class EventService {
+
     private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
@@ -30,21 +34,31 @@ public class EventService {
         this.PAGE_SIZE = pageSize;
     }
 
+    /**
+     * returns all events in selected order
+     * returns only events which user participate or all
+     *
+     * @param futureOrder  boolean value that represents future or past events
+     * @param onlyMyEvents boolean value that represent all or only my events
+     * @param user         which performs operation
+     * @return list of events
+     */
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
-        if (page == 0)
+        if (page == 0) {
             return new ArrayList<>();
-
-        if (order != Event.Order.DATE)
+        }
+        if (order != Event.Order.DATE) {
             reverseOrder = !reverseOrder;
-
+        }
         Connection connection = ConnectionUtil.getConnection();
         List<Event> events;
         try {
-            if (onlyMyEvents)
+            if (onlyMyEvents) {
                 events = eventDao.findAllMy(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user);
-            else
+            } else {
                 events = eventDao.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user.getLanguage());
-
+            }
+            // load reports and participants for view layer
             for (Event event : events) {
                 reportDao.findAll(connection, event, true);
                 userDao.findAllParticipants(connection, event);
@@ -76,6 +90,13 @@ public class EventService {
         return event;
     }
 
+    /**
+     * returns one event by id
+     *
+     * @param id   id of event
+     * @param user user which performs action
+     * @return event
+     */
     public Event findOne(int id, User user) throws DBException {
         Connection connection = ConnectionUtil.getConnection();
 
@@ -89,6 +110,14 @@ public class EventService {
         return event;
     }
 
+    /**
+     * return count of pages
+     *
+     * @param futureOrder  boolean value that represents future or past events
+     * @param onlyMyEvents boolean value that represent all or only my events
+     * @param user         user that performs action
+     * @return count of pages
+     */
     public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -104,6 +133,11 @@ public class EventService {
         }
     }
 
+    /**
+     * inserts event into the database
+     *
+     * @param event event that should be inserted
+     */
     public void create(Event event) throws DBException, ValidationException {
         event.setStatistics(-1);
         event.setHidden(true);
@@ -120,21 +154,27 @@ public class EventService {
         }
     }
 
+    /**
+     * joins the user to the event
+     *
+     * @param eventId id of event
+     * @param user    user which should be joined
+     */
     public void join(int eventId, User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
-            canInteractWithEvent(event);
-
-            if (event.getModerator().equals(user))
+            canInteractWithEventValidation(event);
+            if (event.getModerator().equals(user)) {
                 throw new ValidationException("You are a moderator");
-            if (user.getRole() == User.Role.SPEAKER) {
-                if (event.getReports().stream().map(Report::getSpeaker).anyMatch(s -> s.equals(user)))
-                    throw new ValidationException("You have a report");
             }
-
-            if (event.getParticipants().contains(user))
+            if (user.getRole() == User.Role.SPEAKER &&
+                    event.getReports().stream().map(Report::getSpeaker).anyMatch(s -> s.equals(user))) {
+                throw new ValidationException("You have a report");
+            }
+            if (event.getParticipants().contains(user)) {
                 throw new ValidationException("You are already a participant");
+            }
 
             userDao.insertParticipant(connection, event, user);
         } catch (SQLException e) {
@@ -144,14 +184,20 @@ public class EventService {
         }
     }
 
+    /**
+     * removes the user from the event
+     *
+     * @param eventId id of event
+     * @param user    user which should be removed from event
+     */
     public void leave(int eventId, User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
-            canInteractWithEvent(event);
-
-            if (!event.getParticipants().contains(user))
+            canInteractWithEventValidation(event);
+            if (!event.getParticipants().contains(user)) {
                 throw new ValidationException("You are not a participant");
+            }
 
             userDao.deleteParticipant(connection, event, user);
         } catch (SQLException e) {
@@ -161,6 +207,12 @@ public class EventService {
         }
     }
 
+    /**
+     * hides event from users with role 'user'
+     *
+     * @param eventId id of event
+     * @param user    user which performs action
+     */
     public void hide(int eventId, User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -180,15 +232,22 @@ public class EventService {
         }
     }
 
+    /**
+     * shows the event
+     *
+     * @param eventId id of event
+     * @param user    user which action
+     */
     public void show(int eventId, User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-
-            if (!event.isHidden())
+            if (!event.isHidden()) {
                 throw new ValidationException("Event is already shown");
-            if (!event.getModerator().equals(user))
+            }
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permissions");
+            }
 
             event.setHidden(false);
             eventDao.update(connection, event);
@@ -199,20 +258,27 @@ public class EventService {
         }
     }
 
+    /**
+     * changes a title of event
+     *
+     * @param eventId  id of event
+     * @param newTitle new title for event
+     * @param user     user which performs action
+     */
     public void modifyTitle(int eventId, String newTitle, User user) throws DBException, ValidationException {
         Event.validateTitle(newTitle);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-            canInteractWithEvent(event);
-
-            if (!event.getModerator().equals(user))
+            canInteractWithEventValidation(event);
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permission");
+            }
 
             String prevTitle = event.getTitle();
             event.setTitle(newTitle);
             eventDao.update(connection, event);
-
+            // Send email notifications
             emailManager.sendTitleChanged(event, prevTitle);
         } catch (SQLException e) {
             throw new DBException("Unable to modify a title", e);
@@ -221,19 +287,25 @@ public class EventService {
         }
     }
 
+    /**
+     * changes a description of event
+     *
+     * @param eventId        id of event
+     * @param newDescription new description for event
+     * @param user           user which performs action
+     */
     public void modifyDescription(int eventId, String newDescription, User user) throws DBException, ValidationException {
         Event.validateDescription(newDescription);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-            canInteractWithEvent(event);
-
-            if (!event.getModerator().equals(user))
+            canInteractWithEventValidation(event);
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permission");
+            }
 
             event.setDescription(newDescription);
             eventDao.update(connection, event);
-
             emailManager.sendDescriptionChanged(event);
         } catch (SQLException e) {
             throw new DBException("Unable to modify a description", e);
@@ -242,20 +314,26 @@ public class EventService {
         }
     }
 
+    /**
+     * changes a date of event
+     *
+     * @param eventId id of event
+     * @param newDate new date for event
+     * @param user    user which performs action
+     */
     public void modifyDate(int eventId, Date newDate, User user) throws DBException, ValidationException {
         Event.validateDate(newDate);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-            canInteractWithEvent(event);
-
-            if (!event.getModerator().equals(user))
+            canInteractWithEventValidation(event);
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permission");
+            }
 
             Date prevDate = event.getDate();
             event.setDate(newDate);
             eventDao.update(connection, event);
-
             emailManager.sendDateChanged(event, prevDate);
         } catch (SQLException e) {
             throw new DBException("Unable to modify a date", e);
@@ -264,20 +342,26 @@ public class EventService {
         }
     }
 
+    /**
+     * changes place of event
+     *
+     * @param eventId  id of event
+     * @param newPlace new place for event
+     * @param user     user which performs action
+     */
     public void modifyPlace(int eventId, String newPlace, User user) throws DBException, ValidationException {
         Event.validatePlace(newPlace);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-            canInteractWithEvent(event);
-
-            if (!event.getModerator().equals(user))
+            canInteractWithEventValidation(event);
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permission");
+            }
 
             String prevPlace = event.getPlace();
             event.setPlace(newPlace);
             eventDao.update(connection, event);
-
             emailManager.sendPlaceChanged(event, prevPlace);
         } catch (SQLException e) {
             throw new DBException("Unable to modify a place", e);
@@ -286,19 +370,29 @@ public class EventService {
         }
     }
 
+    /**
+     * changes statistics of event
+     *
+     * @param eventId       id of event
+     * @param newStatistics new statistics for event
+     * @param user          user which performs action
+     */
     public void modifyStatistics(int eventId, int newStatistics, User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
-
-            if (!event.getModerator().equals(user))
+            if (!event.getModerator().equals(user)) {
                 throw new ValidationException("You have not permission");
-            if (event.getDate().compareTo(new Date()) > 0)
+            }
+            if (event.getDate().compareTo(new Date()) > 0) {
                 throw new ValidationException("Unable to modify statistics for a future event");
-            if (newStatistics < 0)
+            }
+            if (newStatistics < 0) {
                 throw new ValidationException("Statistics should be greater than zero");
-            if (newStatistics > event.getParticipants().size())
+            }
+            if (newStatistics > event.getParticipants().size()) {
                 throw new ValidationException("Statistics should be lesser than a number of participants");
+            }
 
             event.setStatistics(newStatistics);
             eventDao.update(connection, event);
@@ -309,7 +403,7 @@ public class EventService {
         }
     }
 
-    static void canInteractWithEvent(Event event) throws ValidationException {
+    static void canInteractWithEventValidation(Event event) throws ValidationException {
         try {
             Event.validateDate(event.getDate());
         } catch (ValidationException e) {

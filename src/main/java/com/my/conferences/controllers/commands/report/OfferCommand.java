@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class OfferCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(OfferCommand.class);
     private final ReportService reportService;
 
@@ -27,15 +28,15 @@ public class OfferCommand implements Command {
         try {
             Report report = new Report();
             report.setTopic(RequestUtil.getStringParameter(request, "topic"));
-            logger.debug("Topic: " + report.getTopic());
             report.setEventId(RequestUtil.getIntParameter(request, "event_id"));
-            logger.debug("Event id: " + report.getEventId());
             report.setCreator((User) request.getSession().getAttribute("user"));
-            logger.debug("Creator id: " + report.getCreator().getId());
             User speaker = new User();
             speaker.setId(RequestUtil.getIntParameter(request, "speaker_id"));
-            logger.debug("Speaker id: " + speaker.getId());
             report.setSpeaker(speaker);
+            logger.debug("Topic: " + report.getTopic());
+            logger.debug("Event id: " + report.getEventId());
+            logger.debug("Creator id: " + report.getCreator().getId());
+            logger.debug("Speaker id: " + speaker.getId());
             reportService.offerReport(report);
         } catch (ValidationException e) {
             logger.error("execute: ", e);

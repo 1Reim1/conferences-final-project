@@ -6,10 +6,19 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+/**
+ * Util class for comfortable work with properties files
+ */
 public class PropertiesUtil {
 
     private PropertiesUtil() {}
 
+    /**
+     * Loads properties from file
+     *
+     * @param fileName filename
+     * @return Properties that were loaded
+     */
     public static Properties loadFromResources(String fileName) throws IOException {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try (InputStream inputStream = loader.getResourceAsStream(fileName);

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class ModifyTitleCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(ModifyTitleCommand.class);
     private final EventService eventService;
 
@@ -25,8 +26,8 @@ public class ModifyTitleCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
-            logger.debug("Event id: " + eventId);
             String title = RequestUtil.getStringParameter(request, "title");
+            logger.debug("Event id: " + eventId);
             logger.debug("Title: " + title);
             eventService.modifyTitle(eventId, title, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {

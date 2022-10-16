@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class ModifyPlaceCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(ModifyPlaceCommand.class);
     private final EventService eventService;
 
@@ -25,8 +26,8 @@ public class ModifyPlaceCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
-            logger.debug("Event id: " + eventId);
             String place = RequestUtil.getStringParameter(request, "place");
+            logger.debug("Event id: " + eventId);
             logger.debug("Place: " + place);
             eventService.modifyPlace(eventId, place, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {

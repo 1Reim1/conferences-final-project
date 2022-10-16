@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MysqlEventDaoImpl implements EventDao {
+
     private static final String GET_ALL_COUNT = "SELECT COUNT(events.id) AS total FROM events WHERE events.hidden = false AND events.date %s ? AND events.language = ?";
     private static final String GET_ALL_ORDER_BY_DATE = "SELECT events.* FROM events WHERE events.hidden = false AND events.date %s ? AND events.language = ? ORDER BY events.date %s, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_ORDER_BY_REPORTS = "SELECT events.*, COUNT(r.id) AS reports_count FROM events LEFT JOIN reports r ON events.id = r.event_id AND r.confirmed = true WHERE events.hidden = false AND events.date %s ? AND events.language = ? GROUP BY events.id ORDER BY reports_count %s, events.id LIMIT ? OFFSET ?";
@@ -35,6 +36,7 @@ public class MysqlEventDaoImpl implements EventDao {
     private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ?, language = ? WHERE id = ?";
 
+    @Override
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, String language) throws SQLException {
         String query = getFindAllQuery(order);
         query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
@@ -46,6 +48,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, User user) throws SQLException {
         String query = getFindAllMyQuery(order, user);
         query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
@@ -56,6 +59,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public int findCount(Connection connection, boolean futureOrder, String language) throws SQLException {
         String query = String.format(GET_ALL_COUNT, futureOrder ? ">" : "<");
 
@@ -69,6 +73,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public int findCountMy(Connection connection, boolean futureOrder, User user) throws SQLException {
         String query = getFindCountMyQuery(user);
         query = String.format(query, futureOrder ? ">" : "<");
@@ -84,6 +89,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public Event findOne(Connection connection, int id, boolean showHidden) throws SQLException {
         String query = showHidden ? GET_ONE_SHOW_HIDDEN : GET_ONE;
 
@@ -96,6 +102,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public void insert(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatementForEvent(stmt, event);
@@ -107,6 +114,7 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    @Override
     public void update(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
             int k = prepareStatementForEvent(stmt, event);
@@ -130,46 +138,56 @@ public class MysqlEventDaoImpl implements EventDao {
     }
 
     private String getFindAllQuery(Event.Order order) {
-        if (order == Event.Order.DATE)
+        if (order == Event.Order.DATE) {
             return GET_ALL_ORDER_BY_DATE;
-        if (order == Event.Order.REPORTS)
+        }
+        if (order == Event.Order.REPORTS) {
             return GET_ALL_ORDER_BY_REPORTS;
+        }
 
         return GET_ALL_ORDER_BY_PARTICIPANTS;
     }
 
     private String getFindAllMyQuery(Event.Order order, User user) {
         if (user.getRole() == User.Role.USER) {
-            if (order == Event.Order.DATE)
+            if (order == Event.Order.DATE) {
                 return GET_ALL_MY_FOR_USER_ORDER_BY_DATE;
-            if (order == Event.Order.REPORTS)
+            }
+            if (order == Event.Order.REPORTS) {
                 return GET_ALL_MY_FOR_USER_ORDER_BY_REPORTS;
+            }
 
             return GET_ALL_MY_FOR_USER_ORDER_BY_PARTICIPANTS;
         }
 
         if (user.getRole() == User.Role.SPEAKER) {
-            if (order == Event.Order.DATE)
+            if (order == Event.Order.DATE) {
                 return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_DATE;
-            if (order == Event.Order.REPORTS)
+            }
+            if (order == Event.Order.REPORTS) {
                 return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_REPORTS;
+            }
 
             return GET_ALL_MY_FOR_SPEAKER_ORDER_BY_PARTICIPANTS;
         }
 
-        if (order == Event.Order.DATE)
+        if (order == Event.Order.DATE) {
             return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_DATE;
-        if (order == Event.Order.REPORTS)
+        }
+        if (order == Event.Order.REPORTS) {
             return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_REPORTS;
+        }
 
         return GET_ALL_MY_FOR_MODERATOR_ORDER_BY_PARTICIPANTS;
     }
 
     private String getFindCountMyQuery(User user) {
-        if (user.getRole() == User.Role.USER)
+        if (user.getRole() == User.Role.USER) {
             return GET_ALL_MY_COUNT_FOR_USER;
-        if (user.getRole() == User.Role.SPEAKER)
+        }
+        if (user.getRole() == User.Role.SPEAKER) {
             return GET_ALL_MY_COUNT_FOR_SPEAKER;
+        }
 
         return GET_ALL_MY_COUNT_FOR_MODERATOR;
     }

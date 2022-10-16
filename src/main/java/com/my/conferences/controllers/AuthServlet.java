@@ -15,6 +15,7 @@ import java.util.Map;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(AuthServlet.class);
     private static final Map<String, Command> commandMap = new HashMap<>();
 

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class JoinCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(JoinCommand.class);
     private final EventService eventService;
 

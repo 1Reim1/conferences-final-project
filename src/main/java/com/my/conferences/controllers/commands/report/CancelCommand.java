@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class CancelCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(CancelCommand.class);
     private final ReportService reportService;
 

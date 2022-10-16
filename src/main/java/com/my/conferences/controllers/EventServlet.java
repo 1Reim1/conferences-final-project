@@ -27,6 +27,7 @@ import java.util.Map;
 
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(EventServlet.class);
     private final Map<String, Command> commandMap = new HashMap<>();
     private EventService eventService;

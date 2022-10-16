@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class SearchAvailableSpeakersCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(SearchAvailableSpeakersCommand.class);
     private final UserService userService;
 

@@ -16,6 +16,7 @@ import java.util.Date;
 
 @WebServlet("/create-event")
 public class CreateEventServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(CreateEventServlet.class);
     private EventService eventService;
 
@@ -34,15 +35,15 @@ public class CreateEventServlet extends HttpServlet {
         try {
             Event event = new Event();
             event.setTitle(RequestUtil.getStringParameter(request, "title"));
-            logger.debug("Title: " + event.getTitle());
             event.setDescription(RequestUtil.getStringParameter(request, "description"));
-            logger.debug("Description: " + event.getDescription());
             event.setPlace(RequestUtil.getStringParameter(request, "place"));
-            logger.debug("Place: " + event.getPlace());
             event.setModerator((User) request.getSession().getAttribute("user"));
-            logger.debug("Moderator id: " + event.getModerator().getId());
             event.setDate(new Date(RequestUtil.getLongParameter(request, "date")));
+            logger.debug("Title: " + event.getTitle());
+            logger.debug("Description: " + event.getDescription());
+            logger.debug("Place: " + event.getPlace());
             logger.debug("Date: " + event.getDate().toString());
+            logger.debug("Moderator id: " + event.getModerator().getId());
             eventService.create(event);
             response.getWriter().println(event.getId());
         } catch (ValidationException e) {

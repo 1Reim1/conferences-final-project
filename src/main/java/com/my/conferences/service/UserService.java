@@ -10,13 +10,25 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Class with logic for interaction with users
+ */
 public class UserService {
+
     private final UserDao userDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
 
+    /**
+     * represents login operation
+     *
+     * @param email email of user
+     * @param password password of user
+     * @param language language to save its in database
+     * @return User with these email and password
+     */
     public User login(String email, String password, String language) throws DBException, ValidationException {
         User.validateEmailAndPassword(email, password);
         Connection connection = ConnectionUtil.getConnection();
@@ -39,6 +51,11 @@ public class UserService {
         return user;
     }
 
+    /**
+     * represents register operation
+     *
+     * @param user user which should be registered
+     */
     public void register(User user) throws DBException, ValidationException {
         user.validateNames();
         user.validateEmailAndPassword();
@@ -65,6 +82,9 @@ public class UserService {
         }
     }
 
+    /**
+     * Changes a language for user
+     */
     public void setLanguage(User user, String language) throws DBException {
         user.setLanguage(language);
         Connection connection = ConnectionUtil.getConnection();
@@ -77,6 +97,15 @@ public class UserService {
         }
     }
 
+    /**
+     * Returns the list of users with 'speaker' role,
+     * which are not participants of the event
+     *
+     * @param eventId id of the event
+     * @param searchQuery part of name of speaker
+     * @param user user that performs search
+     * @return list of speakers
+     */
     public List<User> searchAvailableSpeakers(int eventId, String searchQuery, User user) throws DBException, ValidationException {
         if (user.getRole() != User.Role.MODERATOR)
             throw new ValidationException("You have not permissions");
@@ -98,7 +127,9 @@ public class UserService {
             m.update(password.getBytes());
             byte[] bytes = m.digest();
             StringBuilder s = new StringBuilder();
-            for (byte aByte : bytes) s.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes)  {
+                s.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+            }
             encrypted = s.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

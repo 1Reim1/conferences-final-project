@@ -17,6 +17,7 @@ import java.util.Map;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(HomeServlet.class);
     private EventService eventService;
 

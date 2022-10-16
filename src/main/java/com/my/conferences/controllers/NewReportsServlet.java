@@ -15,6 +15,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/new-reports")
 public class NewReportsServlet extends HttpServlet {
+
     private final static Logger logger = Logger.getLogger(NewReportsServlet.class);
     private ReportService reportService;
 

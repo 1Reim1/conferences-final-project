@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class LeaveCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(LeaveCommand.class);
     private final EventService eventService;
 

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 public class ConfirmCommand implements Command {
+
     private final static Logger logger = Logger.getLogger(ConfirmCommand.class);
     private final ReportService reportService;
 

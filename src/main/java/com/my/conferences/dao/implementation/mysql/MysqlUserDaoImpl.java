@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlUserDaoImpl implements UserDao {
+
     private static final String GET_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, password = ?, role = ?, language = ? WHERE id = ?";
@@ -18,6 +19,7 @@ public class MysqlUserDaoImpl implements UserDao {
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
+    @Override
     public void findOne(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
             stmt.setInt(1, user.getId());
@@ -28,6 +30,7 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public User findByEmail(Connection connection, String email) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_BY_EMAIL)) {
             stmt.setString(1, email);
@@ -38,6 +41,7 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public void insert(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
             prepareStatementForUser(stmt, user);
@@ -49,6 +53,7 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public void update(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE, Statement.RETURN_GENERATED_KEYS)) {
             int k = prepareStatementForUser(stmt, user);
@@ -57,6 +62,7 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
         List<User> speakers = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL)) {
@@ -72,6 +78,7 @@ public class MysqlUserDaoImpl implements UserDao {
         return speakers;
     }
 
+    @Override
     public void findAllParticipants(Connection connection, Event event) throws SQLException {
         List<User> participants = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
@@ -86,6 +93,7 @@ public class MysqlUserDaoImpl implements UserDao {
         event.setParticipants(participants);
     }
 
+    @Override
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
             stmt.setInt(1, user.getId());
@@ -94,6 +102,7 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {
             stmt.setInt(1, user.getId());
