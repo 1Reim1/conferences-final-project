@@ -9,11 +9,13 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
 public class SearchAvailableSpeakersCommand implements Command {
+    private final static Logger logger = Logger.getLogger(SearchAvailableSpeakersCommand.class);
     private final UserService userService;
 
     public SearchAvailableSpeakersCommand(UserService userService) {
@@ -30,10 +32,12 @@ public class SearchAvailableSpeakersCommand implements Command {
             eventId = RequestUtil.getIntParameter(request, "event_id");
             speakers = userService.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
             return;
         } catch (DBException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;

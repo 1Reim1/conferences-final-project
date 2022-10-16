@@ -13,25 +13,30 @@ import com.my.conferences.util.PropertiesUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Properties;
 
 @WebListener
 public class ContextListener implements ServletContextListener, HttpSessionListener, HttpSessionAttributeListener {
+    private final static Logger logger = Logger.getLogger(ContextListener.class);
     private EmailManager emailManager;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        logger.info("Starting");
         int homePageSize;
         try {
             Properties appConfig = PropertiesUtil.loadFromResources("app.properties");
             homePageSize = Integer.parseInt(appConfig.getProperty("home.page.size"));
+            logger.debug("home.page.size = " + homePageSize);
 
             Properties emailConfig = PropertiesUtil.loadFromResources("email.properties");
             emailManager = new EmailManager(emailConfig);
-        } catch (IOException e) {
-            throw new RuntimeException("Loading app config exception", e);
+        } catch (IOException | NumberFormatException e) {
+            logger.error("Loading app config exception", e);
+            throw new RuntimeException(e);
         }
 
         DaoFactory daoFactory = new MysqlDaoFactory();
@@ -47,6 +52,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        logger.info("Stopping");
         emailManager.stopService();
     }
 }

@@ -9,11 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 @WebServlet(value = "/new-reports")
 public class NewReportsServlet extends HttpServlet {
+    private final static Logger logger = Logger.getLogger(NewReportsServlet.class);
     private ReportService reportService;
 
     @Override
@@ -26,10 +28,12 @@ public class NewReportsServlet extends HttpServlet {
         try {
             request.setAttribute("reportWithEventList", reportService.findNewReports((User) request.getSession().getAttribute("user")));
         } catch (ValidationException e) {
+            logger.error("doGet: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
             return;
         } catch (DBException e) {
+            logger.error("doGet: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;

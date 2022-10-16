@@ -9,10 +9,12 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class CancelCommand implements Command {
+    private final static Logger logger = Logger.getLogger(CancelCommand.class);
     private final ReportService reportService;
 
     public CancelCommand(ReportService reportService) {
@@ -23,11 +25,14 @@ public class CancelCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int reportId = RequestUtil.getIntParameter(request, "report_id");
+            logger.debug("Report id: " + reportId);
             reportService.cancelReport(reportId, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

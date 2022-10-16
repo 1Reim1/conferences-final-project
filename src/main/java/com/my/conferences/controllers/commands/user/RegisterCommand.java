@@ -9,10 +9,12 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class RegisterCommand implements Command {
+    private final static Logger logger = Logger.getLogger(RegisterCommand.class);
     private final UserService userService;
 
     public RegisterCommand(UserService userService) {
@@ -24,10 +26,14 @@ public class RegisterCommand implements Command {
         try {
             User user = new User();
             user.setEmail(RequestUtil.getStringParameter(request, "email"));
+            logger.debug("Email: " + user.getEmail());
             user.setFirstName(RequestUtil.getStringParameter(request, "first_name"));
+            logger.debug("First name: " + user.getFirstName());
             user.setLastName(RequestUtil.getStringParameter(request, "last_name"));
+            logger.debug("Last name: " + user.getLastName());
             user.setPassword(RequestUtil.getStringParameter(request, "password"));
             String role = RequestUtil.getStringParameter(request, "role").toUpperCase();
+            logger.debug("Role: " + role);
 
             if (!role.equals(User.Role.USER.toString()) && !role.equals(User.Role.SPEAKER.toString())) {
                 role = User.Role.USER.toString();
@@ -35,13 +41,16 @@ public class RegisterCommand implements Command {
 
             user.setRole(User.Role.valueOf(role));
             user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
+            logger.debug("Language: " + user.getLanguage());
             userService.register(user);
 
             request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
+            logger.error("execute: ", e);
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

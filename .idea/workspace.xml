@@ -12,9 +12,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="refactoring">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/EncodingFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="logging">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,28 +212,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="39614000" />
-    </task>
-    <task id="LOCAL-00077" summary="ReportManager">
-      <created>1663242462577</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1663242462577</updated>
-    </task>
-    <task id="LOCAL-00078" summary="sidebar into tag">
-      <created>1663245163718</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1663245163718</updated>
-    </task>
-    <task id="LOCAL-00079" summary="jsp into WEB-INF">
-      <created>1663245649791</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1663245649792</updated>
+      <workItem from="1665746448324" duration="46083000" />
     </task>
     <task id="LOCAL-00080" summary="modify-icon fix">
       <created>1663675707890</created>
@@ -558,7 +536,28 @@
       <option name="project" value="LOCAL" />
       <updated>1665907680472</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="refactoring">
+      <created>1665907959941</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1665907959941</updated>
+    </task>
+    <task id="LOCAL-00127" summary="logging">
+      <created>1665919655591</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1665919655591</updated>
+    </task>
+    <task id="LOCAL-00128" summary="logging">
+      <created>1665923843924</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1665923843924</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,7 +575,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="EventRepository" />
     <MESSAGE value="new-reports page" />
     <MESSAGE value="jsp refactoring" />
     <MESSAGE value="validation refactoring" />
@@ -601,6 +599,7 @@
     <MESSAGE value="app config" />
     <MESSAGE value="EmailManager refactoring" />
     <MESSAGE value="refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
+    <MESSAGE value="logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="logging" />
   </component>
 </project>

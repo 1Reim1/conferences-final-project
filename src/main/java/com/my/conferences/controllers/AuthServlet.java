@@ -7,6 +7,7 @@ import com.my.conferences.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
+    private final static Logger logger = Logger.getLogger(AuthServlet.class);
     private static final Map<String, Command> commandMap = new HashMap<>();
 
     @Override
@@ -33,7 +35,9 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.debug("Auth post request");
         String commandKey = request.getParameter("command");
+        logger.debug("Command: " + commandKey);
         Command command = commandMap.get(commandKey);
         if (command == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

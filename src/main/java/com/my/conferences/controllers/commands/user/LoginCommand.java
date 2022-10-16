@@ -9,11 +9,13 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class LoginCommand implements Command {
+    private final static Logger logger = Logger.getLogger(LoginCommand.class);
     private final UserService userService;
 
     public LoginCommand(UserService userService) {
@@ -24,17 +26,21 @@ public class LoginCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String email = RequestUtil.getStringParameter(request, "email");
+            logger.debug("Email: " + email);
             String password = RequestUtil.getStringParameter(request, "password");
 
             Map<String, String> cookiesMap = RequestUtil.getCookiesMap(request);
             String language = User.validateLanguage(cookiesMap.getOrDefault("lang", "en"));
+            logger.debug("Language: " + language);
             User user = userService.login(email, password, language);
 
             request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().println(e.getMessage());
         }

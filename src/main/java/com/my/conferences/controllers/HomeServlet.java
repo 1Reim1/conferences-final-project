@@ -9,6 +9,7 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
+    private final static Logger logger = Logger.getLogger(HomeServlet.class);
     private EventService eventService;
 
     @Override
@@ -50,6 +52,7 @@ public class HomeServlet extends HttpServlet {
             page = Math.min(page, pages);
             request.setAttribute("events", eventService.findAll(page, order, reverseOrder, futureOrder, onlyMyEvents, user));
         } catch (DBException e) {
+            logger.error("doGet: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;

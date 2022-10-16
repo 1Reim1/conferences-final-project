@@ -9,11 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 @WebServlet(value = "/select-language")
 public class SelectLanguageServlet extends HttpServlet {
+    private final static Logger logger = Logger.getLogger(SelectLanguageServlet.class);
     private UserService userService;
 
     @Override
@@ -24,11 +26,14 @@ public class SelectLanguageServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String language = RequestUtil.getStringParameter(request, "language");
+            logger.debug("Language: " + language);
             userService.setLanguage((User) request.getSession().getAttribute("user"), language);
         } catch (ValidationException e) {
+            logger.error("doPost: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
+            logger.error("doPost: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

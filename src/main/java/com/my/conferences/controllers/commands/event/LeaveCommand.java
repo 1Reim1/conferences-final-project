@@ -9,10 +9,12 @@ import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class LeaveCommand implements Command {
+    private final static Logger logger = Logger.getLogger(LeaveCommand.class);
     private final EventService eventService;
 
     public LeaveCommand(EventService eventService) {
@@ -23,11 +25,14 @@ public class LeaveCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
+            logger.debug("Event id: " + eventId);
             eventService.leave(eventId, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
+            logger.error("execute: ", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }
