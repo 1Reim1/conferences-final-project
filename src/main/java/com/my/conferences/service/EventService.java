@@ -3,7 +3,6 @@ package com.my.conferences.service;
 import com.my.conferences.dao.EventDao;
 import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
-import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
@@ -17,17 +16,18 @@ import java.util.Date;
 import java.util.List;
 
 public class EventService {
-    private static final EmailManager emailManager = EmailManager.getInstance();
+    private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
     private final UserDao userDao;
     private final int PAGE_SIZE;
 
-    public EventService(DaoFactory daoFactory, int pageSize) {
-        eventDao = daoFactory.getEventDao();
-        reportDao = daoFactory.getReportDao();
-        userDao = daoFactory.getUserDao();
-        PAGE_SIZE = pageSize;
+    public EventService(EmailManager emailManager, EventDao eventDao, ReportDao reportDao, UserDao userDao, int pageSize) {
+        this.emailManager = emailManager;
+        this.eventDao = eventDao;
+        this.reportDao = reportDao;
+        this.userDao = userDao;
+        this.PAGE_SIZE = pageSize;
     }
 
     public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {

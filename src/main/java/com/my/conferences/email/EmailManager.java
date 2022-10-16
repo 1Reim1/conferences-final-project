@@ -3,12 +3,12 @@ package com.my.conferences.email;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.util.PropertiesUtil;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class EmailManager {
-    private static EmailManager instance;
     private final ScheduledExecutorService executorService;
     private final Properties TEMPLATES;
     private final Properties TEMPLATES_UK;
@@ -25,30 +24,27 @@ public class EmailManager {
     private final static String CONTENT_PROPERTY = ".content";
     private final String appUrl;
     private final String fromEmail;
+    private final String nickname;
     private final Session session;
     private final List<Email> emailList;
     private final Object EMAIL_LIST_MUTEX = new Object();
 
-    public static synchronized EmailManager getInstance() {
-        if (instance == null) {
-            instance = new EmailManager();
-        }
-
-        return instance;
-    }
-
-    private EmailManager() {
-        TEMPLATES = new Properties();
-        TEMPLATES_UK = new Properties();
-        loadEmailTemplates();
-
+    public EmailManager(Properties config) {
         emailList = new LinkedList<>();
+        executorService = Executors.newSingleThreadScheduledExecutor();
 
-        Properties config = loadEmailConfig();
         appUrl = config.getProperty("app.url");
         fromEmail = config.getProperty("email");
-        String password = config.getProperty("password");
+        nickname = config.getProperty("nickname");
 
+        try {
+            TEMPLATES = PropertiesUtil.loadFromResources("emails.properties");
+            TEMPLATES_UK = PropertiesUtil.loadFromResources("emails_uk.properties");
+        } catch (IOException e) {
+            throw new RuntimeException("Email templates loading exception", e);
+        }
+
+        String password = config.getProperty("password");
         session = Session.getInstance(config, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -56,37 +52,11 @@ public class EmailManager {
             }
         });
 
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(this::sendAll, 0, 5, TimeUnit.SECONDS);
+        startService();
     }
 
     public void stopService() {
         executorService.shutdown();
-    }
-
-    private void loadEmailTemplates() {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try (InputStream templatesStream = loader.getResourceAsStream("emails.properties");
-             InputStream templatesUkStream = loader.getResourceAsStream("emails_uk.properties");
-             InputStreamReader templatesReader = new InputStreamReader(templatesStream, StandardCharsets.UTF_8);
-             InputStreamReader templatesUkReader = new InputStreamReader(templatesUkStream, StandardCharsets.UTF_8)) {
-
-            TEMPLATES.load(templatesReader);
-            TEMPLATES_UK.load(templatesUkReader);
-        } catch (IOException e) {
-            throw new RuntimeException("Email templates loading exception", e);
-        }
-    }
-
-    private Properties loadEmailConfig() {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try (InputStream inputStream = loader.getResourceAsStream("email.properties")) {
-            Properties config = new Properties();
-            config.load(inputStream);
-            return config;
-        } catch (IOException e) {
-            throw new RuntimeException("Loading email config exception", e);
-        }
     }
 
     public void sendTitleChanged(Event event, String prevTitle) {
@@ -246,7 +216,7 @@ public class EmailManager {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(fromEmail, "Conferences"));
+            message.setFrom(new InternetAddress(fromEmail, nickname));
             message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(String.join(",", email.recipientEmails)));
             message.setSubject(email.subject);
             message.setContent(email.content, "text/html;charset=utf-8");
@@ -255,5 +225,9 @@ public class EmailManager {
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    private void startService() {
+        executorService.scheduleAtFixedRate(this::sendAll, 0, 5, TimeUnit.SECONDS);
     }
 }

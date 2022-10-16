@@ -12,9 +12,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="email config">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/app.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/listeners/ContextListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/listeners/ContextListener.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="refactoring">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/EncodingFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,21 +213,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="36221000" />
-    </task>
-    <task id="LOCAL-00075" summary="create event">
-      <created>1663081226456</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1663081226456</updated>
-    </task>
-    <task id="LOCAL-00076" summary="ModeratorFilter.java">
-      <created>1663241824600</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1663241824601</updated>
+      <workItem from="1665746448324" duration="39614000" />
     </task>
     <task id="LOCAL-00077" summary="ReportManager">
       <created>1663242462577</created>
@@ -558,7 +544,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665860161199</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="app config">
+      <created>1665861394923</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1665861394923</updated>
+    </task>
+    <task id="LOCAL-00125" summary="refactoring">
+      <created>1665907680472</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1665907680472</updated>
+    </task>
+    <option name="localTasksCounter" value="126" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,8 +576,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jsp into WEB-INF" />
-    <MESSAGE value="modify-icon fix" />
     <MESSAGE value="EventRepository" />
     <MESSAGE value="new-reports page" />
     <MESSAGE value="jsp refactoring" />
@@ -598,9 +596,11 @@
     <MESSAGE value="UserManager refactoring" />
     <MESSAGE value="logic refactoring" />
     <MESSAGE value="db-create.sql refactoring" />
-    <MESSAGE value="EmailManager refactoring" />
     <MESSAGE value="dao" />
     <MESSAGE value="email config" />
-    <option name="LAST_COMMIT_MESSAGE" value="email config" />
+    <MESSAGE value="app config" />
+    <MESSAGE value="EmailManager refactoring" />
+    <MESSAGE value="refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
   </component>
 </project>

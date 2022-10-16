@@ -1,7 +1,6 @@
 package com.my.conferences.service;
 
 import com.my.conferences.dao.UserDao;
-import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
 
@@ -14,8 +13,8 @@ import java.util.List;
 public class UserService {
     private final UserDao userDao;
 
-    public UserService(DaoFactory daoFactory) {
-        userDao = daoFactory.getUserDao();
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public User login(String email, String password, String language) throws DBException, ValidationException {

@@ -3,7 +3,6 @@ package com.my.conferences.service;
 import com.my.conferences.dao.EventDao;
 import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
-import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.dto.ReportWithEvent;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
@@ -17,15 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReportService {
-    private static final EmailManager emailManager = EmailManager.getInstance();
+    private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
     private final UserDao userDao;
 
-    public ReportService(DaoFactory daoFactory) {
-        eventDao = daoFactory.getEventDao();
-        reportDao = daoFactory.getReportDao();
-        userDao = daoFactory.getUserDao();
+    public ReportService(EmailManager emailManager, EventDao eventDao, ReportDao reportDao, UserDao userDao) {
+        this.emailManager = emailManager;
+        this.eventDao = eventDao;
+        this.reportDao = reportDao;
+        this.userDao = userDao;
     }
 
     public List<ReportWithEvent> findNewReports(User user) throws DBException, ValidationException {
