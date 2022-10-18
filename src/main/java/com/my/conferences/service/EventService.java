@@ -38,12 +38,12 @@ public class EventService {
      * returns all events in selected order
      * returns only events which user participate or all
      *
-     * @param futureOrder  boolean value that represents future or past events
+     * @param futureEvents  boolean value that represents future or past events
      * @param onlyMyEvents boolean value that represent all or only my events
      * @param user         which performs operation
      * @return list of events
      */
-    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
+    public List<Event> findAll(int page, Event.Order order, boolean reverseOrder, boolean futureEvents, boolean onlyMyEvents, User user) throws DBException {
         if (page == 0) {
             return new ArrayList<>();
         }
@@ -54,9 +54,9 @@ public class EventService {
         List<Event> events;
         try {
             if (onlyMyEvents) {
-                events = eventDao.findAllMy(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user);
+                events = eventDao.findAllMy(connection, order, reverseOrder, futureEvents, PAGE_SIZE, page, user);
             } else {
-                events = eventDao.findAll(connection, order, reverseOrder, futureOrder, PAGE_SIZE, page, user.getLanguage());
+                events = eventDao.findAll(connection, order, reverseOrder, futureEvents, PAGE_SIZE, page, user.getLanguage());
             }
             // load reports and participants for view layer
             for (Event event : events) {
@@ -143,6 +143,9 @@ public class EventService {
         event.setHidden(true);
         event.setLanguage(event.getModerator().getLanguage());
         event.validate();
+        if (event.getModerator().getRole() != User.Role.MODERATOR) {
+            throw new ValidationException("You have not permissions");
+        }
 
         Connection connection = ConnectionUtil.getConnection();
         try {

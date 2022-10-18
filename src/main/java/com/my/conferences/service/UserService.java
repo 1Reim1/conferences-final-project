@@ -46,7 +46,7 @@ public class UserService {
         }
 
         if (!encryptPassword(password).equals(user.getPassword()))
-            throw new DBException("Password is incorrect");
+            throw new ValidationException("Password is wrong");
 
         return user;
     }
@@ -57,6 +57,10 @@ public class UserService {
      * @param user user which should be registered
      */
     public void register(User user) throws DBException, ValidationException {
+        if (user.getRole() == User.Role.MODERATOR) {
+            throw new ValidationException("Moderator can not be register");
+        }
+
         user.validateNames();
         user.validateEmailAndPassword();
         user.setPassword(encryptPassword(user.getPassword()));

@@ -8,9 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface EventDao {
-    List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, String language) throws SQLException;
+    List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, String language) throws SQLException;
 
-    List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, User user) throws SQLException;
+    List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, User user) throws SQLException;
 
     int findCount(Connection connection, boolean futureOrder, String language) throws SQLException;
 

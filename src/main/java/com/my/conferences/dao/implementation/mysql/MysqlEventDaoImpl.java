@@ -37,9 +37,9 @@ public class MysqlEventDaoImpl implements EventDao {
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ?, language = ? WHERE id = ?";
 
     @Override
-    public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, String language) throws SQLException {
+    public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, String language) throws SQLException {
         String query = getFindAllQuery(order);
-        query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
+        query = String.format(query, futureEvents ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             int k = 0;
@@ -49,9 +49,9 @@ public class MysqlEventDaoImpl implements EventDao {
     }
 
     @Override
-    public List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureOrder, int pageSize, int page, User user) throws SQLException {
+    public List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, User user) throws SQLException {
         String query = getFindAllMyQuery(order, user);
-        query = String.format(query, futureOrder ? ">" : "<", reverseOrder ? "DESC" : "");
+        query = String.format(query, futureEvents ? ">" : "<", reverseOrder ? "DESC" : "");
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             int k = prepareStatementForMyEvents(stmt, user);
