@@ -51,7 +51,7 @@ public class RequestUtil {
         try {
             parameter = Long.parseLong(getStringParameter(request, parameterName));
         } catch (NumberFormatException e) {
-            throw new ValidationException(String.format("Expected '%s' should be integer", parameterName));
+            throw new ValidationException(String.format("Expected '%s' should be long", parameterName));
         }
 
         return parameter;

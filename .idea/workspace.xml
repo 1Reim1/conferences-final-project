@@ -12,17 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="documentation">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/EventServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/ReportServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="tests">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/EventDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/EventDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +89,7 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.my.conferences.util" />
       <recent name="com.my.conferences.service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -106,7 +100,7 @@
       <recent name="com.my.conferences.filters" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in conferences">
+  <component name="RunManager" selected="JUnit.com.my.conferences in conferences">
     <configuration name="All in conferences" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <option name="PACKAGE_NAME" value="" />
@@ -130,33 +124,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReportServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RequestUtilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.my.conferences.service.*" />
+          <option name="PATTERN" value="com.my.conferences.util.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.my.conferences.service" />
-      <option name="MAIN_CLASS_NAME" value="com.my.conferences.service.ReportServiceTest" />
+      <option name="PACKAGE_NAME" value="com.my.conferences.util" />
+      <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.RequestUtilTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReportServiceTest.cancelReport" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="com.my.conferences in conferences" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.my.conferences.service.*" />
+          <option name="PATTERN" value="com.my.conferences.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.my.conferences.service" />
-      <option name="MAIN_CLASS_NAME" value="com.my.conferences.service.ReportServiceTest" />
-      <option name="METHOD_NAME" value="cancelReport" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.my.conferences" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -265,18 +257,18 @@
     <list>
       <item itemvalue="JUnit.All in conferences" />
       <item itemvalue="JUnit.EventServiceTest" />
-      <item itemvalue="JUnit.ReportServiceTest" />
-      <item itemvalue="JUnit.ReportServiceTest.cancelReport" />
+      <item itemvalue="JUnit.RequestUtilTest" />
+      <item itemvalue="JUnit.com.my.conferences in conferences" />
       <item itemvalue="JUnit.com.my.conferences.service in conferences" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.23" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.com.my.conferences in conferences" />
         <item itemvalue="JUnit.All in conferences" />
+        <item itemvalue="JUnit.RequestUtilTest" />
         <item itemvalue="JUnit.com.my.conferences.service in conferences" />
         <item itemvalue="JUnit.EventServiceTest" />
-        <item itemvalue="JUnit.ReportServiceTest.cancelReport" />
-        <item itemvalue="JUnit.ReportServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -297,14 +289,7 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="95654000" />
-    </task>
-    <task id="LOCAL-00083" summary="jsp refactoring">
-      <created>1665496331249</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1665496331249</updated>
+      <workItem from="1665746448324" duration="97583000" />
     </task>
     <task id="LOCAL-00084" summary="validation refactoring">
       <created>1665499983095</created>
@@ -642,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665986780445</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="tests">
+      <created>1666122326681</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1666122326682</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,7 +652,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jsp refactoring" />
     <MESSAGE value="validation refactoring" />
     <MESSAGE value="EmailUtil" />
     <MESSAGE value="EventRepository refactoring" />
@@ -685,11 +676,15 @@
     <MESSAGE value="refactoring" />
     <MESSAGE value="logging" />
     <MESSAGE value="documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="documentation" />
+    <MESSAGE value="tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="tests" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666114390131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666114754485" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666124471466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.my.conferences.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666122216939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.my.conferences.service.*</FILTER>
     </SUITE>
   </component>
