@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${cookie['lang'].value}"/>
+<fmt:setBundle basename="internationalization"/>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <!doctype html>
 <html lang="en">
@@ -9,7 +12,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sidebar.css" rel="stylesheet">
     <link href="css/home.css" rel="stylesheet">
-    <title>Home page</title>
+    <title><fmt:message key="home.title"/></title>
 </head>
 <body>
 

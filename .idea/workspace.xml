@@ -12,12 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="service logging">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/IndexServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index2.jsp" afterDir="false" />
-    </list>
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="home page by default" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -292,14 +287,7 @@
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
       <workItem from="1665746448324" duration="102177000" />
-      <workItem from="1666186662139" duration="14919000" />
-    </task>
-    <task id="LOCAL-00088" summary="EventRepository refactoring">
-      <created>1665570516186</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1665570516186</updated>
+      <workItem from="1666186662139" duration="15288000" />
     </task>
     <task id="LOCAL-00089" summary="EventRepository refactoring">
       <created>1665570531762</created>
@@ -637,7 +625,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666270429096</updated>
     </task>
-    <option name="localTasksCounter" value="137" />
+    <task id="LOCAL-00137" summary="home page by default">
+      <created>1666271622713</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1666271622713</updated>
+    </task>
+    <option name="localTasksCounter" value="138" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -655,7 +650,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="user language field" />
     <MESSAGE value="email notifications" />
     <MESSAGE value="past event statistics" />
     <MESSAGE value="internationalization" />
@@ -680,7 +674,8 @@
     <MESSAGE value="Documentation" />
     <MESSAGE value="Servlet and commands refactoring" />
     <MESSAGE value="service logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="service logging" />
+    <MESSAGE value="home page by default" />
+    <option name="LAST_COMMIT_MESSAGE" value="home page by default" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
