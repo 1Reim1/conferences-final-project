@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Mysql implementation of EventDao interface
+ */
 public class MysqlEventDaoImpl implements EventDao {
 
     private static final String GET_ALL_COUNT = "SELECT COUNT(events.id) AS total FROM events WHERE events.hidden = false AND events.date %s ? AND events.language = ?";
@@ -36,6 +39,16 @@ public class MysqlEventDaoImpl implements EventDao {
     private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE events SET title = ?, description = ?, place = ?, date = ?, moderator_id = ?, hidden = ?, statistics = ?, language = ? WHERE id = ?";
 
+    /**
+     * returns list of events by parameters
+     *
+     * @param reverseOrder boolean that represents reverse order or not
+     * @param futureEvents boolean that represents future or past events
+     * @param pageSize     number of events per page
+     * @param page         page
+     * @param language     language of events
+     * @return list of events
+     */
     @Override
     public List<Event> findAll(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, String language) throws SQLException {
         String query = getFindAllQuery(order);
@@ -48,6 +61,16 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    /**
+     * returns the list of events with which the user is associated
+     *
+     * @param reverseOrder boolean that represents reverse order or not
+     * @param futureEvents boolean that represents future or past events
+     * @param pageSize     number of events per page
+     * @param page         page
+     * @param user         user
+     * @return list of user’s events
+     */
     @Override
     public List<Event> findAllMy(Connection connection, Event.Order order, boolean reverseOrder, boolean futureEvents, int pageSize, int page, User user) throws SQLException {
         String query = getFindAllMyQuery(order, user);
@@ -59,6 +82,28 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+
+    private List<Event> getAll(PreparedStatement stmt, int k, int page, int pageSize, String language) throws SQLException {
+        List<Event> events = new ArrayList<>();
+        stmt.setString(++k, language);
+        stmt.setInt(++k, pageSize);
+        stmt.setInt(++k, (page - 1) * pageSize);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                events.add(extractEvent(rs));
+            }
+        }
+
+        return events;
+    }
+
+    /**
+     * returns count of events
+     *
+     * @param futureOrder boolean that represents future or past events
+     * @param language    language of events
+     * @return count of events
+     */
     @Override
     public int findCount(Connection connection, boolean futureOrder, String language) throws SQLException {
         String query = String.format(GET_ALL_COUNT, futureOrder ? ">" : "<");
@@ -73,6 +118,13 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    /**
+     * returns count of events with which the user is associated
+     *
+     * @param futureOrder boolean that represents future or past events
+     * @param user        user
+     * @return count of events
+     */
     @Override
     public int findCountMy(Connection connection, boolean futureOrder, User user) throws SQLException {
         String query = getFindCountMyQuery(user);
@@ -89,6 +141,13 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    /**
+     * Returns event by id
+     *
+     * @param id         id of event
+     * @param showHidden boolean that represents showing hidden events or not
+     * @return event with this id
+     */
     @Override
     public Event findOne(Connection connection, int id, boolean showHidden) throws SQLException {
         String query = showHidden ? GET_ONE_SHOW_HIDDEN : GET_ONE;
@@ -102,6 +161,12 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    /**
+     * saves event to storage
+     * calls event.setId(unique identifier)
+     *
+     * @param event that should be saved
+     */
     @Override
     public void insert(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
@@ -114,6 +179,11 @@ public class MysqlEventDaoImpl implements EventDao {
         }
     }
 
+    /**
+     * updates event in storage
+     *
+     * @param event event that should be updated
+     */
     @Override
     public void update(Connection connection, Event event) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
@@ -121,20 +191,6 @@ public class MysqlEventDaoImpl implements EventDao {
             stmt.setInt(++k, event.getId());
             stmt.executeUpdate();
         }
-    }
-
-    private List<Event> getAll(PreparedStatement stmt, int k, int page, int pageSize, String language) throws SQLException {
-        List<Event> events = new ArrayList<>();
-        stmt.setString(++k, language);
-        stmt.setInt(++k, pageSize);
-        stmt.setInt(++k, (page - 1) * pageSize);
-        try (ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                events.add(extractEvent(rs));
-            }
-        }
-
-        return events;
     }
 
     private String getFindAllQuery(Event.Order order) {
@@ -219,11 +275,6 @@ public class MysqlEventDaoImpl implements EventDao {
 
     private Event extractEvent(ResultSet rs) throws SQLException {
         Event event = new Event();
-        extractEvent(rs, event);
-        return event;
-    }
-
-    private void extractEvent(ResultSet rs, Event event) throws SQLException {
         event.setId(rs.getInt("id"));
         event.setTitle(rs.getString("title"));
         event.setDescription(rs.getString("description"));
@@ -237,5 +288,7 @@ public class MysqlEventDaoImpl implements EventDao {
         event.setHidden(rs.getBoolean("hidden"));
         event.setStatistics(rs.getInt("statistics"));
         event.setLanguage(rs.getString("language"));
+
+        return event;
     }
 }

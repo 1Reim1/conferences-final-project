@@ -12,10 +12,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="tests">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="RequestUtilTest">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/EventDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/EventDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/ReportDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/ReportDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlEventDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlUserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlUserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/ReportService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +75,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "project.structure.last.edited": "Project",
@@ -289,14 +295,8 @@
       <workItem from="1665394919930" duration="66230000" />
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
-      <workItem from="1665746448324" duration="97583000" />
-    </task>
-    <task id="LOCAL-00084" summary="validation refactoring">
-      <created>1665499983095</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1665499983095</updated>
+      <workItem from="1665746448324" duration="102177000" />
+      <workItem from="1666186662139" duration="7701000" />
     </task>
     <task id="LOCAL-00085" summary="validation refactoring">
       <created>1665500049938</created>
@@ -634,7 +634,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666122326682</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="RequestUtilTest">
+      <created>1666124682415</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1666124682415</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -652,7 +659,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="validation refactoring" />
     <MESSAGE value="EmailUtil" />
     <MESSAGE value="EventRepository refactoring" />
     <MESSAGE value="prevent interaction with a past event" />
@@ -677,7 +683,8 @@
     <MESSAGE value="logging" />
     <MESSAGE value="documentation" />
     <MESSAGE value="tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="tests" />
+    <MESSAGE value="RequestUtilTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="RequestUtilTest" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

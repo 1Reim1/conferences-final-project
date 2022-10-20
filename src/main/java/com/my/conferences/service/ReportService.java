@@ -33,8 +33,7 @@ public class ReportService {
     }
 
     /**
-     * Returns the list of events with reports
-     * with which user (Speaker or Moderator) did not interact
+     * Returns the list of events with reports (that are not confirmed)
      *
      * @param user User for which performs search of new reports
      * @return List of reports with events which are not accepted or rejected

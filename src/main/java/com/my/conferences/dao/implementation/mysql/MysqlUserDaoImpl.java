@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mysql implementation of UserDao interface
+ */
 public class MysqlUserDaoImpl implements UserDao {
 
     private static final String GET_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
@@ -19,6 +22,11 @@ public class MysqlUserDaoImpl implements UserDao {
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
+    /**
+     * fills user fields from database
+     *
+     * @param user user with id
+     */
     @Override
     public void findOne(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
@@ -30,6 +38,12 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * returns user with that email
+     *
+     * @param email email of user
+     * @return user
+     */
     @Override
     public User findByEmail(Connection connection, String email) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_BY_EMAIL)) {
@@ -41,6 +55,11 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * inserts user into 'users' table
+     *
+     * @param user user which should be inserted
+     */
     @Override
     public void insert(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
@@ -53,6 +72,11 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * updates user
+     *
+     * @param user user which should be updated
+     */
     @Override
     public void update(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE, Statement.RETURN_GENERATED_KEYS)) {
@@ -62,6 +86,13 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * returns list of speakers which are not participants by query
+     *
+     * @param eventId     id of event
+     * @param searchQuery query
+     * @return list of speaker
+     */
     @Override
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
         List<User> speakers = new ArrayList<>();
@@ -78,6 +109,11 @@ public class MysqlUserDaoImpl implements UserDao {
         return speakers;
     }
 
+    /**
+     * saves all participants to event.participants field
+     *
+     * @param event event with id
+     */
     @Override
     public void findAllParticipants(Connection connection, Event event) throws SQLException {
         List<User> participants = new ArrayList<>();
@@ -93,6 +129,12 @@ public class MysqlUserDaoImpl implements UserDao {
         event.setParticipants(participants);
     }
 
+    /**
+     * inserts user to 'participants' table
+     *
+     * @param event event
+     * @param user  user
+     */
     @Override
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
@@ -102,6 +144,11 @@ public class MysqlUserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * delete user from 'participants' table
+     * @param event event
+     * @param user  user
+     */
     @Override
     public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {

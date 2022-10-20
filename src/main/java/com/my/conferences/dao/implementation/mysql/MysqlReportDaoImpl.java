@@ -9,6 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Mysql implementation of ReportDao interface
+ */
 public class MysqlReportDaoImpl implements ReportDao {
 
     private static final String GET_ALL = "SELECT * FROM reports WHERE event_id = ?";
@@ -20,6 +23,12 @@ public class MysqlReportDaoImpl implements ReportDao {
     private static final String GET_NEW_FOR_MODERATOR = "SELECT reports.* FROM reports JOIN events e ON reports.event_id = e.id WHERE confirmed = false AND e.moderator_id = ? AND creator_id = speaker_id";
     private static final String GET_NEW_FOR_SPEAKER = "SELECT reports.* FROM reports WHERE confirmed = false AND speaker_id = ? AND creator_id != speaker_id";
 
+    /**
+     * returns reports of event
+     *
+     * @param event         event
+     * @param onlyConfirmed boolean represents all events or only confirmed
+     */
     @Override
     public void findAll(Connection connection, Event event, boolean onlyConfirmed) throws SQLException {
         List<Report> reports = new ArrayList<>();
@@ -37,6 +46,12 @@ public class MysqlReportDaoImpl implements ReportDao {
         event.setReports(reports);
     }
 
+    /**
+     * returns report with that id
+     *
+     * @param id if of report
+     * @return report
+     */
     @Override
     public Report findOne(Connection connection, int id) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
@@ -48,11 +63,23 @@ public class MysqlReportDaoImpl implements ReportDao {
         }
     }
 
+    /**
+     * returns list of unconfirmed reports for moderator
+     *
+     * @param user moderator
+     * @return list of reports
+     */
     @Override
     public List<Report> findNewForModerator(Connection connection, User user) throws SQLException {
         return findNew(connection, user, GET_NEW_FOR_MODERATOR);
     }
 
+    /**
+     * returns list of unconfirmed reports for speaker
+     *
+     * @param user moderator
+     * @return list of reports
+     */
     @Override
     public List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException {
         return findNew(connection, user, GET_NEW_FOR_SPEAKER);
@@ -72,23 +99,11 @@ public class MysqlReportDaoImpl implements ReportDao {
         return reports;
     }
 
-    @Override
-    public void delete(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(DELETE_ONE)) {
-            stmt.setInt(1, report.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    @Override
-    public void update(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
-            int k = prepareStatementForReport(stmt, report);
-            stmt.setInt(++k, report.getId());
-            stmt.executeUpdate();
-        }
-    }
-
+    /**
+     * inserts report to 'reports' table
+     *
+     * @param report report that should be inserted
+     */
     @Override
     public void insert(Connection connection, Report report) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
@@ -98,6 +113,33 @@ public class MysqlReportDaoImpl implements ReportDao {
                 rs.next();
                 report.setId(rs.getInt(1));
             }
+        }
+    }
+
+    /**
+     * updates report in database
+     *
+     * @param report report that should be updated
+     */
+    @Override
+    public void update(Connection connection, Report report) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
+            int k = prepareStatementForReport(stmt, report);
+            stmt.setInt(++k, report.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * deletes report from 'reports' table
+     *
+     * @param report report that should be deleted
+     */
+    @Override
+    public void delete(Connection connection, Report report) throws SQLException {
+        try (PreparedStatement stmt = connection.prepareStatement(DELETE_ONE)) {
+            stmt.setInt(1, report.getId());
+            stmt.executeUpdate();
         }
     }
 
@@ -113,11 +155,6 @@ public class MysqlReportDaoImpl implements ReportDao {
 
     private Report extractReport(ResultSet rs) throws SQLException {
         Report report = new Report();
-        extractReport(rs, report);
-        return report;
-    }
-
-    private void extractReport(ResultSet rs, Report report) throws SQLException {
         report.setId(rs.getInt("id"));
         report.setTopic(rs.getString("topic"));
         report.setEventId(rs.getInt("event_id"));
@@ -128,5 +165,7 @@ public class MysqlReportDaoImpl implements ReportDao {
         creator.setId(rs.getInt("creator_id"));
         report.setCreator(creator);
         report.setConfirmed(rs.getBoolean("confirmed"));
+
+        return report;
     }
 }
