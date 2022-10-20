@@ -8,6 +8,7 @@ import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class EventService {
 
+    private final static Logger logger = Logger.getLogger(EventService.class);
     private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
@@ -64,30 +66,13 @@ public class EventService {
                 userDao.findAllParticipants(connection, event);
             }
         } catch (SQLException e) {
+            logger.error("SQLException in findAll", e);
             throw new DBException("events was not loaded", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
         }
 
         return events;
-    }
-
-    private Event findOne(Connection connection, int id, boolean showHidden) throws DBException {
-        Event event;
-        try {
-            event = eventDao.findOne(connection, id, showHidden);
-            userDao.findAllParticipants(connection, event);
-            reportDao.findAll(connection, event, !showHidden);
-            userDao.findOne(connection, event.getModerator());
-            for (Report report : event.getReports()) {
-                userDao.findOne(connection, report.getCreator());
-                userDao.findOne(connection, report.getSpeaker());
-            }
-        } catch (SQLException e) {
-            throw new DBException("Event was not found", e);
-        }
-
-        return event;
     }
 
     /**
@@ -110,6 +95,25 @@ public class EventService {
         return event;
     }
 
+    private Event findOne(Connection connection, int id, boolean showHidden) throws DBException {
+        Event event;
+        try {
+            event = eventDao.findOne(connection, id, showHidden);
+            userDao.findAllParticipants(connection, event);
+            reportDao.findAll(connection, event, !showHidden);
+            userDao.findOne(connection, event.getModerator());
+            for (Report report : event.getReports()) {
+                userDao.findOne(connection, report.getCreator());
+                userDao.findOne(connection, report.getSpeaker());
+            }
+        } catch (SQLException e) {
+            logger.error("SQLException in findOne", e);
+            throw new DBException("Event was not found", e);
+        }
+
+        return event;
+    }
+
     /**
      * return count of pages
      *
@@ -127,6 +131,7 @@ public class EventService {
 
             return (int) Math.ceil((double) eventDao.findCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
         } catch (SQLException e) {
+            logger.error("SQLException in countPages", e);
             throw new DBException("Count of pages was not loaded", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -151,6 +156,7 @@ public class EventService {
         try {
             eventDao.insert(connection, event);
         } catch (SQLException e) {
+            logger.error("SQLException in create", e);
             throw new DBException("Unable to insert an event", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -181,6 +187,7 @@ public class EventService {
 
             userDao.insertParticipant(connection, event, user);
         } catch (SQLException e) {
+            logger.error("SQLException in join", e);
             throw new DBException("Unable to join to the event", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -204,6 +211,7 @@ public class EventService {
 
             userDao.deleteParticipant(connection, event, user);
         } catch (SQLException e) {
+            logger.error("SQLException in leave", e);
             throw new DBException("Unable to leave from the event", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -229,6 +237,7 @@ public class EventService {
             event.setHidden(true);
             eventDao.update(connection, event);
         } catch (SQLException e) {
+            logger.error("SQLException in hide", e);
             throw new DBException("Unable to hide the event");
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -255,6 +264,7 @@ public class EventService {
             event.setHidden(false);
             eventDao.update(connection, event);
         } catch (SQLException e) {
+            logger.error("SQLException in show", e);
             throw new DBException("Unable to show the event", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -284,6 +294,7 @@ public class EventService {
             // Send email notifications
             emailManager.sendTitleChanged(event, prevTitle);
         } catch (SQLException e) {
+            logger.error("SQLException in modifyTitle", e);
             throw new DBException("Unable to modify a title", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -311,6 +322,7 @@ public class EventService {
             eventDao.update(connection, event);
             emailManager.sendDescriptionChanged(event);
         } catch (SQLException e) {
+            logger.error("SQLException in modifyDescription", e);
             throw new DBException("Unable to modify a description", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -339,6 +351,7 @@ public class EventService {
             eventDao.update(connection, event);
             emailManager.sendDateChanged(event, prevDate);
         } catch (SQLException e) {
+            logger.error("SQLException in modifyDate", e);
             throw new DBException("Unable to modify a date", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -367,6 +380,7 @@ public class EventService {
             eventDao.update(connection, event);
             emailManager.sendPlaceChanged(event, prevPlace);
         } catch (SQLException e) {
+            logger.error("SQLException in modifyPlace", e);
             throw new DBException("Unable to modify a place", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -400,6 +414,7 @@ public class EventService {
             event.setStatistics(newStatistics);
             eventDao.update(connection, event);
         } catch (SQLException e) {
+            logger.error("SQLException in modifyStatistics", e);
             throw new DBException("Unable to modify a statistics", e);
         } finally {
             ConnectionUtil.closeConnection(connection);

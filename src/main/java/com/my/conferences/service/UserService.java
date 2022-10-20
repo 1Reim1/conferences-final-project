@@ -3,6 +3,7 @@ package com.my.conferences.service;
 import com.my.conferences.dao.UserDao;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
+import org.apache.log4j.Logger;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class UserService {
 
+    private final static Logger logger = Logger.getLogger(UserService.class);
     private final UserDao userDao;
 
     public UserService(UserDao userDao) {
@@ -36,17 +38,20 @@ public class UserService {
         try {
             user = userDao.findByEmail(connection, email);
             if (!user.getLanguage().equals(language)) {
+                logger.debug("Updating user’s language");
                 user.setLanguage(language);
                 userDao.update(connection, user);
             }
         } catch (SQLException e) {
+            logger.error("SQLException in login", e);
             throw new DBException("User with this email not found", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
         }
 
-        if (!encryptPassword(password).equals(user.getPassword()))
+        if (!encryptPassword(password).equals(user.getPassword())) {
             throw new ValidationException("Password is wrong");
+        }
 
         return user;
     }
@@ -80,7 +85,8 @@ public class UserService {
         try {
             userDao.insert(connection, user);
         } catch (SQLException e) {
-            throw new DBException("The user is not inserted", e);
+            logger.error("SQLExceptionF in register", e);
+            throw new DBException("The user was not inserted", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
         }
@@ -95,6 +101,7 @@ public class UserService {
         try {
             userDao.update(connection, user);
         } catch (SQLException e) {
+            logger.error("SQLException in setLanguage", e);
             throw new DBException("Unable to change a language");
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -118,6 +125,7 @@ public class UserService {
         try {
             return userDao.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
         } catch (SQLException e) {
+            logger.error("SQLException in searchAvailableSpeakers", e);
             throw new DBException("not found", e);
         } finally {
             ConnectionUtil.closeConnection(connection);

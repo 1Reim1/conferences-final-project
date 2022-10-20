@@ -9,6 +9,7 @@ import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class ReportService {
 
+    private final static Logger logger = Logger.getLogger(ReportService.class);
     private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
@@ -65,6 +67,7 @@ public class ReportService {
                 reportsWithEvents.add(new ReportWithEvent(report, event));
             }
         } catch (SQLException e) {
+            logger.error("SQLException in findNewReports", e);
             throw new DBException("Unable to find new reports", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -108,6 +111,7 @@ public class ReportService {
                 }
             }
         } catch (SQLException e) {
+            logger.error("SQLException in cancelReport", e);
             throw new DBException("Unable to cancel a report");
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -155,6 +159,7 @@ public class ReportService {
             // Send notification for all participants and speakers
             emailManager.sendAddedNewReport(report, event);
         } catch (SQLException e) {
+            logger.error("SQLException in confirmReport", e);
             throw new DBException("Unable to confirm a report");
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -197,6 +202,7 @@ public class ReportService {
                 emailManager.sendReportOfferedByModerator(report, event);
             }
         } catch (SQLException e) {
+            logger.error("SQLException in offerReport", e);
             throw new DBException("Unable to offer a report");
         } finally {
             ConnectionUtil.closeConnection(connection);
@@ -237,6 +243,7 @@ public class ReportService {
                 emailManager.sendReportTopicChanged(report, event, prevTopic);
             }
         } catch (SQLException e) {
+            logger.error("SQLException in modifyReportTopic", e);
             throw new DBException("Unable to modify a topic");
         } finally {
             ConnectionUtil.closeConnection(connection);
