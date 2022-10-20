@@ -12,11 +12,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="Servlet and commands refactoring">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="service logging">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/IndexServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/ReportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index2.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,14 +292,7 @@
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
       <workItem from="1665746448324" duration="102177000" />
-      <workItem from="1666186662139" duration="13862000" />
-    </task>
-    <task id="LOCAL-00087" summary="internationalization">
-      <created>1665523824943</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1665523824943</updated>
+      <workItem from="1666186662139" duration="14919000" />
     </task>
     <task id="LOCAL-00088" summary="EventRepository refactoring">
       <created>1665570516186</created>
@@ -637,7 +630,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666266854389</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="service logging">
+      <created>1666270429096</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1666270429096</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -655,7 +655,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="prevent interaction with a past event" />
     <MESSAGE value="user language field" />
     <MESSAGE value="email notifications" />
     <MESSAGE value="past event statistics" />
@@ -680,7 +679,8 @@
     <MESSAGE value="RequestUtilTest" />
     <MESSAGE value="Documentation" />
     <MESSAGE value="Servlet and commands refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Servlet and commands refactoring" />
+    <MESSAGE value="service logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="service logging" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

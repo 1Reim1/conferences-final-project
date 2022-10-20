@@ -20,4 +20,8 @@
         <filter-name>noUser</filter-name>
         <url-pattern>/new-reports</url-pattern>
     </filter-mapping>
+
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 </web-app>
