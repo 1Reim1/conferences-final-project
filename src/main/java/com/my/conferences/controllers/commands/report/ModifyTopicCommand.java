@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ModifyTopicCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ModifyTopicCommand";
     private final static Logger logger = Logger.getLogger(ModifyTopicCommand.class);
     private final ReportService reportService;
 
@@ -26,16 +27,16 @@ public class ModifyTopicCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String topic = RequestUtil.getStringParameter(request, "topic");
-            logger.debug("Topic: " + topic);
             int reportId = RequestUtil.getIntParameter(request, "report_id");
-            logger.debug("Report id: " + reportId);
+            logger.trace("Topic: " + topic);
+            logger.trace("Report id: " + reportId);
             reportService.modifyReportTopic(reportId, topic, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

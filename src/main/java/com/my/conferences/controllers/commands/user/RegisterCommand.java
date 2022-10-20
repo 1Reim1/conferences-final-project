@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class RegisterCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in RegisterCommand";
     private final static Logger logger = Logger.getLogger(RegisterCommand.class);
     private final UserService userService;
 
@@ -37,20 +38,20 @@ public class RegisterCommand implements Command {
             user.setRole(User.Role.valueOf(role));
             user.setLanguage(RequestUtil.getCookiesMap(request).getOrDefault("lang", "en"));
 
-            logger.debug("Email: " + user.getEmail());
-            logger.debug("First name: " + user.getFirstName());
-            logger.debug("Last name: " + user.getLastName());
-            logger.debug("Role: " + role);
-            logger.debug("Language: " + user.getLanguage());
+            logger.trace("Email: " + user.getEmail());
+            logger.trace("First name: " + user.getFirstName());
+            logger.trace("Last name: " + user.getLastName());
+            logger.trace("Role: " + role);
+            logger.trace("Language: " + user.getLanguage());
             userService.register(user);
 
             request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());

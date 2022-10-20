@@ -16,6 +16,7 @@ import java.io.IOException;
 @WebServlet(value = "/select-language")
 public class SelectLanguageServlet extends HttpServlet {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
     private final static Logger logger = Logger.getLogger(SelectLanguageServlet.class);
     private UserService userService;
 
@@ -27,14 +28,14 @@ public class SelectLanguageServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String language = RequestUtil.getStringParameter(request, "language");
-            logger.debug("Language: " + language);
+            logger.trace("Language: " + language);
             userService.setLanguage((User) request.getSession().getAttribute("user"), language);
         } catch (ValidationException e) {
-            logger.error("doPost: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("doPost: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

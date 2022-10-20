@@ -16,6 +16,7 @@ import java.util.List;
 
 public class SearchAvailableSpeakersCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in SearchAvailableSpeakersCommand";
     private final static Logger logger = Logger.getLogger(SearchAvailableSpeakersCommand.class);
     private final UserService userService;
 
@@ -31,14 +32,17 @@ public class SearchAvailableSpeakersCommand implements Command {
         try {
             searchQuery = RequestUtil.getStringParameter(request, "search_query");
             eventId = RequestUtil.getIntParameter(request, "event_id");
+            logger.trace("Search query: " + searchQuery);
+            logger.trace("Event id: " + eventId);
+
             speakers = userService.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
             return;
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;

@@ -17,6 +17,7 @@ import java.util.Date;
 @WebServlet("/create-event")
 public class CreateEventServlet extends HttpServlet {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
     private final static Logger logger = Logger.getLogger(CreateEventServlet.class);
     private EventService eventService;
 
@@ -39,19 +40,21 @@ public class CreateEventServlet extends HttpServlet {
             event.setPlace(RequestUtil.getStringParameter(request, "place"));
             event.setModerator((User) request.getSession().getAttribute("user"));
             event.setDate(new Date(RequestUtil.getLongParameter(request, "date")));
-            logger.debug("Title: " + event.getTitle());
-            logger.debug("Description: " + event.getDescription());
-            logger.debug("Place: " + event.getPlace());
-            logger.debug("Date: " + event.getDate().toString());
-            logger.debug("Moderator id: " + event.getModerator().getId());
+
+            logger.trace("Title: " + event.getTitle());
+            logger.trace("Description: " + event.getDescription());
+            logger.trace("Place: " + event.getPlace());
+            logger.trace("Date: " + event.getDate().toString());
+            logger.trace("Moderator id: " + event.getModerator().getId());
+
             eventService.create(event);
             response.getWriter().println(event.getId());
         } catch (ValidationException e) {
-            logger.error("doPost: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("doPost: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

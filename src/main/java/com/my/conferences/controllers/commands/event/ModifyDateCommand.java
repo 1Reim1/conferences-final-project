@@ -16,6 +16,7 @@ import java.util.Date;
 
 public class ModifyDateCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ModifyDateCommand";
     private final static Logger logger = Logger.getLogger(ModifyDateCommand.class);
     private final EventService eventService;
 
@@ -28,15 +29,15 @@ public class ModifyDateCommand implements Command {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
             long date = RequestUtil.getLongParameter(request, "date");
-            logger.debug("Event id: " + eventId);
-            logger.debug("Date (long): " + date);
+            logger.trace("Event id: " + eventId);
+            logger.trace("Date (long): " + date);
             eventService.modifyDate(eventId, new Date(date), (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

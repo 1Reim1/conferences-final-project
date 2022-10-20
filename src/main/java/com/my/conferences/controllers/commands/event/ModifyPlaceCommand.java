@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ModifyPlaceCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ModifyPlaceCommand";
     private final static Logger logger = Logger.getLogger(ModifyPlaceCommand.class);
     private final EventService eventService;
 
@@ -27,15 +28,15 @@ public class ModifyPlaceCommand implements Command {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
             String place = RequestUtil.getStringParameter(request, "place");
-            logger.debug("Event id: " + eventId);
-            logger.debug("Place: " + place);
+            logger.trace("Event id: " + eventId);
+            logger.trace("Place: " + place);
             eventService.modifyPlace(eventId, place, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

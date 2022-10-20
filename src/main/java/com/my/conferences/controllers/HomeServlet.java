@@ -18,6 +18,7 @@ import java.util.Map;
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in HomeServlet";
     private final static Logger logger = Logger.getLogger(HomeServlet.class);
     private EventService eventService;
 
@@ -53,7 +54,7 @@ public class HomeServlet extends HttpServlet {
             page = Math.min(page, pages);
             request.setAttribute("events", eventService.findAll(page, order, reverseOrder, futureOrder, onlyMyEvents, user));
         } catch (DBException e) {
-            logger.error("doGet: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;

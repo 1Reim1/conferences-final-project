@@ -28,6 +28,7 @@ import java.util.Map;
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in EventServlet";
     private final static Logger logger = Logger.getLogger(EventServlet.class);
     private final Map<String, Command> commandMap = new HashMap<>();
     private EventService eventService;
@@ -60,15 +61,15 @@ public class EventServlet extends HttpServlet {
         Event event;
         try {
             int id = RequestUtil.getIntParameter(request, "id");
-            logger.debug("Id: " + id);
+            logger.trace("Id: " + id);
             event = eventService.findOne(id, user);
         } catch (ValidationException e) {
-            logger.error("doGet: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
             return;
         } catch (DBException e) {
-            logger.error("doGet: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
             return;
@@ -96,15 +97,6 @@ public class EventServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.debug("Event post request");
-        String commandKey = request.getParameter("command");
-        logger.debug("Command: " + commandKey);
-        Command command = commandMap.get(commandKey);
-        if (command == null) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().printf("Command '%s' is unknown.", commandKey);
-            return;
-        }
-
-        command.execute(request, response);
+        RequestUtil.executeCommand(request, response, commandMap);
     }
 }

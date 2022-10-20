@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ConfirmCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ConfirmCommand";
     private final static Logger logger = Logger.getLogger(ConfirmCommand.class);
     private final ReportService reportService;
 
@@ -26,14 +27,14 @@ public class ConfirmCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int reportId = RequestUtil.getIntParameter(request, "report_id");
-            logger.debug("Report id: " + reportId);
+            logger.trace("Report id: " + reportId);
             reportService.confirmReport(reportId, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

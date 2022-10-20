@@ -16,6 +16,7 @@ import java.io.IOException;
 
 public class OfferCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in OfferCommand";
     private final static Logger logger = Logger.getLogger(OfferCommand.class);
     private final ReportService reportService;
 
@@ -33,17 +34,18 @@ public class OfferCommand implements Command {
             User speaker = new User();
             speaker.setId(RequestUtil.getIntParameter(request, "speaker_id"));
             report.setSpeaker(speaker);
-            logger.debug("Topic: " + report.getTopic());
-            logger.debug("Event id: " + report.getEventId());
-            logger.debug("Creator id: " + report.getCreator().getId());
-            logger.debug("Speaker id: " + speaker.getId());
+
+            logger.trace("Topic: " + report.getTopic());
+            logger.trace("Event id: " + report.getEventId());
+            logger.trace("Creator id: " + report.getCreator().getId());
+            logger.trace("Speaker id: " + speaker.getId());
             reportService.offerReport(report);
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

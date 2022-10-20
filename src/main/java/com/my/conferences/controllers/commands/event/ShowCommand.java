@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ShowCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ShowCommand";
     private final static Logger logger = Logger.getLogger(ShowCommand.class);
     private final EventService eventService;
 
@@ -26,14 +27,14 @@ public class ShowCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
-            logger.debug("Event id: " + eventId);
+            logger.trace("Event id: " + eventId);
             eventService.show(eventId, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }

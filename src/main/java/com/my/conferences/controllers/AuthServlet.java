@@ -4,6 +4,7 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.controllers.commands.user.LoginCommand;
 import com.my.conferences.controllers.commands.user.RegisterCommand;
 import com.my.conferences.service.UserService;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -37,15 +38,6 @@ public class AuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.debug("Auth post request");
-        String commandKey = request.getParameter("command");
-        logger.debug("Command: " + commandKey);
-        Command command = commandMap.get(commandKey);
-        if (command == null) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().printf("Command '%s' is unknown.", commandKey);
-            return;
-        }
-
-        command.execute(request, response);
+        RequestUtil.executeCommand(request, response, commandMap);
     }
 }

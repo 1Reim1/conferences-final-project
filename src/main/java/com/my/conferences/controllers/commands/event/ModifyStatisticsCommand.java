@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class ModifyStatisticsCommand implements Command {
 
+    private final static String EXCEPTION_MESSAGE = "Exception in ModifyStatisticsCommand";
     private final static Logger logger = Logger.getLogger(ModifyStatisticsCommand.class);
     private final EventService eventService;
 
@@ -27,15 +28,15 @@ public class ModifyStatisticsCommand implements Command {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
             int statistics = RequestUtil.getIntParameter(request, "statistics");
-            logger.debug("Event id: " + eventId);
-            logger.debug("Statistics: " + statistics);
+            logger.trace("Event id: " + eventId);
+            logger.trace("Statistics: " + statistics);
             eventService.modifyStatistics(eventId, statistics, (User) request.getSession().getAttribute("user"));
         } catch (ValidationException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
-            logger.error("execute: ", e);
+            logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
         }
