@@ -4,6 +4,7 @@
 <fmt:setLocale value="${cookie['lang'].value}"/>
 <fmt:setBundle basename="internationalization"/>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="alert" uri="http://com.my.conferences/alert" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,7 +24,7 @@
         <div class="col-9 offset-3">
             <div class="container">
                 <div class="row">
-                    <div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
+                    <alert:error/>
                     <div class="col-10 offset-1">
                         <h2 class="text-center mb-3 mt-2"><fmt:message key="event.new"/></h2>
                         <form>

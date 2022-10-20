@@ -12,7 +12,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="home page by default" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="home page title internationalization">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/tag/ErrorAlertTag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/alert.tld" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/auth.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/auth.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,8 +35,8 @@
         <option value="JavaScript File" />
         <option value="XML Properties File" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -79,6 +87,7 @@
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\WEB-INF" />
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\WEB-INF\jsp" />
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp\css" />
     </key>
@@ -287,14 +296,7 @@
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
       <workItem from="1665746448324" duration="102177000" />
-      <workItem from="1666186662139" duration="15288000" />
-    </task>
-    <task id="LOCAL-00089" summary="EventRepository refactoring">
-      <created>1665570531762</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1665570531762</updated>
+      <workItem from="1666186662139" duration="26086000" />
     </task>
     <task id="LOCAL-00090" summary="prevent interaction with a past event">
       <created>1665571494926</created>
@@ -632,7 +634,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666271622713</updated>
     </task>
-    <option name="localTasksCounter" value="138" />
+    <task id="LOCAL-00138" summary="home page title internationalization">
+      <created>1666272023715</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1666272023715</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,7 +659,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="email notifications" />
     <MESSAGE value="past event statistics" />
     <MESSAGE value="internationalization" />
     <MESSAGE value="auth commands" />
@@ -675,11 +683,12 @@
     <MESSAGE value="Servlet and commands refactoring" />
     <MESSAGE value="service logging" />
     <MESSAGE value="home page by default" />
-    <option name="LAST_COMMIT_MESSAGE" value="home page by default" />
+    <MESSAGE value="home page title internationalization" />
+    <option name="LAST_COMMIT_MESSAGE" value="home page title internationalization" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666124471466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666272477645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.my.conferences.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666122216939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <description>JSTL 1.1 core library</description>
+    <display-name>JSTL core</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>c</short-name>
+    <uri>http://com.my.conferences/alert</uri>
+
+    <tag>
+        <description>
+            Catches any Throwable that occurs in its body and optionally
+            exposes it.
+        </description>
+        <name>error</name>
+        <tag-class>com.my.conferences.controllers.tag.ErrorAlertTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${cookie['lang'].value}"/>
 <fmt:setBundle basename="internationalization"/>
+<%@ taglib prefix="alert" uri="http://com.my.conferences/alert" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     <title><fmt:message key="auth.title"/></title>
 </head>
 <body>
-<div class="alert alert-danger" id="error-alert" role="alert" style="text-align: center; display: none"></div>
+<alert:error/>
 <div class="alert alert-success" id="success-alert" role="alert" style="text-align: center; display: none"></div>
 
 <div class="container offset-col-3 col-6 margin-top">
