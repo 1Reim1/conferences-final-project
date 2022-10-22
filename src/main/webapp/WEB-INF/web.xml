@@ -11,10 +11,12 @@
         <url-pattern>/create-event</url-pattern>
         <url-pattern>/new-reports</url-pattern>
         <url-pattern>/select-language</url-pattern>
+        <url-pattern>/users</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>moderator</filter-name>
         <url-pattern>/create-event</url-pattern>
+        <url-pattern>/users</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>noUser</filter-name>

@@ -16,6 +16,7 @@ public class MysqlReportDaoImpl implements ReportDao {
 
     private static final String GET_ALL = "SELECT * FROM reports WHERE event_id = ?";
     private static final String GET_ALL_ONLY_CONFIRMED = "SELECT * FROM reports WHERE event_id = ? AND confirmed = true";
+    private static final String GET_ALL_BY_SPEAKER = "SELECT reports.* FROM reports JOIN events e on e.id = reports.event_id AND e.date %s ? WHERE reports.speaker_id = ?";
     private static final String GET_ONE = "SELECT * FROM reports WHERE id = ?";
     private static final String DELETE_ONE = "DELETE FROM reports WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO reports VALUES (DEFAULT, ?, ?, ?, ?, ?)";
@@ -83,6 +84,31 @@ public class MysqlReportDaoImpl implements ReportDao {
     @Override
     public List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException {
         return findNew(connection, user, GET_NEW_FOR_SPEAKER);
+    }
+
+    /**
+     * returns all reports by speaker
+     *
+     * @param speaker       speaker
+     * @param futureReports future or past reports
+     * @return list of reports by speaker
+     */
+    @Override
+    public List<Report> findAllBySpeaker(Connection connection, User speaker, boolean futureReports) throws SQLException {
+        List<Report> reports = new ArrayList<>();
+        String query = String.format(GET_ALL_BY_SPEAKER, futureReports ? ">" : "<");
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            int k = 0;
+            stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
+            stmt.setInt(++k, speaker.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(extractReport(rs));
+                }
+            }
+        }
+
+        return reports;
     }
 
     private List<Report> findNew(Connection connection, User user, String query) throws SQLException {

@@ -43,6 +43,15 @@ public interface ReportDao {
     List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException;
 
     /**
+     * returns all reports by speaker
+     *
+     * @param speaker       speaker
+     * @param futureReports future or past reports
+     * @return list of reports by speaker
+     */
+    List<Report> findAllBySpeaker(Connection connection, User speaker, boolean futureReports) throws SQLException;
+
+    /**
      * saves report to storage
      *
      * @param report report that should be saved

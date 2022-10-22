@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class MysqlUserDaoImpl implements UserDao {
 
+    private static final String GET_ALL = "SELECT * FROM users WHERE email LIKE ? AND id != ? ORDER BY id LIMIT ? OFFSET ?";
     private static final String GET_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     private static final String INSERT_ONE = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ONE = "UPDATE users SET email = ?, first_name = ?, last_name = ?, password = ?, role = ?, language = ? WHERE id = ?";
@@ -21,6 +22,30 @@ public class MysqlUserDaoImpl implements UserDao {
     private static final String GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL = "SELECT * FROM users WHERE role = 'SPEAKER' AND id NOT IN (SELECT user_id FROM participants WHERE event_id = ?) AND email LIKE ?";
     private static final String INSERT_PARTICIPANT = "INSERT INTO participants VALUES (?, ?)";
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
+
+    /**
+     * returns all users from database
+     *
+     * @return list of users sorted by id
+     */
+    @Override
+    public List<User> findAllWithoutOne(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException {
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL)) {
+            int k = 0;
+            stmt.setString(++k, "%" + emailQuery + "%");
+            stmt.setInt(++k, user.getId());
+            stmt.setInt(++k, pageSize);
+            stmt.setInt(++k, (page - 1) * pageSize);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    users.add(extractUser(rs));
+                }
+            }
+        }
+
+        return users;
+    }
 
     /**
      * fills user fields from database

@@ -47,6 +47,9 @@
         <c:if test="${sessionScope.user.role != 'USER' && pageContext.request.requestURL.indexOf('/new-reports') == -1}">
             <button id="new-reports-btn" type="button" class="btn btn-primary col-12 text-start"><fmt:message key="sidebar.new_reports"/></button>
         </c:if>
+        <c:if test="${sessionScope.user.role == 'MODERATOR' && pageContext.request.requestURL.indexOf('/users') == -1}">
+            <button id="users-btn" type="button" class="btn btn-primary col-12 text-start"><fmt:message key="sidebar.users"/></button>
+        </c:if>
         <hr>
         <div class="col-10 offset-1">
             <div class="row">

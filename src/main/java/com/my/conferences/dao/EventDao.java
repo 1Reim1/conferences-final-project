@@ -55,6 +55,14 @@ public interface EventDao {
     int findCountMy(Connection connection, boolean futureOrder, User user) throws SQLException;
 
     /**
+     * returns all events moderated by a user with that id
+     *
+     * @param moderator moderator
+     * @return list of events moderated by a user with that id
+     */
+    List<Event> findAllByModerator(Connection connection, User moderator) throws SQLException;
+
+    /**
      * Returns event by id
      *
      * @param id         id of event

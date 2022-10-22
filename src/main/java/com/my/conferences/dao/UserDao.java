@@ -12,6 +12,13 @@ import java.util.List;
  */
 public interface UserDao {
     /**
+     * returns all users from storage
+     *
+     * @return list of users sorted by id
+     */
+    List<User> findAllWithoutOne(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException;
+
+    /**
      * fills user fields from storage
      *
      * @param user user with id

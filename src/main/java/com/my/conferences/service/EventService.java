@@ -76,6 +76,55 @@ public class EventService {
     }
 
     /**
+     * return count of pages
+     *
+     * @param futureOrder  boolean value that represents future or past events
+     * @param onlyMyEvents boolean value that represent all or only my events
+     * @param user         user that performs action
+     * @return count of pages
+     */
+    public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            if (onlyMyEvents) {
+                return (int) Math.ceil((double) eventDao.findCountMy(connection, futureOrder, user) / PAGE_SIZE);
+            }
+
+            return (int) Math.ceil((double) eventDao.findCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
+        } catch (SQLException e) {
+            logger.error("SQLException in countPages", e);
+            throw new DBException("Count of pages was not loaded", e);
+        } finally {
+            ConnectionUtil.closeConnection(connection);
+        }
+    }
+
+    /**
+     * returns all events moderated by a that moderator
+     *
+     * @param moderatorId id of moderator
+     * @return list of events moderated by a that moderator
+     */
+    public List<Event> findAllModeratorEvents(int moderatorId) throws DBException, ValidationException {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            User moderator = new User();
+            moderator.setId(moderatorId);
+            userDao.findOne(connection, moderator);
+            if (moderator.getRole() != User.Role.MODERATOR) {
+                throw new ValidationException("User is not a moderator");
+            }
+
+            return eventDao.findAllByModerator(connection, moderator);
+        }   catch (SQLException e) {
+            logger.error("SQLException in findAllModeratorEvents", e);
+            throw new DBException("events was not loaded", e);
+        }   finally {
+            ConnectionUtil.closeConnection(connection);
+        }
+    }
+
+    /**
      * returns one event by id
      *
      * @param id   id of event
@@ -112,30 +161,6 @@ public class EventService {
         }
 
         return event;
-    }
-
-    /**
-     * return count of pages
-     *
-     * @param futureOrder  boolean value that represents future or past events
-     * @param onlyMyEvents boolean value that represent all or only my events
-     * @param user         user that performs action
-     * @return count of pages
-     */
-    public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
-        Connection connection = ConnectionUtil.getConnection();
-        try {
-            if (onlyMyEvents) {
-                return (int) Math.ceil((double) eventDao.findCountMy(connection, futureOrder, user) / PAGE_SIZE);
-            }
-
-            return (int) Math.ceil((double) eventDao.findCount(connection, futureOrder, user.getLanguage()) / PAGE_SIZE);
-        } catch (SQLException e) {
-            logger.error("SQLException in countPages", e);
-            throw new DBException("Count of pages was not loaded", e);
-        } finally {
-            ConnectionUtil.closeConnection(connection);
-        }
     }
 
     /**

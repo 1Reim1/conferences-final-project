@@ -18,9 +18,27 @@ public class UserService {
 
     private final static Logger logger = Logger.getLogger(UserService.class);
     private final UserDao userDao;
+    private final int pageSize;
 
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, int pageSize) {
         this.userDao = userDao;
+        this.pageSize = pageSize;
+    }
+
+    public List<User> findAll(String emailQuery, int page, User user) throws DBException, ValidationException {
+        if (user.getRole() != User.Role.MODERATOR) {
+            throw new ValidationException("You have not permissions");
+        }
+
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            return userDao.findAllWithoutOne(connection, emailQuery, page, pageSize, user);
+        } catch (SQLException e) {
+            logger.error("SQLException in findAll", e);
+            throw new DBException("not found", e);
+        } finally {
+            ConnectionUtil.closeConnection(connection);
+        }
     }
 
     /**
@@ -118,8 +136,9 @@ public class UserService {
      * @return list of speakers
      */
     public List<User> searchAvailableSpeakers(int eventId, String searchQuery, User user) throws DBException, ValidationException {
-        if (user.getRole() != User.Role.MODERATOR)
+        if (user.getRole() != User.Role.MODERATOR) {
             throw new ValidationException("You have not permissions");
+        }
 
         Connection connection = ConnectionUtil.getConnection();
         try {

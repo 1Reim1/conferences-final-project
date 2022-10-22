@@ -42,10 +42,10 @@ public class ReportService {
      */
     public List<ReportWithEvent> findNewReports(User user) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();
-        List<Report> reports;
         List<ReportWithEvent> reportsWithEvents;
 
         try {
+            List<Report> reports;
             if (user.getRole() == User.Role.MODERATOR) {
                 reports = reportDao.findNewForModerator(connection, user);
             } else if (user.getRole() == User.Role.SPEAKER) {
@@ -71,6 +71,38 @@ public class ReportService {
             throw new DBException("Unable to find new reports", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
+        }
+
+        return reportsWithEvents;
+    }
+
+    /**
+     * returns future events with reports by speaker
+     *
+     * @param speakerId id of speaker
+     * @return list of reports with events by speaker
+     */
+    public List<ReportWithEvent> findAllFutureSpeakerReports(int speakerId) throws DBException, ValidationException {
+        Connection connection = ConnectionUtil.getConnection();
+        List<ReportWithEvent> reportsWithEvents;
+
+        try {
+            User speaker = new User();
+            speaker.setId(speakerId);
+            userDao.findOne(connection, speaker);
+            if (speaker.getRole() != User.Role.SPEAKER) {
+                throw new ValidationException("User should be a speaker");
+            }
+
+            List<Report> reports = reportDao.findAllBySpeaker(connection, speaker, true);
+            reportsWithEvents = new ArrayList<>(reports.size());
+            for (Report report : reports) {
+                reportsWithEvents.add(new ReportWithEvent(report, eventDao.findOne(connection, report.getEventId(), true)));
+            }
+
+        } catch (SQLException e) {
+            logger.error("SQLException in findAllFutureSpeakerReports", e);
+            throw new DBException("Unable to find future reports of speaker");
         }
 
         return reportsWithEvents;
@@ -213,7 +245,7 @@ public class ReportService {
      * Changes a topic of report
      *
      * @param reportId id of report whose topic should be changed
-     * @param newTopic    new topic
+     * @param newTopic new topic
      * @param user     user that performs operation
      */
     public void modifyReportTopic(int reportId, String newTopic, User user) throws DBException, ValidationException {

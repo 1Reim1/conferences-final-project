@@ -34,6 +34,7 @@ public class MysqlEventDaoImpl implements EventDao {
     private static final String GET_ALL_MY_FOR_USER_ORDER_BY_REPORTS = "SELECT events.*, COUNT(r.id) AS reports_count FROM events LEFT JOIN participants p ON events.id = p.event_id LEFT JOIN reports r ON events.id = r.event_id AND r.confirmed = true WHERE events.hidden = false AND events.date %s ? AND ( p.user_id = ? ) AND events.language = ? GROUP BY events.id ORDER BY reports_count %s, events.id LIMIT ? OFFSET ?";
     private static final String GET_ALL_MY_FOR_USER_ORDER_BY_PARTICIPANTS = "SELECT events.*, COUNT(p.user_id) AS participants_count FROM events LEFT JOIN participants p ON events.id = p.event_id WHERE events.hidden = false AND events.date %s ? AND ( p.user_id = ? ) AND events.language = ? GROUP BY events.id ORDER BY participants_count %s, events.id LIMIT ? OFFSET ?";
 
+    private static final String GET_ALL_MODERATED_BY = "SELECT * FROM events WHERE moderator_id = ? ORDER BY date DESC";
     private static final String GET_ONE = "SELECT * FROM events WHERE id = ? AND hidden = false";
     private static final String GET_ONE_SHOW_HIDDEN = "SELECT * FROM events WHERE id = ?";
     private static final String INSERT_ONE = "INSERT INTO events VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -139,6 +140,27 @@ public class MysqlEventDaoImpl implements EventDao {
                 return rs.getInt("total");
             }
         }
+    }
+
+    /**
+     * returns all events moderated by a user with that id
+     *
+     * @param moderator moderator
+     * @return list of events moderated by a user with that id
+     */
+    @Override
+    public List<Event> findAllByModerator(Connection connection, User moderator) throws SQLException {
+        List<Event> events = new ArrayList<>();
+        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_MODERATED_BY)) {
+            stmt.setInt(1, moderator.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    events.add(extractEvent(rs));
+                }
+            }
+        }
+
+        return events;
     }
 
     /**

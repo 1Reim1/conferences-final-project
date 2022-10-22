@@ -27,10 +27,13 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
     public void contextInitialized(ServletContextEvent sce) {
         logger.info("Starting");
         int homePageSize;
+        int usersPageSize;
         try {
             Properties appConfig = PropertiesUtil.loadFromResources("app.properties");
             homePageSize = Integer.parseInt(appConfig.getProperty("home.page.size"));
+            usersPageSize = Integer.parseInt(appConfig.getProperty("users.page.size"));
             logger.debug("home.page.size = " + homePageSize);
+            logger.debug("users.page.size = " + usersPageSize);
 
             Properties emailConfig = PropertiesUtil.loadFromResources("email.properties");
             emailManager = new EmailManager(emailConfig);
@@ -47,7 +50,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("app/eventService", new EventService(emailManager, eventDao, reportDao, userDao, homePageSize));
         servletContext.setAttribute("app/reportService", new ReportService(emailManager, eventDao, reportDao, userDao));
-        servletContext.setAttribute("app/userService", new UserService(userDao));
+        servletContext.setAttribute("app/userService", new UserService(userDao, usersPageSize));
     }
 
     @Override

@@ -23,7 +23,7 @@ class UserServiceTest {
     @BeforeAll
     static void init() throws SQLException {
         userDao = Mockito.mock(UserDao.class);
-        userService = new UserService(userDao);
+        userService = new UserService(userDao, 5);
 
         User user = new User();
         user.setId(1);

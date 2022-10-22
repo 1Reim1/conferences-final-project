@@ -14,6 +14,10 @@ $("#new-reports-btn").on("click", function (e) {
     window.location.href = "new-reports"
 })
 
+$("#users-btn").on("click", function (e) {
+    window.location.href = "users"
+})
+
 $("#ukrainian-language-btn").on("click", function (e) {
     document.cookie = "lang=uk"
     $.ajax({

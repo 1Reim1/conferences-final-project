@@ -12,15 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="home page title internationalization">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/tag/ErrorAlertTag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/alert.tld" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/auth.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/auth.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/create-event.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/event.jsp" afterDir="false" />
-    </list>
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="users page" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,12 +22,12 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Jsp File" />
-        <option value="HTML File" />
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="XML Properties File" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="HTML File" />
+        <option value="JavaScript File" />
         <option value="Class" />
       </list>
     </option>
@@ -72,16 +64,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\timer\IdeaProjects\conferences\src\main\webapp" />
@@ -99,11 +92,11 @@
       <recent name="com.my.conferences.service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.my.conferences.logic" />
-      <recent name="com.my.conferences.controllers.commands.user" />
+      <recent name="com.my.conferences.controllers.commands.report" />
       <recent name="com.my.conferences.controllers.commands.event" />
+      <recent name="com.my.conferences.controllers.commands.user" />
       <recent name="com.my.conferences.controllers" />
-      <recent name="com.my.conferences.filters" />
+      <recent name="com.my.conferences.logic" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
@@ -174,7 +167,7 @@
       </method>
     </configuration>
     <configuration name="Tomcat 10.0.23" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.23" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="UPDATING_POLICY" value="redeploy-artifacts" />
+      <option name="UPDATING_POLICY" value="update-resources" />
       <deployment>
         <artifact name="conferences:war exploded">
           <settings>
@@ -296,49 +289,8 @@
       <workItem from="1665594248959" duration="15323000" />
       <workItem from="1665655513918" duration="29531000" />
       <workItem from="1665746448324" duration="102177000" />
-      <workItem from="1666186662139" duration="26086000" />
-    </task>
-    <task id="LOCAL-00090" summary="prevent interaction with a past event">
-      <created>1665571494926</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1665571494926</updated>
-    </task>
-    <task id="LOCAL-00091" summary="email notifications">
-      <created>1665590189495</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1665590189495</updated>
-    </task>
-    <task id="LOCAL-00092" summary="email notifications">
-      <created>1665593416578</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1665593416578</updated>
-    </task>
-    <task id="LOCAL-00093" summary="email notifications">
-      <created>1665594760597</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1665594760598</updated>
-    </task>
-    <task id="LOCAL-00094" summary="user language field">
-      <created>1665598898695</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1665598898695</updated>
-    </task>
-    <task id="LOCAL-00095" summary="email notifications">
-      <created>1665602692185</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1665602692185</updated>
+      <workItem from="1666186662139" duration="54642000" />
+      <workItem from="1666446298358" duration="13516000" />
     </task>
     <task id="LOCAL-00096" summary="email notifications">
       <created>1665606474172</created>
@@ -641,7 +593,49 @@
       <option name="project" value="LOCAL" />
       <updated>1666272023715</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="custom tag library">
+      <created>1666294472201</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1666294472201</updated>
+    </task>
+    <task id="LOCAL-00140" summary="users page">
+      <created>1666426257775</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1666426257775</updated>
+    </task>
+    <task id="LOCAL-00141" summary="users page">
+      <created>1666427237900</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1666427237900</updated>
+    </task>
+    <task id="LOCAL-00142" summary="users page">
+      <created>1666434115351</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1666434115351</updated>
+    </task>
+    <task id="LOCAL-00143" summary="users page">
+      <created>1666531103257</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1666531103257</updated>
+    </task>
+    <task id="LOCAL-00144" summary="users page">
+      <created>1666621007987</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1666621007987</updated>
+    </task>
+    <option name="localTasksCounter" value="145" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -659,8 +653,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="past event statistics" />
-    <MESSAGE value="internationalization" />
     <MESSAGE value="auth commands" />
     <MESSAGE value="commands refactoring" />
     <MESSAGE value="servlets refactoring" />
@@ -684,7 +676,9 @@
     <MESSAGE value="service logging" />
     <MESSAGE value="home page by default" />
     <MESSAGE value="home page title internationalization" />
-    <option name="LAST_COMMIT_MESSAGE" value="home page title internationalization" />
+    <MESSAGE value="custom tag library" />
+    <MESSAGE value="users page" />
+    <option name="LAST_COMMIT_MESSAGE" value="users page" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
