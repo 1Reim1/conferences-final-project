@@ -50,7 +50,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("app/eventService", new EventService(emailManager, eventDao, reportDao, userDao, homePageSize));
         servletContext.setAttribute("app/reportService", new ReportService(emailManager, eventDao, reportDao, userDao));
-        servletContext.setAttribute("app/userService", new UserService(userDao, usersPageSize));
+        servletContext.setAttribute("app/userService", new UserService(emailManager, userDao, reportDao, eventDao, usersPageSize));
     }
 
     @Override

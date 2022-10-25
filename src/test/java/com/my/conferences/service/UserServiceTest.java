@@ -1,6 +1,9 @@
 package com.my.conferences.service;
 
+import com.my.conferences.dao.EventDao;
+import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
+import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -22,8 +25,11 @@ class UserServiceTest {
 
     @BeforeAll
     static void init() throws SQLException {
+        EmailManager emailManager = Mockito.mock(EmailManager.class);
         userDao = Mockito.mock(UserDao.class);
-        userService = new UserService(userDao, 5);
+        ReportDao reportDao = Mockito.mock(ReportDao.class);
+        EventDao eventDao = Mockito.mock(EventDao.class);
+        userService = new UserService(emailManager, userDao, reportDao, eventDao, 5);
 
         User user = new User();
         user.setId(1);

@@ -4,6 +4,7 @@ import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.controllers.commands.event.LoadModeratorEventsCommand;
 import com.my.conferences.controllers.commands.report.LoadSpeakerFutureReportsCommand;
 import com.my.conferences.controllers.commands.user.LoadMoreUsersCommand;
+import com.my.conferences.controllers.commands.user.ModifyRoleCommand;
 import com.my.conferences.entity.User;
 import com.my.conferences.service.*;
 import com.my.conferences.util.RequestUtil;
@@ -35,6 +36,7 @@ public class UsersServlet extends HttpServlet {
         commandMap.put("load-more-users", new LoadMoreUsersCommand(userService));
         commandMap.put("load-moderator-events", new LoadModeratorEventsCommand(eventService));
         commandMap.put("load-speaker-future-reports", new LoadSpeakerFutureReportsCommand(reportService));
+        commandMap.put("modify-role", new ModifyRoleCommand(userService));
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

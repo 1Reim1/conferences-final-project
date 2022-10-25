@@ -43,6 +43,17 @@ public class ConnectionUtil {
         }
     }
 
+    public static Connection getConnectionForTransaction() throws DBException {
+        try {
+            Connection connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            return connection;
+        }   catch (SQLException e) {
+            throw new DBException("The connection to the database is lost", e);
+        }
+    }
+
     /**
      * Closes a connection
      */

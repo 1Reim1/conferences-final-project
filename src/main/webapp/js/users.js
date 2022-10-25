@@ -3,6 +3,18 @@ let newRole
 let userPage = 1
 let emailQuery = ""
 let userId
+let roleBtn;
+
+function alertErrorShow(text) {
+    let alertError = $("#error-alert")
+    alertError.text(text)
+    alertError.fadeIn("slow")
+}
+
+function alertErrorHide() {
+    let alertError = $("#error-alert")
+    alertError.fadeOut("fast")
+}
 
 function appendUsers(users) {
     let tableBody = $("#table-body")
@@ -34,11 +46,13 @@ $("#search-by-email").on("click", function () {
             console.log(users)
             $("#table-body").empty()
             appendUsers(users)
+            alertErrorHide()
         },
         error: function (jqXhr, textStatus, errorMessage) {
             console.log(jqXhr.responseText)
             console.log(textStatus)
             $("#table-body").empty()
+            alertErrorShow(jqXhr.responseText)
         }
     })
 })
@@ -58,6 +72,7 @@ $("#load-more-btn").on("click", function () {
             let users = $.parseJSON(data)
             console.log(users)
             appendUsers(users)
+            alertErrorHide()
         },
         error: function (jqXhr, textStatus, errorMessage) {
             console.log(jqXhr.responseText)
@@ -72,6 +87,7 @@ function setTableRoleBtnOnClickHandler() {
     btn.on("click", function () {
         let tr = $(this).closest("tr");
 
+        roleBtn = $(this)
         userId = tr.children("th").text()
         let email = tr.children("td").eq(0).text()
         let firstName = tr.children("td").eq(1).text()
@@ -143,13 +159,26 @@ function showSpeakerReportsModal(reportsWithEvents) {
 }
 
 function sendUserRoleChangeRequest() {
-    alert("ok")
+    $.ajax({
+        type: "POST",
+        url: window.location.href,
+        data: {
+            command: "modify-role",
+            user_id: userId,
+            new_role: newRole
+        },
+        success: function () {
+            roleBtn.text(newRole.charAt(0).toUpperCase() + newRole.slice(1))
+            alertErrorHide()
+        },
+        error: function (jqXhr) {
+            console.log(jqXhr.responseText)
+            alertErrorShow(jqXhr.responseText)
+        }
+    })
 }
 
 $("#save-role-btn").on("click", function () {
-    // showModeratorEventsModal()
-    // showSpeakerReportsModal()
-
     if (role === "moderator") {
         $.ajax({
             type: "POST",
@@ -159,6 +188,7 @@ $("#save-role-btn").on("click", function () {
                 moderator_id: userId,
             },
             success: function (data) {
+                alertErrorHide()
                 let events = $.parseJSON(data)
                 if (events.length === 0) {
                     console.log("no events")
@@ -171,6 +201,7 @@ $("#save-role-btn").on("click", function () {
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)
+                alertErrorShow(jqXhr.responseText)
             }
         })
     } else if (role === "speaker") {
@@ -182,6 +213,7 @@ $("#save-role-btn").on("click", function () {
                 speaker_id: userId,
             },
             success: function (data) {
+                alertErrorHide()
                 let reportsWithEvents = $.parseJSON(data)
                 if (reportsWithEvents.length === 0) {
                     console.log("no events")
@@ -194,6 +226,7 @@ $("#save-role-btn").on("click", function () {
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(jqXhr.responseText)
+                alertErrorShow(jqXhr.responseText)
             }
         })
     } else if (role === "user") {
