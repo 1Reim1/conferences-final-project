@@ -13,9 +13,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="users page">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/JsonUtilTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/users.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/users.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/EventServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/EventServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/ReportServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/ReportServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,10 +36,10 @@
         <option value="CSS File" />
         <option value="XML Properties File" />
         <option value="Interface" />
-        <option value="JUnit5 Test Class" />
         <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -103,31 +110,55 @@
       <recent name="com.my.conferences.logic" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
-    <configuration name="All in conferences" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="conferences" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EventServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.com.my.conferences in conferences">
+    <configuration name="JsonUtilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.my.conferences.service.*" />
+          <option name="PATTERN" value="com.my.conferences.util.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.my.conferences.service" />
-      <option name="MAIN_CLASS_NAME" value="com.my.conferences.service.EventServiceTest" />
+      <option name="PACKAGE_NAME" value="com.my.conferences.util" />
+      <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.JsonUtilTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RequestUtilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="JsonUtilTest.eventsToJson" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="conferences" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.my.conferences.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.my.conferences.util" />
+      <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.JsonUtilTest" />
+      <option name="METHOD_NAME" value="eventsToJson" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonUtilTest.reportsWithEventsToJson" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="conferences" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.my.conferences.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.my.conferences.util" />
+      <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.JsonUtilTest" />
+      <option name="METHOD_NAME" value="reportsWithEventsToJson" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RequestUtilTest.getUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
         <pattern>
@@ -137,7 +168,8 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.my.conferences.util" />
       <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.RequestUtilTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="getUser" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -151,20 +183,6 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.my.conferences" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="com.my.conferences.service in conferences" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="conferences" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.my.conferences.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.my.conferences.service" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -258,20 +276,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.All in conferences" />
-      <item itemvalue="JUnit.EventServiceTest" />
-      <item itemvalue="JUnit.RequestUtilTest" />
+      <item itemvalue="JUnit.JsonUtilTest" />
+      <item itemvalue="JUnit.JsonUtilTest.eventsToJson" />
+      <item itemvalue="JUnit.JsonUtilTest.reportsWithEventsToJson" />
+      <item itemvalue="JUnit.RequestUtilTest.getUser" />
       <item itemvalue="JUnit.com.my.conferences in conferences" />
-      <item itemvalue="JUnit.com.my.conferences.service in conferences" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.23" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.com.my.conferences in conferences" />
-        <item itemvalue="JUnit.All in conferences" />
-        <item itemvalue="JUnit.RequestUtilTest" />
-        <item itemvalue="JUnit.com.my.conferences.service in conferences" />
-        <item itemvalue="JUnit.EventServiceTest" />
+        <item itemvalue="JUnit.RequestUtilTest.getUser" />
+        <item itemvalue="JUnit.JsonUtilTest.reportsWithEventsToJson" />
+        <item itemvalue="JUnit.JsonUtilTest" />
+        <item itemvalue="JUnit.JsonUtilTest.eventsToJson" />
       </list>
     </recent_temporary>
   </component>
@@ -297,14 +315,7 @@
       <workItem from="1666446298358" duration="13516000" />
       <workItem from="1666690280247" duration="42000" />
       <workItem from="1666691504804" duration="35000" />
-      <workItem from="1666701209622" duration="13939000" />
-    </task>
-    <task id="LOCAL-00100" summary="past event statistics">
-      <created>1665691470983</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1665691470983</updated>
+      <workItem from="1666701209622" duration="39197000" />
     </task>
     <task id="LOCAL-00101" summary="past event statistics">
       <created>1665693511204</created>
@@ -642,7 +653,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666733684412</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="users page">
+      <created>1666767833010</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1666767833010</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

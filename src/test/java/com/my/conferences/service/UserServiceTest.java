@@ -8,11 +8,13 @@ import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,8 +49,33 @@ class UserServiceTest {
         Mockito.doThrow(new SQLException("no records"))
                 .when(userDao)
                 .findByEmail(ArgumentMatchers.any(), ArgumentMatchers.eq("emailtest1@gmail.com"));
+        Mockito.doAnswer(invocation -> {
+            User u = invocation.getArgument(1, User.class);
+            if (u == null) {
+                return null;
+            }
+
+            if (u.getId() == 1) {
+                u.setRole(User.Role.MODERATOR);
+            } else if (u.getId() == 2) {
+                u.setRole(User.Role.SPEAKER);
+            } else if (u.getId() == 3) {
+                u.setRole(User.Role.USER);
+            }
+
+            return null;
+        }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
 
         connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
+        Connection connection = Mockito.mock(Connection.class);
+        connectionUtilMockedStatic
+                .when(ConnectionUtil::getConnectionForTransaction)
+                .thenReturn(connection);
+    }
+
+    @BeforeEach
+    void tearUp() {
+        Mockito.clearInvocations(userDao);
     }
 
     @Test
@@ -126,6 +153,16 @@ class UserServiceTest {
 
         assertEquals("Moderator can not be register", thrown.getMessage());
         Mockito.verify(userDao, Mockito.times(0)).insert(ArgumentMatchers.any(), ArgumentMatchers.same(user));
+    }
+
+    @Test
+    void modifyRole() throws DBException, ValidationException, SQLException {
+        User moderator = new User();
+        moderator.setId(4);
+        moderator.setRole(User.Role.MODERATOR);
+        userService.modifyRole(3, User.Role.MODERATOR, moderator);
+        Mockito.verify(userDao, Mockito.times(1))
+                .update(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
 
     @Test

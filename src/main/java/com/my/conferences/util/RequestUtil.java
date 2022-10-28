@@ -1,6 +1,7 @@
 package com.my.conferences.util;
 
 import com.my.conferences.controllers.commands.Command;
+import com.my.conferences.entity.User;
 import com.my.conferences.service.ValidationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -18,6 +19,13 @@ import java.util.Map;
 public class RequestUtil {
 
     private RequestUtil() {}
+
+    /**
+     * @return user in session
+     */
+    public static User getUser(HttpServletRequest request) {
+        return (User) request.getSession().getAttribute("user");
+    }
 
     /**
      * @param parameterName the name of the parameter
@@ -83,7 +91,7 @@ public class RequestUtil {
         String commandKey;
         try {
             commandKey = RequestUtil.getStringParameter(request, "command");
-        }   catch (ValidationException e) {
+        } catch (ValidationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
             return;

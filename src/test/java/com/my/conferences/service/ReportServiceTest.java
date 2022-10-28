@@ -76,6 +76,14 @@ class ReportServiceTest {
         Mockito.doReturn(event)
                 .when(eventDao)
                 .findOne(ArgumentMatchers.any(), ArgumentMatchers.eq(report.getEventId()), ArgumentMatchers.eq(true));
+        Mockito.doAnswer(invocation -> {
+            User user = invocation.getArgument(1, User.class);
+            if (user != null && user.getId() == 2) {
+                user.setRole(User.Role.SPEAKER);
+            }
+            return null;
+        }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
+
 
         connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
@@ -98,6 +106,13 @@ class ReportServiceTest {
         reportService.findNewReports(user);
         Mockito.verify(reportDao, Mockito.times(1))
                 .findNewForModerator(ArgumentMatchers.any(), ArgumentMatchers.same(user));
+    }
+
+    @Test
+    void findAllFutureSpeakerReports() throws DBException, ValidationException, SQLException {
+        reportService.findAllFutureSpeakerReports(2);
+        Mockito.verify(reportDao)
+                .findAllBySpeaker(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.eq(true));
     }
 
     @Test

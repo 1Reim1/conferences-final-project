@@ -99,6 +99,13 @@ class EventServiceTest {
         Mockito.doReturn(event)
                 .when(eventDao)
                 .findOne(ArgumentMatchers.any(), ArgumentMatchers.eq(event.getId()), ArgumentMatchers.anyBoolean());
+        Mockito.doAnswer(invocation -> {
+            User user = invocation.getArgument(1, User.class);
+            if (user != null && user.getId() == 1) {
+                user.setRole(User.Role.MODERATOR);
+            }
+            return null;
+        }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
 
         connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
@@ -161,6 +168,13 @@ class EventServiceTest {
         assertEquals(2, pages);
         Mockito.verify(eventDao, Mockito.times(1))
                 .findCountMy(ArgumentMatchers.any(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.any());
+    }
+
+    @Test
+    void findAllModeratorEvents() throws DBException, ValidationException, SQLException {
+        eventService.findAllModeratorEvents(moderator.getId());
+        Mockito.verify(eventDao, Mockito.times(1))
+                .findAllByModerator(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
 
     @Test

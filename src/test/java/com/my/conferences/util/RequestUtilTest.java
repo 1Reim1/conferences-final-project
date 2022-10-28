@@ -1,13 +1,20 @@
 package com.my.conferences.util;
 
+import com.my.conferences.controllers.commands.Command;
+import com.my.conferences.entity.User;
 import com.my.conferences.service.ValidationException;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +42,22 @@ class RequestUtilTest {
         Mockito.doReturn(new Cookie[]{cookie1, cookie2, cookie3})
                 .when(request)
                 .getCookies();
+
+        User user = new User();
+        user.setId(10);
+        HttpSession session = Mockito.mock(HttpSession.class);
+        Mockito.doReturn(session)
+                .when(request)
+                .getSession();
+        Mockito.doReturn(user)
+                .when(session)
+                .getAttribute(ArgumentMatchers.eq("user"));
+    }
+
+    @Test
+    void getUser() {
+        User user = RequestUtil.getUser(request);
+        assertEquals(10, user.getId());
     }
 
     @Test
@@ -74,5 +97,25 @@ class RequestUtilTest {
         assertEquals("value1", cookiesMap.get("name1"));
         assertEquals("value2", cookiesMap.get("name2"));
         assertEquals("value3", cookiesMap.get("name3"));
+    }
+
+    @Test
+    void executeCommand() throws ServletException, IOException {
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+
+        Command command = Mockito.mock(Command.class);
+        Command command2 = Mockito.mock(Command.class);
+
+        Map<String, Command> commandMap = new HashMap<>();
+        commandMap.put("command-name", command);
+        commandMap.put("command-name-2", command2);
+
+        Mockito.doReturn("command-name")
+                .when(request)
+                .getParameter(ArgumentMatchers.eq("command"));
+        RequestUtil.executeCommand(request, response, commandMap);
+        Mockito.verify(command, Mockito.times(1))
+                .execute(ArgumentMatchers.same(request), ArgumentMatchers.same(response));
     }
 }

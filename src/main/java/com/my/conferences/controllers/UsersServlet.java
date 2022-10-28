@@ -47,6 +47,7 @@ public class UsersServlet extends HttpServlet {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().println(e.getMessage());
+            return;
         }
 
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/users.jsp").forward(request, response);
