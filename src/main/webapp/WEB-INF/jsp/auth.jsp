@@ -36,7 +36,7 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-            <form action="login" method="post" class="" novalidate>
+            <form method="post" class="" novalidate>
                 <div class="mb-3">
                     <input type="email" id="login-email" class="form-control" placeholder="Email@example.com" required>
                     <div class="invalid-feedback">
@@ -48,13 +48,14 @@
                     <div class="invalid-feedback">
                         <fmt:message key="validation.min_length"/>: 6
                     </div>
+                    <a id="forgot-password"  data-bs-toggle="modal" data-bs-target="#forgot-password-modal"><fmt:message key="auth.forgot_password"/>?</a>
                 </div>
                 <button type="submit" class="btn btn-primary col-12"><fmt:message key="auth.login"/></button>
             </form>
         </div>
 
         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-            <form action="register" method="post" novalidate>
+            <form method="post" novalidate>
                 <div class="mb-3">
                     <input type="email" id="register-email" class="form-control" placeholder="Email@example.com"
                            required>
@@ -109,6 +110,44 @@
             <button id="english-language-btn" type="button" class="btn btn-primary col-2 offset-2 disabled">English</button>
         </c:otherwise>
     </c:choose>
+</div>
+
+<!-- Forgot password modal -->
+<div class="modal fade" id="forgot-password-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><fmt:message key="auth.password"/></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-4">
+                    <input type="email" class="form-control" placeholder="Email@example.com">
+                    <button id="send-code-btn" class="btn btn-primary" type="button"><fmt:message key="auth.send_code"/></button>
+                    <div class="invalid-feedback">
+                        <fmt:message key="validation.email_incorrect"/>
+                    </div>
+                </div>
+                <div id="code-input-group" class="input-group mb-4" style="display: none">
+                    <input type="text" class="form-control" placeholder="<fmt:message key="auth.code"/>">
+                    <button id="verify-code-btn" class="btn btn-primary" type="button"><fmt:message key="auth.verify_code"/></button>
+                    <div class="invalid-feedback">
+                        <fmt:message key="auth.code_incorrect"/>
+                    </div>
+                </div>
+                <div id="new-password-input-group" class="mb-1" style="display:none;">
+                    <input type="password" class="form-control" placeholder="<fmt:message key="auth.new_password"/>" autocomplete="new-password">
+                    <div class="invalid-feedback">
+                        <fmt:message key="validation.min_length"/>: 6
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="event.close"/></button>
+                <button type="button" id="save-password-btn" class="btn btn-primary" style="display: none"><fmt:message key="auth.save_password"/></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="js/bootstrap.min.js"></script>

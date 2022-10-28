@@ -5,3 +5,12 @@
 .width-100 {
     width: 100%;
 }
+
+#forgot-password {
+    font-size: 13px;
+    color: #0D6EFD;
+}
+
+#forgot-password:hover {
+    cursor: pointer;
+}

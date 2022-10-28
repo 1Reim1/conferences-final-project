@@ -80,13 +80,17 @@ public class User implements Serializable {
             throw new ValidationException("Last name is bad");
     }
 
+    public static void validateEmail(String email) throws ValidationException {
+        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
+            throw new ValidationException("Email is incorrect");
+    }
+
     public void validateEmailAndPassword() throws ValidationException {
         validateEmailAndPassword(email, password);
     }
 
     public static void validateEmailAndPassword(String email, String password) throws ValidationException {
-        if (!VALID_EMAIL_ADDRESS_REGEX.matcher(email).find())
-            throw new ValidationException("Email is bad");
+        validateEmail(email);
         if (password.length() < 6) {
             throw new ValidationException("Password is bad");
         }

@@ -1,9 +1,9 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.controllers.commands.user.LoginCommand;
-import com.my.conferences.controllers.commands.user.RegisterCommand;
+import com.my.conferences.controllers.commands.user.*;
 import com.my.conferences.service.UserService;
+import com.my.conferences.service.VerificationCodeService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -23,8 +23,12 @@ public class AuthServlet extends HttpServlet {
     @Override
     public void init() {
         UserService userService = (UserService) getServletContext().getAttribute("app/userService");
+        VerificationCodeService verificationCodeService = (VerificationCodeService) getServletContext().getAttribute("app/verificationCodeService");
         commandMap.put("login", new LoginCommand(userService));
         commandMap.put("register", new RegisterCommand(userService));
+        commandMap.put("send-verification-code", new SendVerificationCodeCommand(verificationCodeService));
+        commandMap.put("verify-code", new VerifyCodeCommand(verificationCodeService));
+        commandMap.put("modify-password", new ModifyPasswordCommand(userService));
     }
 
     @Override

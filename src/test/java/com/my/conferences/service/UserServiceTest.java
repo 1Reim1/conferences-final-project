@@ -3,6 +3,7 @@ package com.my.conferences.service;
 import com.my.conferences.dao.EventDao;
 import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
+import com.my.conferences.dao.VerificationCodeDao;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.User;
 import com.my.conferences.util.ConnectionUtil;
@@ -31,7 +32,8 @@ class UserServiceTest {
         userDao = Mockito.mock(UserDao.class);
         ReportDao reportDao = Mockito.mock(ReportDao.class);
         EventDao eventDao = Mockito.mock(EventDao.class);
-        userService = new UserService(emailManager, userDao, reportDao, eventDao, 5);
+        VerificationCodeDao verificationCodeDao = Mockito.mock(VerificationCodeDao.class);
+        userService = new UserService(emailManager, userDao, reportDao, eventDao, verificationCodeDao, 5);
 
         User user = new User();
         user.setId(1);
@@ -102,7 +104,7 @@ class UserServiceTest {
                 () -> userService.login("emailtest1@gmail.com", "123456", "en"),
                 "Expected that user not found");
 
-        assertEquals("User with this email not found", thrown.getMessage());
+        assertEquals("User with that email not found", thrown.getMessage());
     }
 
     @Test

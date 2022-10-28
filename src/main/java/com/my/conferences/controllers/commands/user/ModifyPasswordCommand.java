@@ -12,37 +12,34 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-public class ModifyRoleCommand implements Command {
+public class ModifyPasswordCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in ModifyRoleCommand";
-    private final static Logger logger = Logger.getLogger(ModifyRoleCommand.class);
+    private final static String EXCEPTION_MESSAGE = "Exception in ModifyPasswordCommand";
+    private final static Logger logger = Logger.getLogger(ModifyPasswordCommand.class);
     private final UserService userService;
 
-    public ModifyRoleCommand(UserService userService) {
+    public ModifyPasswordCommand(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int userId = RequestUtil.getIntParameter(request, "user_id");
-            String newRoleStr = RequestUtil.getStringParameter(request, "new_role").toUpperCase();
-            if (Arrays.stream(User.Role.values()).noneMatch(r -> r.toString().equals(newRoleStr))) {
-                throw new ValidationException("Role is unknown");
-            }
-            User.Role newRole = User.Role.valueOf(newRoleStr);
-            logger.trace("User id: " + userId);
-            logger.trace("Role: " + newRole);
-            userService.modifyRole(userId, newRole, RequestUtil.getUser(request));
+            String email = RequestUtil.getStringParameter(request, "email");
+            String code = RequestUtil.getStringParameter(request, "code");
+            String newPassword = RequestUtil.getStringParameter(request, "new_password");
+            logger.trace("Email: " + email);
+            logger.trace("Code: " + code);
+            User user = userService.modifyPassword(email, code, newPassword);
+            request.getSession().setAttribute("user", user);
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println(e.getMessage());
         } catch (DBException e) {
             logger.error(EXCEPTION_MESSAGE, e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().println(e.getMessage());
         }
     }

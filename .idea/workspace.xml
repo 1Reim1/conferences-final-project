@@ -12,30 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="tests">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="forget password">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/VerificationCodeServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/CreateEventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/CreateEventServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/NewReportsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/NewReportsServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoadMoreUsersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoadMoreUsersCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/ModifyRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/ModifyRoleCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/VerificationCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/VerificationCodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +30,9 @@
         <option value="Jsp File" />
         <option value="CSS File" />
         <option value="XML Properties File" />
-        <option value="Interface" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="Interface" />
         <option value="Class" />
         <option value="JUnit5 Test Class" />
       </list>
@@ -97,6 +79,11 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
+      &quot;MySQL&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -112,8 +99,8 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="com.my.conferences.util" />
       <recent name="com.my.conferences.service" />
+      <recent name="com.my.conferences.util" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.my.conferences.controllers.commands.user" />
@@ -123,7 +110,22 @@
       <recent name="com.my.conferences.logic" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
+  <component name="RunManager" selected="JUnit.com.my.conferences in conferences">
+    <configuration name="EventServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="conferences" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.my.conferences.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.my.conferences.service" />
+      <option name="MAIN_CLASS_NAME" value="com.my.conferences.service.EventServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="JsonUtilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
@@ -135,22 +137,6 @@
       <option name="PACKAGE_NAME" value="com.my.conferences.util" />
       <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.JsonUtilTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JsonUtilTest.eventsToJson" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="conferences" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.my.conferences.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.my.conferences.util" />
-      <option name="MAIN_CLASS_NAME" value="com.my.conferences.util.JsonUtilTest" />
-      <option name="METHOD_NAME" value="eventsToJson" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -289,8 +275,8 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.EventServiceTest" />
       <item itemvalue="JUnit.JsonUtilTest" />
-      <item itemvalue="JUnit.JsonUtilTest.eventsToJson" />
       <item itemvalue="JUnit.JsonUtilTest.reportsWithEventsToJson" />
       <item itemvalue="JUnit.RequestUtilTest.getUser" />
       <item itemvalue="JUnit.com.my.conferences in conferences" />
@@ -299,10 +285,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.com.my.conferences in conferences" />
+        <item itemvalue="JUnit.EventServiceTest" />
         <item itemvalue="JUnit.RequestUtilTest.getUser" />
         <item itemvalue="JUnit.JsonUtilTest.reportsWithEventsToJson" />
         <item itemvalue="JUnit.JsonUtilTest" />
-        <item itemvalue="JUnit.JsonUtilTest.eventsToJson" />
       </list>
     </recent_temporary>
   </component>
@@ -328,70 +314,10 @@
       <workItem from="1666446298358" duration="13516000" />
       <workItem from="1666690280247" duration="42000" />
       <workItem from="1666691504804" duration="35000" />
-      <workItem from="1666701209622" duration="41492000" />
-    </task>
-    <task id="LOCAL-00102" summary="internationalization">
-      <created>1665725309222</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1665725309222</updated>
-    </task>
-    <task id="LOCAL-00103" summary="internationalization">
-      <created>1665729957907</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1665729957907</updated>
-    </task>
-    <task id="LOCAL-00104" summary="internationalization">
-      <created>1665734182104</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1665734182104</updated>
-    </task>
-    <task id="LOCAL-00105" summary="auth commands">
-      <created>1665734791201</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1665734791201</updated>
-    </task>
-    <task id="LOCAL-00106" summary="commands refactoring">
-      <created>1665737135611</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1665737135611</updated>
-    </task>
-    <task id="LOCAL-00107" summary="commands refactoring">
-      <created>1665747772440</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1665747772441</updated>
-    </task>
-    <task id="LOCAL-00108" summary="servlets refactoring">
-      <created>1665751263110</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1665751263110</updated>
-    </task>
-    <task id="LOCAL-00109" summary="repositories refactoring">
-      <created>1665830195984</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1665830195984</updated>
-    </task>
-    <task id="LOCAL-00110" summary="RequestUtil small refactoring">
-      <created>1665830669644</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1665830669645</updated>
+      <workItem from="1666701209622" duration="42448000" />
+      <workItem from="1666975459642" duration="20075000" />
+      <workItem from="1667117691100" duration="11208000" />
+      <workItem from="1669456724793" duration="690000" />
     </task>
     <task id="LOCAL-00111" summary="passhash -&gt; password">
       <created>1665831283553</created>
@@ -673,7 +599,70 @@
       <option name="project" value="LOCAL" />
       <updated>1666948035764</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="getUser">
+      <created>1666971234827</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1666971234827</updated>
+    </task>
+    <task id="LOCAL-00152" summary="getUser">
+      <created>1666971353264</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1666971353264</updated>
+    </task>
+    <task id="LOCAL-00153" summary="forget password">
+      <created>1666986826889</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1666986826889</updated>
+    </task>
+    <task id="LOCAL-00154" summary="forget password">
+      <created>1666988179252</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1666988179252</updated>
+    </task>
+    <task id="LOCAL-00155" summary="forget password">
+      <created>1667034856079</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1667034856079</updated>
+    </task>
+    <task id="LOCAL-00156" summary="forget password">
+      <created>1667037317704</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1667037317704</updated>
+    </task>
+    <task id="LOCAL-00157" summary="forget password">
+      <created>1667117749227</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1667117749227</updated>
+    </task>
+    <task id="LOCAL-00158" summary="forget password">
+      <created>1667292851361</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1667292851362</updated>
+    </task>
+    <task id="LOCAL-00159" summary="forget password">
+      <created>1667293955000</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1667293955000</updated>
+    </task>
+    <option name="localTasksCounter" value="160" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -691,8 +680,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="auth commands" />
-    <MESSAGE value="commands refactoring" />
     <MESSAGE value="servlets refactoring" />
     <MESSAGE value="repositories refactoring" />
     <MESSAGE value="RequestUtil small refactoring" />
@@ -716,11 +703,13 @@
     <MESSAGE value="custom tag library" />
     <MESSAGE value="users page" />
     <MESSAGE value="tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="tests" />
+    <MESSAGE value="getUser" />
+    <MESSAGE value="forget password" />
+    <option name="LAST_COMMIT_MESSAGE" value="forget password" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666947917061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1669456904282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.my.conferences.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666122216939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

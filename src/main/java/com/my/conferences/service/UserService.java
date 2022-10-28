@@ -3,10 +3,12 @@ package com.my.conferences.service;
 import com.my.conferences.dao.EventDao;
 import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
+import com.my.conferences.dao.VerificationCodeDao;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.util.ConnectionUtil;
 import org.apache.log4j.Logger;
 
@@ -26,13 +28,15 @@ public class UserService {
     private final UserDao userDao;
     private final ReportDao reportDao;
     private final EventDao eventDao;
+    private final VerificationCodeDao verificationCodeDao;
     private final int pageSize;
 
-    public UserService(EmailManager emailManager, UserDao userDao, ReportDao reportDao, EventDao eventDao, int pageSize) {
+    public UserService(EmailManager emailManager, UserDao userDao, ReportDao reportDao, EventDao eventDao, VerificationCodeDao verificationCodeDao, int pageSize) {
         this.emailManager = emailManager;
         this.userDao = userDao;
         this.reportDao = reportDao;
         this.eventDao = eventDao;
+        this.verificationCodeDao = verificationCodeDao;
         this.pageSize = pageSize;
     }
 
@@ -73,7 +77,7 @@ public class UserService {
             }
         } catch (SQLException e) {
             logger.error("SQLException in login", e);
-            throw new DBException("User with this email not found", e);
+            throw new DBException("User with that email not found", e);
         } finally {
             ConnectionUtil.closeConnection(connection);
         }
@@ -167,13 +171,46 @@ public class UserService {
             connection.commit();
         } catch (SQLException e) {
             logger.error("SQLException in modifyRole", e);
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                logger.error("SQLException in connection.rollback()", ex);
-            }
+            ConnectionUtil.rollbackConnection(connection);
             throw new DBException("Role was not modified");
         } finally {
+            ConnectionUtil.closeConnection(connection);
+        }
+    }
+
+    public User modifyPassword(String email, String code, String newPassword) throws DBException, ValidationException {
+        User.validateEmailAndPassword(email, newPassword);
+        Connection connection = ConnectionUtil.getConnectionForTransaction();
+        User user;
+        try {
+            user = userDao.findByEmail(connection, email);
+        } catch (SQLException e) {
+            logger.error("SQLException in modifyPassword", e);
+            ConnectionUtil.closeConnection(connection);
+            throw new DBException("User with that email not found", e);
+        }
+        try {
+            VerificationCode verificationCode = verificationCodeDao.findOne(connection, user);
+            if (!verificationCode.getCode().equals(code)) {
+                ConnectionUtil.closeConnection(connection);
+                throw new ValidationException("Verification code is wrong");
+            }
+        } catch (SQLException e) {
+            logger.error("SQLException in modifyPassword", e);
+            ConnectionUtil.closeConnection(connection);
+            throw new DBException("Verification code was not found");
+        }
+        try {
+            verificationCodeDao.delete(connection, user);
+            user.setPassword(encryptPassword(newPassword));
+            userDao.update(connection, user);
+            connection.commit();
+            return user;
+        } catch (SQLException e) {
+            logger.error("SQLException in modifyPassword", e);
+            ConnectionUtil.rollbackConnection(connection);
+            throw new DBException("Unable to modify a password", e);
+        }   finally {
             ConnectionUtil.closeConnection(connection);
         }
     }

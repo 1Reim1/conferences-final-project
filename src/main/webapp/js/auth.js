@@ -1,3 +1,9 @@
+function showErrorAlert(text) {
+    console.log(text)
+    $("#error-alert").text(text)
+    $("#error-alert").fadeIn("slow")
+}
+
 function validateEmail(selector) {
     if (!$(selector).val().toLowerCase().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
         $(selector).removeClass("is-valid")
@@ -93,10 +99,8 @@ $("#pills-login > form").on("submit", function (e) {
                     $("#success-alert").show()
                     window.location.href = "home"
                 },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    console.log(jqXhr.responseText)
-                    $("#error-alert").text(jqXhr.responseText)
-                    $("#error-alert").fadeIn("slow")
+                error: function (jqXhr) {
+                    showErrorAlert(jqXhr.responseText)
                 }
             })
         }
@@ -128,12 +132,127 @@ $("#pills-register > form").on("submit", function (e) {
                     $("#success-alert").show()
                     window.location.href = "home"
                 },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    console.log(jqXhr.responseText)
-                    $("#error-alert").text(jqXhr.responseText)
-                    $("#error-alert").fadeIn("slow")
+                error: function (jqXhr) {
+                    showErrorAlert(jqXhr.responseText)
                 }
             })
         }
     }
 )
+
+let forgetEmail
+let code;
+function validateCode(element) {
+    if (element.val().length !== 6) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}
+
+function showCodeInput() {
+    $("#code-input-group").fadeIn("slow")
+}
+
+function showNewPasswordInput() {
+    $("#code-input-group").css("display", "none")
+    $("#new-password-input-group").fadeIn("slow")
+    $("#save-password-btn").fadeIn("slow")
+}
+
+function hideForgotPasswordModal() {
+    let modal = document.getElementById('forgot-password-modal')
+    bootstrap.Modal.getInstance(modal).hide()
+}
+
+$("#forgot-password-modal input[type='email']").on("input autocompletechange", function (e) {
+    validateEmail($(this))
+})
+
+$("#send-code-btn").on("click", function () {
+    let input = $(this).parent().find("input")
+    let btn = $(this)
+    if (validateEmail(input)) {
+        forgetEmail = input.val()
+        $("#error-alert").hide()
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "send-verification-code",
+                email: forgetEmail,
+            },
+            success: function () {
+                btn.attr("disabled", true)
+                input.attr("readonly", true)
+                showCodeInput()
+            },
+            error: function (jqXhr) {
+                hideForgotPasswordModal()
+                showErrorAlert(jqXhr.responseText)
+            }
+        })
+    }
+})
+
+$("#verify-code-btn").on("click", function () {
+    let input = $(this).parent().find("input")
+    if (validateCode(input)) {
+        code = input.val()
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "verify-code",
+                email: forgetEmail,
+                code: code
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.trim() === "true") {
+                    input.addClass("is-valid")
+                    input.removeClass("is-invalid")
+                    showNewPasswordInput()
+                }   else {
+                    input.removeClass("is-valid")
+                    input.addClass("is-invalid")
+                }
+            },
+            error: function (jqXhr) {
+                hideForgotPasswordModal()
+                showErrorAlert(jqXhr.responseText)
+            }
+        })
+    }
+})
+
+bindPasswordValidation("#new-password-input-group input")
+$("#save-password-btn").on("click", function () {
+    $(this).attr("disabled", true)
+    let inputSelector = "#new-password-input-group input"
+    let input = $(inputSelector)
+    if (validatePassword(inputSelector)) {
+        console.log(forgetEmail)
+        console.log(code)
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "modify-password",
+                email: forgetEmail,
+                code: code,
+                new_password: input.val().trim()
+            },
+            success: function () {
+                window.location.href = "home"
+            },
+            error: function (jqXhr) {
+                hideForgotPasswordModal()
+                showErrorAlert(jqXhr.responseText)
+            }
+        })
+    }
+})

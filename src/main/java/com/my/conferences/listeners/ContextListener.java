@@ -3,12 +3,14 @@ package com.my.conferences.listeners;
 import com.my.conferences.dao.EventDao;
 import com.my.conferences.dao.ReportDao;
 import com.my.conferences.dao.UserDao;
+import com.my.conferences.dao.VerificationCodeDao;
 import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.dao.factory.MysqlDaoFactory;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ReportService;
 import com.my.conferences.service.UserService;
+import com.my.conferences.service.VerificationCodeService;
 import com.my.conferences.util.PropertiesUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -46,11 +48,13 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         EventDao eventDao = daoFactory.getEventDao();
         ReportDao reportDao = daoFactory.getReportDao();
         UserDao userDao = daoFactory.getUserDao();
+        VerificationCodeDao verificationCodeDao = daoFactory.getVerificationCodeDao();
 
         ServletContext servletContext = sce.getServletContext();
         servletContext.setAttribute("app/eventService", new EventService(emailManager, eventDao, reportDao, userDao, homePageSize));
         servletContext.setAttribute("app/reportService", new ReportService(emailManager, eventDao, reportDao, userDao));
-        servletContext.setAttribute("app/userService", new UserService(emailManager, userDao, reportDao, eventDao, usersPageSize));
+        servletContext.setAttribute("app/userService", new UserService(emailManager, userDao, reportDao, eventDao, verificationCodeDao, usersPageSize));
+        servletContext.setAttribute("app/verificationCodeService", new VerificationCodeService(emailManager, verificationCodeDao, userDao));
     }
 
     @Override

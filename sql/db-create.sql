@@ -51,6 +51,14 @@ create table participants
     unique (user_id, event_id)
 );
 
+create table verification_codes
+(
+    code varchar(6) not null,
+    user_id int not null,
+    foreign key (user_id) references users (id),
+    unique (user_id)
+);
+
 # Users
 insert into users
 values (default, 'timereim@gmail.com', 'Rostyslav', 'Yavorskiy',

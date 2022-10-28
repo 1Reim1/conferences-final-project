@@ -64,4 +64,12 @@ public class ConnectionUtil {
             throw new DBException("Connection was not closed", e);
         }
     }
+
+    public static void rollbackConnection(Connection connection) {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            logger.error("SQLException in connection.rollback()", e);
+        }
+    }
 }

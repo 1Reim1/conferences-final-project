@@ -3,6 +3,7 @@ package com.my.conferences.email;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.util.PropertiesUtil;
 
 import javax.mail.*;
@@ -62,17 +63,10 @@ public class EmailManager {
         executorService.scheduleAtFixedRate(this::sendAll, 0, 5, TimeUnit.SECONDS);
     }
 
-    /**
-     * stops service
-     * usually calls when app is stopping
-     */
     public void stopService() {
         executorService.shutdown();
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendTitleChanged(Event event, String prevTitle) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.title_changed", recipients, email -> email.content = email.content
@@ -81,9 +75,6 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendDescriptionChanged(Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.description_changed", recipients, email -> email.content = email.content
@@ -91,9 +82,6 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendDateChanged(Event event, Date prevDate) {
         String pattern = "dd-MM-yyyy HH:mm";
         SimpleDateFormat df = new SimpleDateFormat(pattern);
@@ -105,9 +93,6 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendPlaceChanged(Event event, String prevPlace) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("event.place_changed", recipients, email -> email.content = email.content
@@ -117,79 +102,52 @@ public class EmailManager {
                 .replace("{{event_address}}", appUrl + "/event?id=" + event.getId()));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportOfferedByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.offered_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportOfferedBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.offered_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendAddedNewReport(Report report, Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("report.added_new", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportConfirmedByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.confirmed_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportConfirmedBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.confirmed_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportCancelledByModerator(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
         addEmail("report.cancelled_by_moderator", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportCancelledBySpeaker(Report report, Event event) {
         List<User> recipients = new ArrayList<>();
         recipients.add(event.getModerator());
         addEmail("report.cancelled_by_speaker", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendConfirmedReportCancelled(Report report, Event event) {
         List<User> recipients = getRecipientsFromEvent(event);
         addEmail("report.confirmed_cancelled", recipients, getEmailModifierForReport(report, event));
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = new ArrayList<>();
         recipients.add(report.getSpeaker());
@@ -200,9 +158,6 @@ public class EmailManager {
         });
     }
 
-    /**
-     * add emails to the list
-     */
     public void sendConfirmedReportTopicChanged(Report report, Event event, String prevTopic) {
         List<User> recipients = getRecipientsFromEvent(event);
         EmailModifier emailModifier = getEmailModifierForReport(report, event);
@@ -210,6 +165,12 @@ public class EmailManager {
             emailModifier.modify(email);
             email.content = email.content.replace("{{prev_topic}}", prevTopic);
         });
+    }
+
+    public void sendVerificationCode(VerificationCode verificationCode) {
+        List<User> recipients = new ArrayList<>();
+        recipients.add(verificationCode.getUser());
+        addEmail("verification_code", recipients, email -> email.content = email.content.replace("{{code}}", verificationCode.getCode()));
     }
 
     private List<User> getRecipientsFromEvent(Event event) {
