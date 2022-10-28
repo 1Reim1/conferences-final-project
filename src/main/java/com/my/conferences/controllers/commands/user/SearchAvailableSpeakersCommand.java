@@ -34,7 +34,7 @@ public class SearchAvailableSpeakersCommand implements Command {
             logger.trace("Search query: " + searchQuery);
             logger.trace("Event id: " + eventId);
 
-            speakers = userService.searchAvailableSpeakers(eventId, searchQuery, (User) request.getSession().getAttribute("user"));
+            speakers = userService.searchAvailableSpeakers(eventId, searchQuery, RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

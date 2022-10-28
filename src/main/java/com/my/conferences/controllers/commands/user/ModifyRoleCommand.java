@@ -27,13 +27,13 @@ public class ModifyRoleCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            int user_id = RequestUtil.getIntParameter(request, "user_id");
+            int userId = RequestUtil.getIntParameter(request, "user_id");
             String newRoleStr = RequestUtil.getStringParameter(request, "new_role").toUpperCase();
             if (Arrays.stream(User.Role.values()).noneMatch(r -> r.toString().equals(newRoleStr))) {
                 throw new ValidationException("Role is unknown");
             }
             User.Role newRole = User.Role.valueOf(newRoleStr);
-            userService.modifyRole(user_id, newRole, (User) request.getSession().getAttribute("user"));
+            userService.modifyRole(userId, newRole, RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

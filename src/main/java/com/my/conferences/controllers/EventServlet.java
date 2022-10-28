@@ -57,7 +57,7 @@ public class EventServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = RequestUtil.getUser(request);
         Event event;
         try {
             int id = RequestUtil.getIntParameter(request, "id");

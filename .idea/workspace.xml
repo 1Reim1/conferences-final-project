@@ -12,17 +12,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="users page">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/JsonUtilTest.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/CreateEventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/CreateEventServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/EventServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/HomeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/NewReportsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/NewReportsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/SelectLanguageServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/UsersServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/filters/AuthFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/util/RequestUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/EventServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/EventServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/ReportServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/ReportServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/util/RequestUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/HideCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/JoinCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/LeaveCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDateCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyDescriptionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyPlaceCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyStatisticsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ModifyTitleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/event/ShowCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/CancelCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ConfirmCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/ModifyTopicCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/report/OfferCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoadMoreUsersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/LoadMoreUsersCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/ModifyRoleCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/ModifyRoleCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/controllers/commands/user/SearchAvailableSpeakersCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +123,7 @@
       <recent name="com.my.conferences.logic" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.com.my.conferences in conferences">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.0.23">
     <configuration name="JsonUtilTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="conferences" />
       <extension name="coverage">
@@ -315,14 +328,7 @@
       <workItem from="1666446298358" duration="13516000" />
       <workItem from="1666690280247" duration="42000" />
       <workItem from="1666691504804" duration="35000" />
-      <workItem from="1666701209622" duration="39197000" />
-    </task>
-    <task id="LOCAL-00101" summary="past event statistics">
-      <created>1665693511204</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1665693511204</updated>
+      <workItem from="1666701209622" duration="41492000" />
     </task>
     <task id="LOCAL-00102" summary="internationalization">
       <created>1665725309222</created>
@@ -660,7 +666,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666767833010</updated>
     </task>
-    <option name="localTasksCounter" value="150" />
+    <task id="LOCAL-00150" summary="tests">
+      <created>1666948035764</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1666948035764</updated>
+    </task>
+    <option name="localTasksCounter" value="151" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -694,7 +707,6 @@
     <MESSAGE value="refactoring" />
     <MESSAGE value="logging" />
     <MESSAGE value="documentation" />
-    <MESSAGE value="tests" />
     <MESSAGE value="RequestUtilTest" />
     <MESSAGE value="Documentation" />
     <MESSAGE value="Servlet and commands refactoring" />
@@ -703,11 +715,12 @@
     <MESSAGE value="home page title internationalization" />
     <MESSAGE value="custom tag library" />
     <MESSAGE value="users page" />
-    <option name="LAST_COMMIT_MESSAGE" value="users page" />
+    <MESSAGE value="tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="tests" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666272477645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1666947917061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.my.conferences.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666122216939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

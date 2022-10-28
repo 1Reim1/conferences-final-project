@@ -1,9 +1,9 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.ReportService;
 import com.my.conferences.service.ValidationException;
+import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,7 +28,7 @@ public class NewReportsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("reportWithEventList", reportService.findNewReports((User) request.getSession().getAttribute("user")));
+            request.setAttribute("reportWithEventList", reportService.findNewReports(RequestUtil.getUser(request)));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

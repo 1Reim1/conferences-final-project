@@ -32,7 +32,7 @@ public class LoadMoreUsersCommand implements Command {
             String emailQuery = RequestUtil.getStringParameter(request, "email_query");
             logger.trace("Page:  " + page);
             logger.trace("Email query: " + emailQuery);
-            List<User> users = userService.findAll(emailQuery, page, (User) request.getSession().getAttribute("user"));
+            List<User> users = userService.findAll(emailQuery, page, RequestUtil.getUser(request));
             if (users.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;

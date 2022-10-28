@@ -29,9 +29,7 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.removeAttribute("user");
-
+        request.getSession().removeAttribute("user");
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/auth.jsp").forward(request, response);
     }
 

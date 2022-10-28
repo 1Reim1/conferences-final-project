@@ -1,7 +1,6 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.UserService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -29,7 +28,7 @@ public class SelectLanguageServlet extends HttpServlet {
         try {
             String language = RequestUtil.getStringParameter(request, "language");
             logger.trace("Language: " + language);
-            userService.setLanguage((User) request.getSession().getAttribute("user"), language);
+            userService.setLanguage(RequestUtil.getUser(request), language);
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

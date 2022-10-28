@@ -2,7 +2,6 @@ package com.my.conferences.controllers;
 
 import com.my.conferences.service.DBException;
 import com.my.conferences.entity.Event;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -38,7 +37,7 @@ public class CreateEventServlet extends HttpServlet {
             event.setTitle(RequestUtil.getStringParameter(request, "title"));
             event.setDescription(RequestUtil.getStringParameter(request, "description"));
             event.setPlace(RequestUtil.getStringParameter(request, "place"));
-            event.setModerator((User) request.getSession().getAttribute("user"));
+            event.setModerator(RequestUtil.getUser(request));
             event.setDate(new Date(RequestUtil.getLongParameter(request, "date")));
 
             logger.trace("Title: " + event.getTitle());

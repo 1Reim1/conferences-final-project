@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = RequestUtil.getUser(request);
         int page;
         try {
             page = Math.max(RequestUtil.getIntParameter(request, "page"), 1);

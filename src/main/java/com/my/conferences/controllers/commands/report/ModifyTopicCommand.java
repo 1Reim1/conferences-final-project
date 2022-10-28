@@ -2,7 +2,6 @@ package com.my.conferences.controllers.commands.report;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.ReportService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -30,7 +29,7 @@ public class ModifyTopicCommand implements Command {
             int reportId = RequestUtil.getIntParameter(request, "report_id");
             logger.trace("Topic: " + topic);
             logger.trace("Report id: " + reportId);
-            reportService.modifyReportTopic(reportId, topic, (User) request.getSession().getAttribute("user"));
+            reportService.modifyReportTopic(reportId, topic, RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

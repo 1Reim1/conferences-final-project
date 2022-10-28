@@ -30,7 +30,7 @@ public class OfferCommand implements Command {
             Report report = new Report();
             report.setTopic(RequestUtil.getStringParameter(request, "topic"));
             report.setEventId(RequestUtil.getIntParameter(request, "event_id"));
-            report.setCreator((User) request.getSession().getAttribute("user"));
+            report.setCreator(RequestUtil.getUser(request));
             User speaker = new User();
             speaker.setId(RequestUtil.getIntParameter(request, "speaker_id"));
             report.setSpeaker(speaker);

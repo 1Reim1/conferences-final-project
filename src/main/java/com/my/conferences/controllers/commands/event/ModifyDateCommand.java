@@ -2,7 +2,6 @@ package com.my.conferences.controllers.commands.event;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -31,7 +30,7 @@ public class ModifyDateCommand implements Command {
             long date = RequestUtil.getLongParameter(request, "date");
             logger.trace("Event id: " + eventId);
             logger.trace("Date (long): " + date);
-            eventService.modifyDate(eventId, new Date(date), (User) request.getSession().getAttribute("user"));
+            eventService.modifyDate(eventId, new Date(date), RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -41,7 +41,7 @@ public class UsersServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<User> users = userService.findAll("", 1, (User) request.getSession().getAttribute("user"));
+            List<User> users = userService.findAll("", 1, RequestUtil.getUser(request));
             request.setAttribute("users", users);
         } catch (DBException | ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);

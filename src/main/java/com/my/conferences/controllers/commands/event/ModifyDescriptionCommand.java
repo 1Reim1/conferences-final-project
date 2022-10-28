@@ -2,7 +2,6 @@ package com.my.conferences.controllers.commands.event;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -30,7 +29,7 @@ public class ModifyDescriptionCommand implements Command {
             String description = RequestUtil.getStringParameter(request, "description");
             logger.trace("Event id: " + eventId);
             logger.trace("Description: " + description);
-            eventService.modifyDescription(eventId, description, (User) request.getSession().getAttribute("user"));
+            eventService.modifyDescription(eventId, description, RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

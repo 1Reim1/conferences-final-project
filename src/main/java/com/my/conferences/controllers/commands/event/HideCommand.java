@@ -2,7 +2,6 @@ package com.my.conferences.controllers.commands.event;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.service.DBException;
-import com.my.conferences.entity.User;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ValidationException;
 import com.my.conferences.util.RequestUtil;
@@ -28,7 +27,7 @@ public class HideCommand implements Command {
         try {
             int eventId = RequestUtil.getIntParameter(request, "event_id");
             logger.trace("Event id: " + eventId);
-            eventService.hide(eventId, (User) request.getSession().getAttribute("user"));
+            eventService.hide(eventId, RequestUtil.getUser(request));
         } catch (ValidationException e) {
             logger.error(EXCEPTION_MESSAGE, e);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
