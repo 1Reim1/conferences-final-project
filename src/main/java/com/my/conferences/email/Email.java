@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 class Email {
+
     Set<String> recipientEmails;
     String subject;
     String content;

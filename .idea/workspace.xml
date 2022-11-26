@@ -12,8 +12,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="tld tag">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/email/EmailManager.java" afterDir="false" />
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="EmailManager logging">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,14 +313,7 @@
       <workItem from="1666701209622" duration="42448000" />
       <workItem from="1666975459642" duration="20075000" />
       <workItem from="1667117691100" duration="11208000" />
-      <workItem from="1669456724793" duration="2896000" />
-    </task>
-    <task id="LOCAL-00114" summary="logic refactoring">
-      <created>1665838705784</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1665838705784</updated>
+      <workItem from="1669456724793" duration="3832000" />
     </task>
     <task id="LOCAL-00115" summary="logic refactoring">
       <created>1665839906494</created>
@@ -658,7 +651,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669459283022</updated>
     </task>
-    <option name="localTasksCounter" value="163" />
+    <task id="LOCAL-00163" summary="EmailManager logging">
+      <created>1669459772385</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1669459772385</updated>
+    </task>
+    <option name="localTasksCounter" value="164" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -676,7 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="RequestUtil small refactoring" />
     <MESSAGE value="passhash -&gt; password" />
     <MESSAGE value="UserManager refactoring" />
     <MESSAGE value="logic refactoring" />
@@ -701,7 +700,8 @@
     <MESSAGE value="forget password" />
     <MESSAGE value="events date update" />
     <MESSAGE value="tld tag" />
-    <option name="LAST_COMMIT_MESSAGE" value="tld tag" />
+    <MESSAGE value="EmailManager logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="EmailManager logging" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

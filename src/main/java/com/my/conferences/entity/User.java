@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.regex.Pattern;
 
 public class User implements Serializable {
+
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NAME_REGEX = Pattern.compile("^[a-zA-Z]{3,}$");
     private int id;

@@ -3,6 +3,7 @@ package com.my.conferences.entity;
 import com.my.conferences.service.ValidationException;
 
 public class Report {
+
     private int id;
     private String topic;
     private int eventId;
