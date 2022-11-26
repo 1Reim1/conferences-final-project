@@ -1,10 +1,12 @@
 package com.my.conferences.email;
 
+import com.my.conferences.controllers.EventServlet;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.util.PropertiesUtil;
+import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
  */
 public class EmailManager {
 
+    private final static Logger logger = Logger.getLogger(EventServlet.class);
     private final ScheduledExecutorService executorService;
     private final Properties TEMPLATES;
     private final Properties TEMPLATES_UK;
@@ -237,8 +240,9 @@ public class EmailManager {
             message.setContent(email.content, "text/html;charset=utf-8");
             message.saveChanges();
             Transport.send(message);
+            logger.debug(String.format("Email '%s' sent", email.subject));
         } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("Email was not sent", e);
         }
     }
 }
