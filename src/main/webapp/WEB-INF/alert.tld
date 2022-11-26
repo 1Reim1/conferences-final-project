@@ -12,10 +12,6 @@
     <uri>http://com.my.conferences/alert</uri>
 
     <tag>
-        <description>
-            Catches any Throwable that occurs in its body and optionally
-            exposes it.
-        </description>
         <name>error</name>
         <tag-class>com.my.conferences.controllers.tag.ErrorAlertTag</tag-class>
         <body-content>empty</body-content>
