@@ -53,7 +53,7 @@
                 <div class="mb-3">
                     <div id="login-recaptcha" class="g-recaptcha d-flex justify-content-center" data-sitekey="${recaptchaSiteKey}"></div>
                     <div class="invalid-feedback">
-                        Капча невведена
+                        <fmt:message key="validation.captcha_not_passed"/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary col-12"><fmt:message key="auth.login"/></button>
@@ -102,7 +102,7 @@
                 <div class="mb-3">
                     <div id="register-recaptcha" class="g-recaptcha d-flex justify-content-center" data-sitekey="${recaptchaSiteKey}"></div>
                     <div class="invalid-feedback">
-                        Капча невведена
+                        <fmt:message key="validation.captcha_not_passed"/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary col-12"><fmt:message key="auth.register"/></button>
@@ -149,6 +149,12 @@
                         <fmt:message key="auth.code_incorrect"/>
                     </div>
                 </div>
+                <div class="mb-4" style="display: none">
+                    <div id="code-recaptcha" class="g-recaptcha d-flex justify-content-center" data-sitekey="${recaptchaSiteKey}"></div>
+                    <div class="invalid-feedback">
+                        <fmt:message key="validation.captcha_not_passed"/>
+                    </div>
+                </div>
                 <div id="new-password-input-group" class="mb-1" style="display:none;">
                     <input type="password" class="form-control" placeholder="<fmt:message key="auth.new_password"/>" autocomplete="new-password">
                     <div class="invalid-feedback">
@@ -168,6 +174,13 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/auth.js"></script>
-<script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
+<c:choose>
+    <c:when test="${cookie['lang'].value == 'uk'}">
+        <script src='https://www.google.com/recaptcha/api.js?hl=uk'></script>
+    </c:when>
+    <c:otherwise>
+        <script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

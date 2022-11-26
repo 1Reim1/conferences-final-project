@@ -173,10 +173,12 @@ function validateCode(element) {
 
 function showCodeInput() {
     $("#code-input-group").fadeIn("slow")
+    $("#code-recaptcha").parent().fadeIn("slow")
 }
 
 function showNewPasswordInput() {
     $("#code-input-group").css("display", "none")
+    $("#code-recaptcha").parent().css("display", "none")
     $("#new-password-input-group").fadeIn("slow")
     $("#save-password-btn").fadeIn("slow")
 }
@@ -218,7 +220,7 @@ $("#send-code-btn").on("click", function () {
 
 $("#verify-code-btn").on("click", function () {
     let input = $(this).parent().find("input")
-    if (validateCode(input)) {
+    if (validateCode(input) && validateRecaptcha($("#code-recaptcha"), 2)) {
         code = input.val()
         $.ajax({
             type: "POST",
@@ -226,7 +228,8 @@ $("#verify-code-btn").on("click", function () {
             data: {
                 command: "verify-code",
                 email: forgetEmail,
-                code: code
+                code: code,
+                g_recaptcha_response: grecaptcha.getResponse(2)
             },
             success: function (data) {
                 console.log(data)
@@ -242,6 +245,7 @@ $("#verify-code-btn").on("click", function () {
             error: function (jqXhr) {
                 hideForgotPasswordModal()
                 showErrorAlert(jqXhr.responseText)
+                grecaptcha.reset(2);
             }
         })
     }

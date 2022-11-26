@@ -32,7 +32,7 @@ public class AuthServlet extends HttpServlet {
         commandMap.put("login", new LoginCommand(userService, recaptchaValidation));
         commandMap.put("register", new RegisterCommand(userService, recaptchaValidation));
         commandMap.put("send-verification-code", new SendVerificationCodeCommand(verificationCodeService));
-        commandMap.put("verify-code", new VerifyCodeCommand(verificationCodeService));
+        commandMap.put("verify-code", new VerifyCodeCommand(verificationCodeService, recaptchaValidation));
         commandMap.put("modify-password", new ModifyPasswordCommand(userService));
     }
 
