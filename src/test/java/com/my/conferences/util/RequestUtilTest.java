@@ -2,7 +2,7 @@ package com.my.conferences.util;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.entity.User;
-import com.my.conferences.service.ValidationException;
+import com.my.conferences.exception.ValidationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

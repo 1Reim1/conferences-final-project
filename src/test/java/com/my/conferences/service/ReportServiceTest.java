@@ -7,6 +7,8 @@ import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.ConnectionUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

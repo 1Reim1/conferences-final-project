@@ -1,6 +1,6 @@
 package com.my.conferences.util;
 
-import com.my.conferences.service.DBException;
+import com.my.conferences.exception.DBException;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;

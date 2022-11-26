@@ -7,7 +7,10 @@ import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.ConnectionUtil;
+import com.my.conferences.validation.EventValidation;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -304,7 +307,7 @@ public class EventService {
      * @param user     user which performs action
      */
     public void modifyTitle(int eventId, String newTitle, User user) throws DBException, ValidationException {
-        Event.validateTitle(newTitle);
+        EventValidation.validateTitle(newTitle);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -334,7 +337,7 @@ public class EventService {
      * @param user           user which performs action
      */
     public void modifyDescription(int eventId, String newDescription, User user) throws DBException, ValidationException {
-        Event.validateDescription(newDescription);
+        EventValidation.validateDescription(newDescription);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -362,7 +365,7 @@ public class EventService {
      * @param user    user which performs action
      */
     public void modifyDate(int eventId, Date newDate, User user) throws DBException, ValidationException {
-        Event.validateDate(newDate);
+        EventValidation.validateDate(newDate);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -391,7 +394,7 @@ public class EventService {
      * @param user     user which performs action
      */
     public void modifyPlace(int eventId, String newPlace, User user) throws DBException, ValidationException {
-        Event.validatePlace(newPlace);
+        EventValidation.validatePlace(newPlace);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
@@ -448,7 +451,7 @@ public class EventService {
 
     static void canInteractWithEventValidation(Event event) throws ValidationException {
         try {
-            Event.validateDate(event.getDate());
+            EventValidation.validateDate(event.getDate());
         } catch (ValidationException e) {
             throw new ValidationException("You can’t interact with a past event", e);
         }

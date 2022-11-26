@@ -6,6 +6,8 @@ import com.my.conferences.controllers.commands.report.LoadSpeakerFutureReportsCo
 import com.my.conferences.controllers.commands.user.LoadMoreUsersCommand;
 import com.my.conferences.controllers.commands.user.ModifyRoleCommand;
 import com.my.conferences.entity.User;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.service.*;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;

@@ -1,8 +1,8 @@
 package com.my.conferences.controllers.commands.user;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.service.DBException;
-import com.my.conferences.service.ValidationException;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.service.VerificationCodeService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;

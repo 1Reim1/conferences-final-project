@@ -1,11 +1,11 @@
 package com.my.conferences.controllers.commands.report;
 
 import com.my.conferences.controllers.commands.Command;
-import com.my.conferences.service.DBException;
+import com.my.conferences.exception.DBException;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.service.ReportService;
-import com.my.conferences.service.ValidationException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -8,7 +8,10 @@ import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.ConnectionUtil;
+import com.my.conferences.validation.ReportValidation;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -249,7 +252,7 @@ public class ReportService {
      * @param user     user that performs operation
      */
     public void modifyReportTopic(int reportId, String newTopic, User user) throws DBException, ValidationException {
-        Report.validateTopic(newTopic);
+        ReportValidation.validateTopic(newTopic);
         Connection connection = ConnectionUtil.getConnection();
         try {
             Report report = reportDao.findOne(connection, reportId);

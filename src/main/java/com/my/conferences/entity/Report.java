@@ -1,6 +1,7 @@
 package com.my.conferences.entity;
 
-import com.my.conferences.service.ValidationException;
+import com.my.conferences.exception.ValidationException;
+import com.my.conferences.validation.ReportValidation;
 
 public class Report {
 
@@ -60,11 +61,6 @@ public class Report {
     }
 
     public void validate() throws ValidationException {
-        validateTopic(topic);
-    }
-
-    public static void validateTopic(String topic) throws ValidationException {
-        if (topic.trim().length() < 3)
-            throw new ValidationException("Topic length min: 3");
+        ReportValidation.validateTopic(topic);
     }
 }

@@ -1,4 +1,4 @@
-package com.my.conferences.service;
+package com.my.conferences.exception;
 
 public class DBException extends Exception {
 

@@ -5,7 +5,10 @@ import com.my.conferences.dao.VerificationCodeDao;
 import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.ConnectionUtil;
+import com.my.conferences.validation.UserValidation;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -26,7 +29,7 @@ public class VerificationCodeService {
     }
 
     public void sendCode(String userEmail, String language) throws DBException, ValidationException {
-        User.validateEmail(userEmail);
+        UserValidation.validateEmail(userEmail);
         Connection connection = ConnectionUtil.getConnection();
         User user;
         try {
@@ -63,7 +66,7 @@ public class VerificationCodeService {
     }
 
     public boolean verifyCode(String userEmail, String code) throws DBException, ValidationException {
-        User.validateEmail(userEmail);
+        UserValidation.validateEmail(userEmail);
         Connection connection = ConnectionUtil.getConnection();
         User user;
         try {

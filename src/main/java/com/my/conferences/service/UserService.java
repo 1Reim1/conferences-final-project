@@ -9,7 +9,10 @@ import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.ConnectionUtil;
+import com.my.conferences.validation.UserValidation;
 import org.apache.log4j.Logger;
 
 import java.security.MessageDigest;
@@ -65,7 +68,7 @@ public class UserService {
      * @return User with these email and password
      */
     public User login(String email, String password, String language) throws DBException, ValidationException {
-        User.validateEmailAndPassword(email, password);
+        UserValidation.validateEmailAndPassword(email, password);
         Connection connection = ConnectionUtil.getConnection();
         User user;
         try {
@@ -99,8 +102,8 @@ public class UserService {
             throw new ValidationException("Moderator can not be register");
         }
 
-        user.validateNames();
-        user.validateEmailAndPassword();
+        UserValidation.validateNames(user.getFirstName(), user.getLastName());
+        UserValidation.validateEmailAndPassword(user.getEmail(), user.getPassword());
         user.setPassword(encryptPassword(user.getPassword()));
         Connection connection = ConnectionUtil.getConnection();
         boolean userExists = true;
@@ -179,7 +182,7 @@ public class UserService {
     }
 
     public User modifyPassword(String email, String code, String newPassword) throws DBException, ValidationException {
-        User.validateEmailAndPassword(email, newPassword);
+        UserValidation.validateEmailAndPassword(email, newPassword);
         Connection connection = ConnectionUtil.getConnectionForTransaction();
         User user;
         try {
