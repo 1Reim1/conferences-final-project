@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="3" />
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="Project Files" />
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
@@ -12,10 +14,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="Validation util classes">
+    <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="documentation">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/VerificationCodeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/VerificationCodeDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlVerificationCodeDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/dao/implementation/mysql/MysqlVerificationCodeDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,14 +316,7 @@
       <workItem from="1666701209622" duration="42448000" />
       <workItem from="1666975459642" duration="20075000" />
       <workItem from="1667117691100" duration="11208000" />
-      <workItem from="1669456724793" duration="6709000" />
-    </task>
-    <task id="LOCAL-00117" summary="db-create.sql refactoring">
-      <created>1665841193799</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1665841193799</updated>
+      <workItem from="1669456724793" duration="7125000" />
     </task>
     <task id="LOCAL-00118" summary="EmailManager refactoring">
       <created>1665841801277</created>
@@ -660,7 +654,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669462574302</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="documentation">
+      <created>1669463549700</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1669463549700</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,7 +687,6 @@
     <MESSAGE value="EmailManager refactoring" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="logging" />
-    <MESSAGE value="documentation" />
     <MESSAGE value="RequestUtilTest" />
     <MESSAGE value="Documentation" />
     <MESSAGE value="Servlet and commands refactoring" />
@@ -703,7 +703,8 @@
     <MESSAGE value="EmailManager logging" />
     <MESSAGE value="Entity refactoring" />
     <MESSAGE value="Validation util classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Validation util classes" />
+    <MESSAGE value="documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="documentation" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

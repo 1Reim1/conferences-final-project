@@ -33,8 +33,9 @@ public class RequestUtil {
      */
     public static String getStringParameter(HttpServletRequest request, String parameterName) throws ValidationException {
         String parameter = request.getParameter(parameterName);
-        if (parameter == null)
+        if (parameter == null) {
             throw new ValidationException(String.format("Expected parameter '%s'", parameterName));
+        }
 
         return parameter;
     }
@@ -81,8 +82,9 @@ public class RequestUtil {
             return new HashMap<>();
 
         Map<String, String> cookiesMap = new HashMap<>(cookies.length);
-        for (Cookie cookie : cookies)
+        for (Cookie cookie : cookies) {
             cookiesMap.put(cookie.getName(), cookie.getValue());
+        }
 
         return cookiesMap;
     }
