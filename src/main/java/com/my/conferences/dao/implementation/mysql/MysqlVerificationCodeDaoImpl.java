@@ -15,6 +15,12 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
     private static final String INSERT_ONE = "INSERT INTO verification_codes VALUES (?, ?)";
     private static final String DELETE_ONE = "DELETE FROM verification_codes WHERE user_id = ?";
 
+    /**
+     * returns verification code for user
+     *
+     * @param user user
+     * @return verifivation code
+     */
     @Override
     public VerificationCode findOne(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
@@ -26,6 +32,11 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
         }
     }
 
+    /**
+     * saves verification code to storage
+     *
+     * @param verificationCode verification code
+     */
     @Override
     public void insert(Connection connection, VerificationCode verificationCode) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE)) {
@@ -35,6 +46,11 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
         }
     }
 
+    /**
+     * deletes verification code from storage
+     *
+     * @param user user
+     */
     @Override
     public void delete(Connection connection, User user) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(DELETE_ONE)) {
