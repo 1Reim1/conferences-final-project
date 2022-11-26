@@ -13,11 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9201a03-04dd-42a4-bb86-beb92e503b65" name="Changes" comment="forget password">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/VerificationCodeServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/VerificationCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/my/conferences/service/VerificationCodeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/my/conferences/service/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/db-create.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/db-create.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,14 +314,7 @@
       <workItem from="1666701209622" duration="42448000" />
       <workItem from="1666975459642" duration="20075000" />
       <workItem from="1667117691100" duration="11208000" />
-      <workItem from="1669456724793" duration="690000" />
-    </task>
-    <task id="LOCAL-00111" summary="passhash -&gt; password">
-      <created>1665831283553</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1665831283553</updated>
+      <workItem from="1669456724793" duration="1389000" />
     </task>
     <task id="LOCAL-00112" summary="UserManager refactoring">
       <created>1665832943952</created>
@@ -662,7 +652,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667293955000</updated>
     </task>
-    <option name="localTasksCounter" value="160" />
+    <task id="LOCAL-00160" summary="forget password">
+      <created>1669457784294</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1669457784294</updated>
+    </task>
+    <option name="localTasksCounter" value="161" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -709,7 +706,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/conferences$All_in_conferences.ic" NAME="All in conferences Coverage Results" MODIFIED="1666124380955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1669456904282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/conferences$com_my_conferences_in_conferences.ic" NAME="com.my.conferences in conferences Coverage Results" MODIFIED="1669457426878" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.my.conferences.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/conferences$com_my_conferences_service_in_conferences.ic" NAME="com.my.conferences.service in conferences Coverage Results" MODIFIED="1666122216939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
