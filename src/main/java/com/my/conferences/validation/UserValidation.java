@@ -34,7 +34,7 @@ public class UserValidation {
     }
 
     public static String validateLanguage(String language) {
-        if (!language.equals("en") && !language.equals("uk")) {
+        if (language == null || (!language.equals("en") && !language.equals("uk"))) {
             return "en";
         }
 

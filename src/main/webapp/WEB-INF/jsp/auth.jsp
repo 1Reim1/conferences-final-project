@@ -50,6 +50,12 @@
                     </div>
                     <a id="forgot-password"  data-bs-toggle="modal" data-bs-target="#forgot-password-modal"><fmt:message key="auth.forgot_password"/>?</a>
                 </div>
+                <div class="mb-3">
+                    <div id="login-recaptcha" class="g-recaptcha d-flex justify-content-center" data-sitekey="${recaptchaSiteKey}"></div>
+                    <div class="invalid-feedback">
+                        Капча невведена
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary col-12"><fmt:message key="auth.login"/></button>
             </form>
         </div>
@@ -93,23 +99,31 @@
                         <option value="speaker"><fmt:message key="report.speaker"/></option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <div id="register-recaptcha" class="g-recaptcha d-flex justify-content-center" data-sitekey="${recaptchaSiteKey}"></div>
+                    <div class="invalid-feedback">
+                        Капча невведена
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary col-12"><fmt:message key="auth.register"/></button>
             </form>
         </div>
     </div>
 </div>
 
-<div class="row position-fixed bottom-0 start-0 pb-5 width-100">
-    <c:choose>
-        <c:when test="${cookie['lang'].value == 'uk'}">
-            <button id="ukrainian-language-btn" type="button" class="btn btn-primary col-2 offset-3 disabled">Українська</button>
-            <button id="english-language-btn" type="button" class="btn btn-light col-2 offset-2">English</button>
-        </c:when>
-        <c:otherwise>
-            <button id="ukrainian-language-btn" type="button" class="btn btn-light col-2 offset-3">Українська</button>
-            <button id="english-language-btn" type="button" class="btn btn-primary col-2 offset-2 disabled">English</button>
-        </c:otherwise>
-    </c:choose>
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <c:choose>
+            <c:when test="${cookie['lang'].value == 'uk'}">
+                <button id="ukrainian-language-btn" type="button" class="btn btn-primary col-2 offset-3 disabled">Українська</button>
+                <button id="english-language-btn" type="button" class="btn btn-light col-2 offset-2">English</button>
+            </c:when>
+            <c:otherwise>
+                <button id="ukrainian-language-btn" type="button" class="btn btn-light col-2 offset-3">Українська</button>
+                <button id="english-language-btn" type="button" class="btn btn-primary col-2 offset-2 disabled">English</button>
+            </c:otherwise>
+        </c:choose>
+    </div>
 </div>
 
 <!-- Forgot password modal -->
@@ -154,5 +168,6 @@
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/auth.js"></script>
+<script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
 </body>
 </html>

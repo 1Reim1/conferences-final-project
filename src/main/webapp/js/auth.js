@@ -80,11 +80,24 @@ $("#register-password").on("input autocompletechange", function (e) {
     passwordEqualsCheck()
 })
 
+function validateRecaptcha(element, index) {
+    let response = grecaptcha.getResponse(index)
+    if (response.length === 0) {
+        element.removeClass("is-valid")
+        element.addClass("is-invalid")
+        return false
+    }
+    element.addClass("is-valid")
+    element.removeClass("is-invalid")
+    return true
+}
+
 $("#pills-login > form").on("submit", function (e) {
         e.preventDefault()
         let email = validateEmail("#login-email")
         let password = validatePassword("#login-password")
-        if (email && password) {
+        let recaptcha = validateRecaptcha($("#login-recaptcha"), 0)
+        if (email && password && recaptcha) {
             $("#error-alert").hide()
             $.ajax({
                 type: "POST",
@@ -93,6 +106,7 @@ $("#pills-login > form").on("submit", function (e) {
                     command: "login",
                     email: $("#login-email").val(),
                     password: $("#login-password").val(),
+                    g_recaptcha_response: grecaptcha.getResponse()
                 },
                 success: function (data, status, xhr) {
                     $("#success-alert").text("You have successfully logged in")
@@ -101,6 +115,7 @@ $("#pills-login > form").on("submit", function (e) {
                 },
                 error: function (jqXhr) {
                     showErrorAlert(jqXhr.responseText)
+                    grecaptcha.reset();
                 }
             })
         }
@@ -108,40 +123,43 @@ $("#pills-login > form").on("submit", function (e) {
 )
 
 $("#pills-register > form").on("submit", function (e) {
-        e.preventDefault()
-        let email = validateEmail("#register-email")
-        let firstName = validateName("#register-first-name")
-        let lastName = validateName("#register-last-name")
-        let password = validatePassword("#register-password")
-        let password2 = passwordEqualsCheck()
-        if (email && firstName && lastName && password && password2) {
-            $("#error-alert").hide()
-            $.ajax({
-                type: "POST",
-                url: window.location.href,
-                data: {
-                    command: "register",
-                    email: $("#register-email").val(),
-                    first_name: $("#register-first-name").val(),
-                    last_name: $("#register-last-name").val(),
-                    password: $("#register-password").val(),
-                    role: $("#register-role").val(),
-                },
-                success: function (data, status, xhr) {
-                    $("#success-alert").text("You have successfully registered in")
-                    $("#success-alert").show()
-                    window.location.href = "home"
-                },
-                error: function (jqXhr) {
-                    showErrorAlert(jqXhr.responseText)
-                }
-            })
-        }
+    e.preventDefault()
+    let email = validateEmail("#register-email")
+    let firstName = validateName("#register-first-name")
+    let lastName = validateName("#register-last-name")
+    let password = validatePassword("#register-password")
+    let password2 = passwordEqualsCheck()
+    let recaptcha = validateRecaptcha($("#register-recaptcha"), 1)
+    if (email && firstName && lastName && password && password2 && recaptcha) {
+        $("#error-alert").hide()
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: {
+                command: "register",
+                email: $("#register-email").val(),
+                first_name: $("#register-first-name").val(),
+                last_name: $("#register-last-name").val(),
+                password: $("#register-password").val(),
+                role: $("#register-role").val(),
+                g_recaptcha_response: grecaptcha.getResponse(1)
+            },
+            success: function (data, status, xhr) {
+                $("#success-alert").text("You have successfully registered in")
+                $("#success-alert").show()
+                window.location.href = "home"
+            },
+            error: function (jqXhr) {
+                showErrorAlert(jqXhr.responseText)
+                grecaptcha.reset(1);
+            }
+        })
     }
-)
+})
 
 let forgetEmail
 let code;
+
 function validateCode(element) {
     if (element.val().length !== 6) {
         element.removeClass("is-valid")
@@ -216,7 +234,7 @@ $("#verify-code-btn").on("click", function () {
                     input.addClass("is-valid")
                     input.removeClass("is-invalid")
                     showNewPasswordInput()
-                }   else {
+                } else {
                     input.removeClass("is-valid")
                     input.addClass("is-invalid")
                 }

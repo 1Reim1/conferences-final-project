@@ -12,9 +12,13 @@ import com.my.conferences.service.ReportService;
 import com.my.conferences.service.UserService;
 import com.my.conferences.service.VerificationCodeService;
 import com.my.conferences.util.PropertiesUtil;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import com.my.conferences.validation.RecaptchaValidation;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.http.HttpSessionAttributeListener;
+import jakarta.servlet.http.HttpSessionListener;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -30,12 +34,18 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         logger.info("Starting");
         int homePageSize;
         int usersPageSize;
+        RecaptchaValidation recaptchaValidation;
         try {
             Properties appConfig = PropertiesUtil.loadFromResources("app.properties");
             homePageSize = Integer.parseInt(appConfig.getProperty("home.page.size"));
             usersPageSize = Integer.parseInt(appConfig.getProperty("users.page.size"));
+            String siteKey = appConfig.getProperty("recaptcha.site_key");
+            String secretKey = appConfig.getProperty("recaptcha.secret_key");
+            recaptchaValidation = new RecaptchaValidation(siteKey, secretKey);
+
             logger.debug("home.page.size = " + homePageSize);
             logger.debug("users.page.size = " + usersPageSize);
+            logger.debug("recaptcha.site_key = " + siteKey);
 
             Properties emailConfig = PropertiesUtil.loadFromResources("email.properties");
             emailManager = new EmailManager(emailConfig);
@@ -55,6 +65,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         servletContext.setAttribute("app/reportService", new ReportService(emailManager, eventDao, reportDao, userDao));
         servletContext.setAttribute("app/userService", new UserService(emailManager, userDao, reportDao, eventDao, verificationCodeDao, usersPageSize));
         servletContext.setAttribute("app/verificationCodeService", new VerificationCodeService(emailManager, verificationCodeDao, userDao));
+        servletContext.setAttribute("app/recaptchaValidation", recaptchaValidation);
     }
 
     @Override
