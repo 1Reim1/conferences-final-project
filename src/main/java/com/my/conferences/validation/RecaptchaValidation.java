@@ -43,7 +43,6 @@ public class RecaptchaValidation {
             conn.setDoOutput(true);
             OutputStream outStream = conn.getOutputStream();
             outStream.write(postParams.getBytes());
-
             outStream.flush();
             outStream.close();
 
@@ -51,7 +50,6 @@ public class RecaptchaValidation {
             logger.debug("responseCode: " + responseCode);
 
             InputStream is = conn.getInputStream();
-
             JsonReader jsonReader = Json.createReader(is);
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
