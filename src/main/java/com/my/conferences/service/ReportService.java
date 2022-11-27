@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ReportService {
 
-    private final static Logger logger = Logger.getLogger(ReportService.class);
+    private static final Logger logger = Logger.getLogger(ReportService.class);
     private final EmailManager emailManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;

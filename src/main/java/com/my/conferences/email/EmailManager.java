@@ -11,7 +11,8 @@ import org.apache.log4j.Logger;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -24,12 +25,12 @@ import java.util.stream.Collectors;
  */
 public class EmailManager {
 
-    private final static Logger logger = Logger.getLogger(EventServlet.class);
+    private static final Logger logger = Logger.getLogger(EventServlet.class);
     private final ScheduledExecutorService executorService;
     private final Properties TEMPLATES;
     private final Properties TEMPLATES_UK;
-    private final static String SUBJECT_PROPERTY = ".subject";
-    private final static String CONTENT_PROPERTY = ".content";
+    private static final String SUBJECT_PROPERTY = ".subject";
+    private static final String CONTENT_PROPERTY = ".content";
     private final String appUrl;
     private final String fromEmail;
     private final String nickname;

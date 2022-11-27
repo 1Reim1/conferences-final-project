@@ -15,7 +15,7 @@
 </head>
 <body>
 <alert:error/>
-<div class="alert alert-success" id="success-alert" role="alert" style="text-align: center; display: none"></div>
+<div class="alert alert-success" id="success-alert" role="alert" style="text-align: center; display: none"><fmt:message key="auth.success"/></div>
 
 <div class="container offset-col-3 col-6 margin-top">
     <ul class="nav nav-pills mb-3 row" id="pills-tab" role="tablist">

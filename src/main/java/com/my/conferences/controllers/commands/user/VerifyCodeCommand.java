@@ -15,8 +15,8 @@ import java.io.IOException;
 
 public class VerifyCodeCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in VerifyCodeCommand";
-    private final static Logger logger = Logger.getLogger(VerifyCodeCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in VerifyCodeCommand";
+    private static final Logger logger = Logger.getLogger(VerifyCodeCommand.class);
     private final VerificationCodeService verificationCodeService;
     private final RecaptchaValidation recaptchaValidation;
 

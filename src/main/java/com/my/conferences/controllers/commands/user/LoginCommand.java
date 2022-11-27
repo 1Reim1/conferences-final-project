@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class LoginCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in LoginCommand";
-    private final static Logger logger = Logger.getLogger(LoginCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in LoginCommand";
+    private static final Logger logger = Logger.getLogger(LoginCommand.class);
     private final UserService userService;
     private final RecaptchaValidation recaptchaValidation;
 

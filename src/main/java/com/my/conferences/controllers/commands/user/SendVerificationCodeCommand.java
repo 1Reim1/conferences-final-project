@@ -28,7 +28,7 @@ public class SendVerificationCodeCommand implements Command {
         try {
             String email = RequestUtil.getStringParameter(request, "email");
             Map<String, String> cookiesMap = RequestUtil.getCookiesMap(request);
-            String language = cookiesMap.getOrDefault("lang", "en");
+            String language = cookiesMap.get("lang");
             logger.trace("Email: " + email);
             logger.trace("Language: " + language);
             verificationCodeService.sendCode(email, language);

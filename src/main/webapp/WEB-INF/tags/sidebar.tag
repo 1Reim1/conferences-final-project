@@ -17,11 +17,11 @@
                     <c:if test="${reverseOrder}">(<fmt:message key="home.enabled"/>)</c:if>
                 </button>
                 <div class="row">
-                    <c:if test="${futureOrder}">
+                    <c:if test="${futureEvents}">
                         <button id="order-past" class="btn btn-dark col-4 offset-1"><fmt:message key="home.past"/></button>
                         <button id="order-future" class="btn btn-primary col-4 offset-2 disabled"><fmt:message key="home.future"/></button>
                     </c:if>
-                    <c:if test="${!futureOrder}">
+                    <c:if test="${!futureEvents}">
                         <button id="order-past" class="btn btn-primary col-4 offset-1 disabled"><fmt:message key="home.past"/></button>
                         <button id="order-future" class="btn btn-dark col-4 offset-2"><fmt:message key="home.future"/></button>
                     </c:if>

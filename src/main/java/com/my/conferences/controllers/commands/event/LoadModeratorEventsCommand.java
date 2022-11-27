@@ -3,8 +3,8 @@ package com.my.conferences.controllers.commands.event;
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.entity.Event;
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.EventService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.EventService;
 import com.my.conferences.util.JsonUtil;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class LoadModeratorEventsCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in LoadModeratorEventsCommand";
-    private final static Logger logger = Logger.getLogger(LoadModeratorEventsCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in LoadModeratorEventsCommand";
+    private static final Logger logger = Logger.getLogger(LoadModeratorEventsCommand.class);
     private final EventService eventService;
 
     public LoadModeratorEventsCommand(EventService eventService) {

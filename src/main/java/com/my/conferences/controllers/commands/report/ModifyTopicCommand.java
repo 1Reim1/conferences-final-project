@@ -2,8 +2,8 @@ package com.my.conferences.controllers.commands.report;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.ReportService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.ReportService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class ModifyTopicCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in ModifyTopicCommand";
-    private final static Logger logger = Logger.getLogger(ModifyTopicCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in ModifyTopicCommand";
+    private static final Logger logger = Logger.getLogger(ModifyTopicCommand.class);
     private final ReportService reportService;
 
     public ModifyTopicCommand(ReportService reportService) {

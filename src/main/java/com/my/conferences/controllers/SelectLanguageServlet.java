@@ -1,8 +1,8 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.UserService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.UserService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +15,8 @@ import java.io.IOException;
 @WebServlet(value = "/select-language")
 public class SelectLanguageServlet extends HttpServlet {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
-    private final static Logger logger = Logger.getLogger(SelectLanguageServlet.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
+    private static final Logger logger = Logger.getLogger(SelectLanguageServlet.class);
     private UserService userService;
 
     @Override

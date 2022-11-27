@@ -20,9 +20,9 @@ import java.util.Map;
 @WebServlet("/auth")
 public class AuthServlet extends HttpServlet {
 
-    private final static Logger logger = Logger.getLogger(AuthServlet.class);
-    private final static Map<String, Command> commandMap = new HashMap<>();
-    private static RecaptchaValidation recaptchaValidation;
+    private static final Logger logger = Logger.getLogger(AuthServlet.class);
+    private static final Map<String, Command> commandMap = new HashMap<>();
+    private RecaptchaValidation recaptchaValidation;
 
     @Override
     public void init() {

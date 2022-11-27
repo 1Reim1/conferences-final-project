@@ -3,8 +3,8 @@ package com.my.conferences.controllers.commands.report;
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.dto.ReportWithEvent;
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.ReportService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.ReportService;
 import com.my.conferences.util.JsonUtil;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
@@ -17,8 +17,8 @@ import java.util.List;
 
 public class LoadSpeakerFutureReportsCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in LoadSpeakerFutureReportsCommand";
-    private final static Logger logger = Logger.getLogger(LoadSpeakerFutureReportsCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in LoadSpeakerFutureReportsCommand";
+    private static final Logger logger = Logger.getLogger(LoadSpeakerFutureReportsCommand.class);
     private final ReportService reportService;
 
     public LoadSpeakerFutureReportsCommand(ReportService reportService) {

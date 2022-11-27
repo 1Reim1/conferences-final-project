@@ -109,7 +109,6 @@ $("#pills-login > form").on("submit", function (e) {
                     g_recaptcha_response: grecaptcha.getResponse()
                 },
                 success: function (data, status, xhr) {
-                    $("#success-alert").text("You have successfully logged in")
                     $("#success-alert").show()
                     window.location.href = "home"
                 },
@@ -145,7 +144,6 @@ $("#pills-register > form").on("submit", function (e) {
                 g_recaptcha_response: grecaptcha.getResponse(1)
             },
             success: function (data, status, xhr) {
-                $("#success-alert").text("You have successfully registered in")
                 $("#success-alert").show()
                 window.location.href = "home"
             },

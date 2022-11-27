@@ -1,8 +1,8 @@
 package com.my.conferences.controllers;
 
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.ReportService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.ReportService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,8 +16,8 @@ import java.io.IOException;
 @WebServlet(value = "/new-reports")
 public class NewReportsServlet extends HttpServlet {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in NewReportsServlet";
-    private final static Logger logger = Logger.getLogger(NewReportsServlet.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in NewReportsServlet";
+    private static final Logger logger = Logger.getLogger(NewReportsServlet.class);
     private ReportService reportService;
 
     @Override

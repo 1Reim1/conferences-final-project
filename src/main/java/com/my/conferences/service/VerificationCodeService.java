@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class VerificationCodeService {
 
-    private final static Logger logger = Logger.getLogger(VerificationCode.class);
+    private static final Logger logger = Logger.getLogger(VerificationCode.class);
     private final EmailManager emailManager;
     private final VerificationCodeDao verificationCodeDao;
     private final UserDao userDao;

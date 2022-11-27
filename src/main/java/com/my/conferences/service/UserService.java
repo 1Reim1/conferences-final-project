@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class UserService {
 
-    private final static Logger logger = Logger.getLogger(UserService.class);
+    private static final Logger logger = Logger.getLogger(UserService.class);
     private final EmailManager emailManager;
     private final UserDao userDao;
     private final ReportDao reportDao;
@@ -195,6 +195,9 @@ public class UserService {
         try {
             VerificationCode verificationCode = verificationCodeDao.findOne(connection, user);
             if (!verificationCode.getCode().equals(code)) {
+                // if code is wrong, delete that verification code
+                verificationCodeDao.delete(connection, user);
+                connection.commit();
                 ConnectionUtil.closeConnection(connection);
                 throw new ValidationException("Verification code is wrong");
             }

@@ -16,8 +16,8 @@ import java.io.IOException;
 
 public class RegisterCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in RegisterCommand";
-    private final static Logger logger = Logger.getLogger(RegisterCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in RegisterCommand";
+    private static final Logger logger = Logger.getLogger(RegisterCommand.class);
     private final UserService userService;
     private final RecaptchaValidation recaptchaValidation;
 

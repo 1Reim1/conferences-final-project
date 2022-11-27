@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class RecaptchaValidation {
 
-    private final static Logger logger = Logger.getLogger(RecaptchaValidation.class);
+    private static final Logger logger = Logger.getLogger(RecaptchaValidation.class);
     private static final String SITE_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     private final String siteKey;
     private final String secretKey;

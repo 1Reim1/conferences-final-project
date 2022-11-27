@@ -1,13 +1,15 @@
 package com.my.conferences.controllers;
 
-import com.my.conferences.exception.DBException;
 import com.my.conferences.entity.Event;
-import com.my.conferences.service.EventService;
+import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.EventService;
 import com.my.conferences.util.RequestUtil;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -16,8 +18,8 @@ import java.util.Date;
 @WebServlet("/create-event")
 public class CreateEventServlet extends HttpServlet {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
-    private final static Logger logger = Logger.getLogger(CreateEventServlet.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in SelectLanguageServlet";
+    private static final Logger logger = Logger.getLogger(CreateEventServlet.class);
     private EventService eventService;
 
     @Override

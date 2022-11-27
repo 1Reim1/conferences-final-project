@@ -2,8 +2,8 @@ package com.my.conferences.controllers.commands.event;
 
 import com.my.conferences.controllers.commands.Command;
 import com.my.conferences.exception.DBException;
-import com.my.conferences.service.EventService;
 import com.my.conferences.exception.ValidationException;
+import com.my.conferences.service.EventService;
 import com.my.conferences.util.RequestUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class JoinCommand implements Command {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in JoinCommand";
-    private final static Logger logger = Logger.getLogger(JoinCommand.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in JoinCommand";
+    private static final Logger logger = Logger.getLogger(JoinCommand.class);
     private final EventService eventService;
 
     public JoinCommand(EventService eventService) {

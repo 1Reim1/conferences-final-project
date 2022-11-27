@@ -7,17 +7,19 @@ import com.my.conferences.controllers.commands.report.ConfirmCommand;
 import com.my.conferences.controllers.commands.report.ModifyTopicCommand;
 import com.my.conferences.controllers.commands.report.OfferCommand;
 import com.my.conferences.controllers.commands.user.SearchAvailableSpeakersCommand;
-import com.my.conferences.exception.DBException;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
+import com.my.conferences.exception.DBException;
+import com.my.conferences.exception.ValidationException;
 import com.my.conferences.service.EventService;
 import com.my.conferences.service.ReportService;
 import com.my.conferences.service.UserService;
-import com.my.conferences.exception.ValidationException;
 import com.my.conferences.util.RequestUtil;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -28,8 +30,8 @@ import java.util.Map;
 @WebServlet(value = "/event")
 public class EventServlet extends HttpServlet {
 
-    private final static String EXCEPTION_MESSAGE = "Exception in EventServlet";
-    private final static Logger logger = Logger.getLogger(EventServlet.class);
+    private static final String EXCEPTION_MESSAGE = "Exception in EventServlet";
+    private static final Logger logger = Logger.getLogger(EventServlet.class);
     private final Map<String, Command> commandMap = new HashMap<>();
     private EventService eventService;
 
