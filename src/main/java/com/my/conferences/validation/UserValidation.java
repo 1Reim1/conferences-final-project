@@ -8,6 +8,7 @@ public class UserValidation {
 
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_NAME_REGEX = Pattern.compile("^[a-zA-Z]{3,}$");
+    private static final int PASSWORD_MIN_LENGTH = 6;
 
     private UserValidation() {}
 
@@ -28,7 +29,7 @@ public class UserValidation {
 
     public static void validateEmailAndPassword(String email, String password) throws ValidationException {
         validateEmail(email);
-        if (password.length() < 6) {
+        if (password.length() < PASSWORD_MIN_LENGTH) {
             throw new ValidationException("Password is bad");
         }
     }

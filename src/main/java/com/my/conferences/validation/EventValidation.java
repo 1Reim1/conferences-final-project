@@ -6,17 +6,21 @@ import java.util.Date;
 
 public class EventValidation {
 
+    private static final int TITLE_MIN_LENGTH = 3;
+    private static final int DESCRIPTION_MIN_LENGTH = 20;
+    private static final int PLACE_MIN_LENGTH = 5;
+
     private EventValidation() {}
 
     public static void validateTitle(String title) throws ValidationException {
-        if (title.trim().length() < 3) {
-            throw new ValidationException("Title min length: 3");
+        if (title.trim().length() < TITLE_MIN_LENGTH) {
+            throw new ValidationException(String.format("Title min length: %d", TITLE_MIN_LENGTH));
         }
     }
 
     public static void validateDescription(String description) throws ValidationException {
-        if (description.trim().length() < 20) {
-            throw new ValidationException("Description min length: 20");
+        if (description.trim().length() < DESCRIPTION_MIN_LENGTH) {
+            throw new ValidationException(String.format("Description min length: %d", DESCRIPTION_MIN_LENGTH));
         }
     }
 
@@ -27,8 +31,8 @@ public class EventValidation {
     }
 
     public static void validatePlace(String place) throws ValidationException {
-        if (place.trim().length() < 5) {
-            throw new ValidationException("Place min length: 5");
+        if (place.trim().length() < PLACE_MIN_LENGTH) {
+            throw new ValidationException(String.format("Place min length: %d", PLACE_MIN_LENGTH));
         }
     }
 }
