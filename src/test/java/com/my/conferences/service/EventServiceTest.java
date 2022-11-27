@@ -120,7 +120,6 @@ class EventServiceTest {
 
     @Test
     void findAll() throws DBException, SQLException {
-        // test all events
         eventService.findAll(event.getId(), Event.Order.DATE, true, true, false, moderator);
         Mockito.verify(eventDao, Mockito.times(1))
                 .findAll(
@@ -131,7 +130,10 @@ class EventServiceTest {
                         ArgumentMatchers.anyInt(),
                         ArgumentMatchers.anyInt(),
                         ArgumentMatchers.any());
-        // test only my events
+    }
+
+    @Test
+    void findAllMyEvents() throws DBException, SQLException {
         eventService.findAll(event.getId(), Event.Order.DATE, true, true, true, moderator);
         Mockito.verify(eventDao, Mockito.times(1))
                 .findAllMy(
@@ -154,7 +156,6 @@ class EventServiceTest {
 
     @Test
     void countPages() throws SQLException, DBException {
-        // test count of all events
         Mockito.doReturn(7)
                 .when(eventDao)
                 .findCount(ArgumentMatchers.any(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.anyString());
@@ -162,11 +163,14 @@ class EventServiceTest {
         assertEquals(4, pages);
         Mockito.verify(eventDao, Mockito.times(1))
                 .findCount(ArgumentMatchers.any(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.anyString());
-        // test count of my events
+    }
+
+    @Test
+    void countPagesOfMyEvents() throws SQLException, DBException {
         Mockito.doReturn(4)
                 .when(eventDao)
                 .findCountMy(ArgumentMatchers.any(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.any());
-        pages = eventService.countPages(true, true, moderator);
+        int pages = eventService.countPages(true, true, moderator);
         assertEquals(2, pages);
         Mockito.verify(eventDao, Mockito.times(1))
                 .findCountMy(ArgumentMatchers.any(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.any());
@@ -198,26 +202,35 @@ class EventServiceTest {
     }
 
     @Test
-    void join() throws DBException, ValidationException, SQLException {
+    void joinByUser() throws DBException, ValidationException, SQLException {
         User user = new User();
         user.setId(10);
         eventService.join(event.getId(), user);
         Mockito.verify(userDao, Mockito.times(1))
                 .insertParticipant(ArgumentMatchers.any(), ArgumentMatchers.same(event), ArgumentMatchers.same(user));
-        // test moderator
+    }
+
+    @Test
+    void joinByModerator() {
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.join(event.getId(), moderator),
                 "Expected exception");
         assertEquals("You are a moderator", thrown.getMessage());
-        // test speaker
-        thrown = assertThrows(
+    }
+
+    @Test
+    void joinBySpeaker() {
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.join(event.getId(), speaker),
                 "Expected exception");
         assertEquals("You have a report", thrown.getMessage());
-        // test participant
-        thrown = assertThrows(
+    }
+
+    @Test
+    void joinByParticipant() {
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.join(event.getId(), participant),
                 "Expected exception");
@@ -229,7 +242,10 @@ class EventServiceTest {
         eventService.leave(1, participant);
         Mockito.verify(userDao, Mockito.times(1))
                 .deleteParticipant(ArgumentMatchers.any(), ArgumentMatchers.same(event), ArgumentMatchers.same(participant));
-        // test leave user which is not a participant
+    }
+
+    @Test
+    void leaveByUserWhichIsNotParticipant() {
         User user = new User();
         ValidationException thrown = assertThrows(
                 ValidationException.class,
@@ -240,19 +256,27 @@ class EventServiceTest {
 
     @Test
     void hide() throws DBException, ValidationException, SQLException {
+        event.setHidden(false);
         eventService.hide(event.getId(), moderator);
         assertTrue(event.isHidden());
         Mockito.verify(eventDao, Mockito.times(1))
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(event));
-        // test hide an event that is already hidden
+    }
+
+    @Test
+    void hideEventThatIsAlreadyHidden() {
+        event.setHidden(true);
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.hide(event.getId(), moderator),
                 "Expected exception");
         assertEquals("Event is already hidden", thrown.getMessage());
-        // test hide event by user which is not a moderator
+    }
+
+    @Test
+    void hideByNotModerator() {
         event.setHidden(false);
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.hide(event.getId(), speaker),
                 "Expected exception");
@@ -266,15 +290,22 @@ class EventServiceTest {
         assertFalse(event.isHidden());
         Mockito.verify(eventDao, Mockito.times(1))
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(event));
-        // test show an event that is not hidden
+    }
+
+    @Test
+    void showNotHiddenEvent() {
+        event.setHidden(false);
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.show(event.getId(), moderator),
                 "Expected exception");
         assertEquals("Event is already shown", thrown.getMessage());
-        // test show an event that is not moderator
+    }
+
+    @Test
+    void showByNotModerator() {
         event.setHidden(true);
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.show(event.getId(), speaker),
                 "Expected exception");
@@ -312,7 +343,10 @@ class EventServiceTest {
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(event));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendDateChanged(ArgumentMatchers.same(event), ArgumentMatchers.any());
-        // test set a past date
+    }
+
+    @Test
+    void modifyDateToPast() {
         Date pastDate = new Date(System.currentTimeMillis() - 1000);
         ValidationException thrown = assertThrows(
                 ValidationException.class,
@@ -340,21 +374,33 @@ class EventServiceTest {
         assertEquals(newStatistics, event.getStatistics());
         Mockito.verify(eventDao, Mockito.times(1))
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(event));
-        // test statistics greater than a number of participants
+    }
+
+    @Test
+    void modifyStatisticsGreaterThanNumberOfParticipants() {
+        event.setDate(new Date(System.currentTimeMillis() - 1000));
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.modifyStatistics(event.getId(), event.getParticipants().size() + 1, moderator),
                 "Expected exception");
         assertEquals("Statistics should be lesser than a number of participants", thrown.getMessage());
-        // test statistics < 0
-        thrown = assertThrows(
+    }
+
+    @Test
+    void modifyStatisticsLesserThanZero() {
+        event.setDate(new Date(System.currentTimeMillis() - 1000));
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.modifyStatistics(event.getId(), -1, moderator),
                 "Expected exception");
         assertEquals("Statistics should be greater than zero", thrown.getMessage());
-        // test for future event
+    }
+
+    @Test
+    void modifyStatisticsForFutureEvent() {
+        int newStatistics = 1;
         event.setDate(new Date(System.currentTimeMillis() + 10000));
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> eventService.modifyStatistics(event.getId(), newStatistics, moderator),
                 "Expected exception");

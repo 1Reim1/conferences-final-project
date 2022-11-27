@@ -63,7 +63,11 @@ class VerificationCodeServiceTest {
     void verifyCode() throws DBException, ValidationException {
         boolean codeIsCorrect = verificationCodeService.verifyCode(user.getEmail(), verificationCode.getCode());
         assertTrue(codeIsCorrect);
-        codeIsCorrect = verificationCodeService.verifyCode(user.getEmail(), verificationCode.getCode() + "0");
+    }
+
+    @Test
+    void verifyWrongCode() throws DBException, ValidationException {
+        boolean codeIsCorrect = verificationCodeService.verifyCode(user.getEmail(), verificationCode.getCode() + "0");
         assertFalse(codeIsCorrect);
     }
 

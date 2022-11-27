@@ -15,6 +15,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class JsonUtilTest {
 
     @Test
+    void usersToJsonEmptyList() {
+        List<User> users = new ArrayList<>();
+        String json = JsonUtil.usersToJson(users);
+        assertEquals("[]", json);
+    }
+
+    @Test
+    void userToJson() {
+        List<User> users = new ArrayList<>();
+        User user1 = new User();
+        user1.setId(1);
+        user1.setFirstName("Adam");
+        user1.setLastName("James");
+        user1.setEmail("adamjames@gmail.com");
+        user1.setRole(User.Role.SPEAKER);
+        users.add(user1);
+        String json = JsonUtil.usersToJson(users);
+        assertEquals("[{\"id\":1,\"firstName\":\"Adam\",\"lastName\":\"James\",\"email\":\"adamjames@gmail.com\",\"role\":\"SPEAKER\"}]", json);
+    }
+
+    @Test
     void usersToJson() {
         List<User> users = new ArrayList<>();
         User user1 = new User();
@@ -41,17 +62,33 @@ class JsonUtilTest {
     }
 
     @Test
-    void eventsToJson() {
+    void eventsToJsonEmptyList() {
         List<Event> events = new ArrayList<>();
         String json = JsonUtil.eventsToJson(events);
         assertEquals("[]", json);
+    }
 
+    @Test
+    void eventToJson() {
+        List<Event> events = new ArrayList<>();
         Event event1 = new Event();
         event1.setId(1);
         event1.setTitle("Event 1");
         event1.setDate(new Date(1666943116919L));
         events.add(event1);
-        json = JsonUtil.eventsToJson(events);
+        String json = JsonUtil.eventsToJson(events);
+        assertEquals("[{\"id\":1,\"title\":\"Event 1\",\"date\":1666943116919}]", json);
+    }
+
+    @Test
+    void eventsToJson() {
+        List<Event> events = new ArrayList<>();
+        Event event1 = new Event();
+        event1.setId(1);
+        event1.setTitle("Event 1");
+        event1.setDate(new Date(1666943116919L));
+        events.add(event1);
+        String json = JsonUtil.eventsToJson(events);
         assertEquals("[{\"id\":1,\"title\":\"Event 1\",\"date\":1666943116919}]", json);
 
         Event event2 = new Event();
@@ -65,10 +102,15 @@ class JsonUtilTest {
     }
 
     @Test
-    void reportsWithEventsToJson() {
+    void reportsWithEventsToJsonEmptyList() {
         List<ReportWithEvent> reportsWithEvents = new ArrayList<>();
         String json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
         assertEquals("[]", json);
+    }
+
+    @Test
+    void reportWithEventToJson() {
+        List<ReportWithEvent> reportsWithEvents = new ArrayList<>();
 
         Report report1 = new Report();
         report1.setId(1);
@@ -78,7 +120,23 @@ class JsonUtilTest {
         event1.setTitle("Title 1");
         event1.setDate(new Date(1666943116919L));
         reportsWithEvents.add(new ReportWithEvent(report1, event1));
-        json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
+        String json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
+        assertEquals("[{\"id\":1,\"event_id\":10,\"topic\":\"Topic 1\",\"title\":\"Title 1\",\"date\":1666943116919}]", json);
+    }
+
+    @Test
+    void reportsWithEventsToJson() {
+        List<ReportWithEvent> reportsWithEvents = new ArrayList<>();
+
+        Report report1 = new Report();
+        report1.setId(1);
+        report1.setTopic("Topic 1");
+        Event event1 = new Event();
+        event1.setId(10);
+        event1.setTitle("Title 1");
+        event1.setDate(new Date(1666943116919L));
+        reportsWithEvents.add(new ReportWithEvent(report1, event1));
+        String json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
         assertEquals("[{\"id\":1,\"event_id\":10,\"topic\":\"Topic 1\",\"title\":\"Title 1\",\"date\":1666943116919}]", json);
 
         Report report2 = new Report();
@@ -91,7 +149,6 @@ class JsonUtilTest {
         reportsWithEvents.add(new ReportWithEvent(report2, event2));
         json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
         assertEquals("[{\"id\":1,\"event_id\":10,\"topic\":\"Topic 1\",\"title\":\"Title 1\",\"date\":1666943116919}," +
-                        "{\"id\":2,\"event_id\":20,\"topic\":\"Topic 2\",\"title\":\"Title 2\",\"date\":1666943144444}]",
-                json);
+                        "{\"id\":2,\"event_id\":20,\"topic\":\"Topic 2\",\"title\":\"Title 2\",\"date\":1666943144444}]", json);
     }
 }

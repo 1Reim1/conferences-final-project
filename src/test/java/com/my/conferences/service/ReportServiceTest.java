@@ -35,6 +35,7 @@ class ReportServiceTest {
     private static Event event;
     private static User moderator;
     private static User speaker;
+    private static User speaker2;
 
     @BeforeAll
     static void init() throws SQLException {
@@ -71,6 +72,10 @@ class ReportServiceTest {
         event.setDate(new Date(System.currentTimeMillis() + 10000)); // future date
         event.setModerator(moderator);
         event.setReports(new ArrayList<>());
+        event.setParticipants(new ArrayList<>());
+
+        speaker2 = new User();
+        speaker2.setRole(User.Role.SPEAKER);
 
         Mockito.doReturn(report)
                 .when(reportDao)
@@ -86,24 +91,27 @@ class ReportServiceTest {
             return null;
         }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
 
-
         connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
 
     @BeforeEach
     void tearUp() {
         Mockito.clearInvocations(reportDao);
+        Mockito.clearInvocations(emailManager);
     }
 
     @Test
-    void findNewReports() throws DBException, ValidationException, SQLException {
+    void findNewReportsForSpeaker() throws DBException, ValidationException, SQLException {
         User user = new User();
         user.setRole(User.Role.SPEAKER);
         reportService.findNewReports(user);
         Mockito.verify(reportDao, Mockito.times(1))
                 .findNewForSpeaker(ArgumentMatchers.any(), ArgumentMatchers.same(user));
+    }
 
-        user = new User();
+    @Test
+    void findNewReportsForModerator() throws DBException, ValidationException, SQLException {
+        User user = new User();
         user.setRole(User.Role.MODERATOR);
         reportService.findNewReports(user);
         Mockito.verify(reportDao, Mockito.times(1))
@@ -118,28 +126,37 @@ class ReportServiceTest {
     }
 
     @Test
-    void cancelReport() throws SQLException, DBException, ValidationException {
-        // Test cancel report by moderator
+    void cancelReportByModerator() throws SQLException, DBException, ValidationException {
         report.setConfirmed(true);
         reportService.cancelReport(report.getId(), moderator);
         Mockito.verify(reportDao, Mockito.times(1))
                 .delete(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendConfirmedReportCancelled(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // Test cancel unconfirmed report by moderator
+    }
+
+    @Test
+    void cancelUnconfirmedReportByModerator() throws SQLException, DBException, ValidationException {
         report.setConfirmed(false);
         reportService.cancelReport(report.getId(), moderator);
-        Mockito.verify(reportDao, Mockito.times(2))
+        Mockito.verify(reportDao, Mockito.times(1))
                 .delete(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportCancelledByModerator(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // Test cancel unconfirmed report by speaker
+    }
+
+    @Test
+    void cancelUnconfirmedReportBySpeaker() throws SQLException, DBException, ValidationException {
+        report.setConfirmed(false);
         reportService.cancelReport(report.getId(), speaker);
-        Mockito.verify(reportDao, Mockito.times(3))
+        Mockito.verify(reportDao, Mockito.times(1))
                 .delete(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportCancelledBySpeaker(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // Test cancel report by user
+    }
+
+    @Test
+    void cancelReportByUser() {
         User user = new User();
         user.setRole(User.Role.USER);
         ValidationException thrown = assertThrows(
@@ -150,10 +167,10 @@ class ReportServiceTest {
     }
 
     @Test
-    void confirmReport() throws SQLException, DBException, ValidationException {
-        // test confirm by moderator
+    void confirmReportByModerator() throws SQLException, DBException, ValidationException {
         report.setConfirmed(false);
         report.setCreator(speaker);
+        report.setSpeaker(speaker);
         reportService.confirmReport(report.getId(), moderator);
         assertTrue(report.isConfirmed());
         Mockito.verify(reportDao, Mockito.times(1))
@@ -162,34 +179,50 @@ class ReportServiceTest {
                 .sendReportConfirmedByModerator(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendAddedNewReport(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // test confirm by speaker
+    }
+
+    @Test
+    void confirmReportBySpeaker() throws SQLException, DBException, ValidationException {
         report.setConfirmed(false);
         report.setCreator(moderator);
         reportService.confirmReport(report.getId(), speaker);
         assertTrue(report.isConfirmed());
-        Mockito.verify(reportDao, Mockito.times(2))
+        Mockito.verify(reportDao, Mockito.times(1))
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportConfirmedBySpeaker(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        Mockito.verify(emailManager, Mockito.times(2))
+        Mockito.verify(emailManager, Mockito.times(1))
                 .sendAddedNewReport(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
+    }
+
+    @Test
+    void confirmReportByModeratorCreator() {
         // test confirm by moderator (moderator created report)
         report.setConfirmed(false);
+        report.setCreator(moderator);
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.confirmReport(report.getId(), moderator),
                 "Expected exception");
         assertEquals("You have not permissions", thrown.getMessage());
-        // test confirm by speaker (speaker created report)
+    }
+
+    @Test
+    void confirmReportBySpeakerCreator() {
+        report.setConfirmed(false);
         report.setCreator(speaker);
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.confirmReport(report.getId(), speaker),
                 "Expected exception");
         assertEquals("You have not permissions", thrown.getMessage());
-        // test confirm report that is already confirmed
+    }
+
+    @Test
+    void confirmReportThatAlreadyConfirmed() {
         report.setConfirmed(true);
-        thrown = assertThrows(
+        report.setCreator(speaker);
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.confirmReport(report.getId(), moderator),
                 "Expected exception");
@@ -197,58 +230,75 @@ class ReportServiceTest {
     }
 
     @Test
-    void offerReport() throws SQLException, DBException, ValidationException {
-        User speaker2 = new User();
-        speaker2.setRole(User.Role.SPEAKER);
-        List<User> participants = new ArrayList<>();
-        participants.add(speaker2);
-        event.setParticipants(participants);
-        // test offer report by moderator
+    void offerReportByModerator() throws SQLException, DBException, ValidationException {
         report.setCreator(moderator);
+        report.setSpeaker(speaker);
         reportService.offerReport(report);
         assertFalse(report.isConfirmed());
         Mockito.verify(reportDao, Mockito.times(1))
                 .insert(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportOfferedByModerator(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // test offer report by speaker
+    }
+
+    @Test
+    void offerReportBySpeaker() throws SQLException, DBException, ValidationException {
         report.setCreator(speaker);
         reportService.offerReport(report);
         assertFalse(report.isConfirmed());
-        Mockito.verify(reportDao, Mockito.times(2))
+        Mockito.verify(reportDao, Mockito.times(1))
                 .insert(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportOfferedBySpeaker(ArgumentMatchers.same(report), ArgumentMatchers.same(event));
-        // test offer by speaker which is already participant
-        report.setCreator(speaker2);
+    }
+
+    @Test
+    void offerReportBySpeakerThatIsParticipant() {
+        List<User> participants = new ArrayList<>();
+        participants.add(speaker2);
+        event.setParticipants(participants);
+        report.setCreator(moderator);
         report.setSpeaker(speaker2);
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.offerReport(report),
                 "Expected exception");
         assertEquals("Speaker is already a participant", thrown.getMessage());
-        // test offer speaker to another speaker
+    }
+
+    @Test
+    void offerReportBySpeakerToAnotherSpeaker() {
         event.getParticipants().clear();
         report.setSpeaker(speaker);
-        thrown = assertThrows(
+        report.setCreator(speaker2);
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.offerReport(report),
                 "Expected exception");
         assertEquals("Speaker can not offer a report to someone", thrown.getMessage());
-        // test offer to user (not speaker)
+    }
+
+    @Test
+    void offerReportBySpeakerToUser() {
         User user = new User();
         user.setRole(User.Role.USER);
         report.setSpeaker(user);
         report.setCreator(moderator);
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.offerReport(report),
                 "Expected exception");
         assertEquals("User is not a speaker", thrown.getMessage());
-        // test offer by user
+    }
+
+    @Test
+    void offerReportByUser() {
+        User user = new User();
+        user.setRole(User.Role.USER);
+        report.setSpeaker(user);
         report.setSpeaker(speaker);
         report.setCreator(user);
-        thrown = assertThrows(
+        ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> reportService.offerReport(report),
                 "Expected exception");
@@ -256,8 +306,7 @@ class ReportServiceTest {
     }
 
     @Test
-    void modifyReportTopic() throws SQLException, DBException, ValidationException {
-        // test confirmed report
+    void modifyConfirmedReportTopic() throws SQLException, DBException, ValidationException {
         report.setConfirmed(true);
         String newTopic = "new topic";
         reportService.modifyReportTopic(report.getId(), newTopic, moderator);
@@ -266,16 +315,22 @@ class ReportServiceTest {
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendConfirmedReportTopicChanged(ArgumentMatchers.same(report), ArgumentMatchers.same(event), ArgumentMatchers.any());
-        // test unconfirmed report
-        newTopic = "new topic 2";
+    }
+
+    @Test
+    void modifyUnconfirmedReportTopic() throws SQLException, DBException, ValidationException {
+        String newTopic = "new topic 2";
         report.setConfirmed(false);
         reportService.modifyReportTopic(report.getId(), newTopic, moderator);
         assertEquals(newTopic, report.getTopic());
-        Mockito.verify(reportDao, Mockito.times(2))
+        Mockito.verify(reportDao, Mockito.times(1))
                 .update(ArgumentMatchers.any(), ArgumentMatchers.same(report));
         Mockito.verify(emailManager, Mockito.times(1))
                 .sendReportTopicChanged(ArgumentMatchers.same(report), ArgumentMatchers.same(event), ArgumentMatchers.any());
-        // test by moderator (not of this event)
+    }
+
+    @Test
+    void modifyReportTopicByAnotherModerator() {
         User moderator2 = new User();
         moderator2.setRole(User.Role.MODERATOR);
         ValidationException thrown = assertThrows(

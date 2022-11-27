@@ -17,7 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RequestUtilTest {
 
@@ -70,7 +71,10 @@ class RequestUtilTest {
     void getIntParameter() throws ValidationException {
         int result = RequestUtil.getIntParameter(request, "int");
         assertEquals(1, result);
-        // test str
+    }
+
+    @Test
+    void getIntParameterThatIsNotInt() {
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> RequestUtil.getIntParameter(request, "string"),
@@ -82,7 +86,10 @@ class RequestUtilTest {
     void getLongParameter() throws ValidationException {
         long result = RequestUtil.getLongParameter(request, "long");
         assertEquals(2, result);
-        // test str
+    }
+
+    @Test
+    void getLongParameterThatIsNotLong() {
         ValidationException thrown = assertThrows(
                 ValidationException.class,
                 () -> RequestUtil.getLongParameter(request, "string"),
