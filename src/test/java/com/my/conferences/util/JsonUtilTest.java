@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonUtilTest {
 
@@ -25,7 +25,7 @@ class JsonUtilTest {
         user1.setRole(User.Role.SPEAKER);
         users.add(user1);
         String json = JsonUtil.usersToJson(users);
-        assertEquals("[{\"id\": 1,\"firstName\": \"Adam\",\"lastName\": \"James\",\"email\": \"adamjames@gmail.com\", \"role\": \"SPEAKER\"}]", json);
+        assertEquals("[{\"id\":1,\"firstName\":\"Adam\",\"lastName\":\"James\",\"email\":\"adamjames@gmail.com\",\"role\":\"SPEAKER\"}]", json);
 
         User user2 = new User();
         user2.setId(2);
@@ -35,8 +35,8 @@ class JsonUtilTest {
         user2.setRole(User.Role.MODERATOR);
         users.add(user2);
         json = JsonUtil.usersToJson(users);
-        assertEquals("[{\"id\": 1,\"firstName\": \"Adam\",\"lastName\": \"James\",\"email\": \"adamjames@gmail.com\", \"role\": \"SPEAKER\"}," +
-                        "{\"id\": 2,\"firstName\": \"Toni\",\"lastName\": \"Bullock\",\"email\": \"tonibullock@gmail.com\", \"role\": \"MODERATOR\"}]",
+        assertEquals("[{\"id\":1,\"firstName\":\"Adam\",\"lastName\":\"James\",\"email\":\"adamjames@gmail.com\",\"role\":\"SPEAKER\"}," +
+                        "{\"id\":2,\"firstName\":\"Toni\",\"lastName\":\"Bullock\",\"email\":\"tonibullock@gmail.com\",\"role\":\"MODERATOR\"}]",
                 json);
     }
 
@@ -52,7 +52,7 @@ class JsonUtilTest {
         event1.setDate(new Date(1666943116919L));
         events.add(event1);
         json = JsonUtil.eventsToJson(events);
-        assertEquals("[{\"id\": 1,\"title\": \"Event 1\",\"date\": 1666943116919}]", json);
+        assertEquals("[{\"id\":1,\"title\":\"Event 1\",\"date\":1666943116919}]", json);
 
         Event event2 = new Event();
         event2.setId(1);
@@ -60,9 +60,8 @@ class JsonUtilTest {
         event2.setDate(new Date(1666943144444L));
         events.add(event2);
         json = JsonUtil.eventsToJson(events);
-        assertEquals("[{\"id\": 1,\"title\": \"Event 1\",\"date\": 1666943116919}," +
-                        "{\"id\": 1,\"title\": \"Event 2\",\"date\": 1666943144444}]",
-                json);
+        assertEquals("[{\"id\":1,\"title\":\"Event 1\",\"date\":1666943116919}," +
+                        "{\"id\":1,\"title\":\"Event 2\",\"date\":1666943144444}]", json);
     }
 
     @Test
@@ -80,7 +79,7 @@ class JsonUtilTest {
         event1.setDate(new Date(1666943116919L));
         reportsWithEvents.add(new ReportWithEvent(report1, event1));
         json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
-        assertEquals("[{\"id\": 1,\"event_id\": 10,\"topic\": \"Topic 1\",\"title\": \"Title 1\",\"date\": 1666943116919}]", json);
+        assertEquals("[{\"id\":1,\"event_id\":10,\"topic\":\"Topic 1\",\"title\":\"Title 1\",\"date\":1666943116919}]", json);
 
         Report report2 = new Report();
         report2.setId(2);
@@ -91,8 +90,8 @@ class JsonUtilTest {
         event2.setDate(new Date(1666943144444L));
         reportsWithEvents.add(new ReportWithEvent(report2, event2));
         json = JsonUtil.reportsWithEventsToJson(reportsWithEvents);
-        assertEquals("[{\"id\": 1,\"event_id\": 10,\"topic\": \"Topic 1\",\"title\": \"Title 1\",\"date\": 1666943116919}," +
-                        "{\"id\": 2,\"event_id\": 20,\"topic\": \"Topic 2\",\"title\": \"Title 2\",\"date\": 1666943144444}]",
+        assertEquals("[{\"id\":1,\"event_id\":10,\"topic\":\"Topic 1\",\"title\":\"Title 1\",\"date\":1666943116919}," +
+                        "{\"id\":2,\"event_id\":20,\"topic\":\"Topic 2\",\"title\":\"Title 2\",\"date\":1666943144444}]",
                 json);
     }
 }
