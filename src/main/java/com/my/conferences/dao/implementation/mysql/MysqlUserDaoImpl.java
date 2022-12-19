@@ -1,11 +1,14 @@
 package com.my.conferences.dao.implementation.mysql;
 
 import com.my.conferences.dao.UserDao;
+import com.my.conferences.dao.implementation.JdbcTemplate;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.User;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -34,21 +37,13 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public List<User> findAllExceptItself(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException {
-        List<User> users = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL)) {
-            int k = 0;
-            stmt.setString(++k, "%" + emailQuery + "%");
-            stmt.setInt(++k, user.getId());
-            stmt.setInt(++k, pageSize);
-            stmt.setInt(++k, (page - 1) * pageSize);
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    users.add(extractUser(rs));
-                }
-            }
-        }
-
-        return users;
+        return JdbcTemplate.query(
+                connection,
+                GET_ALL, this::extractUser,
+                "%" + emailQuery + "%",
+                user.getId(),
+                pageSize,
+                (page - 1) * pageSize);
     }
 
     /**
@@ -59,13 +54,15 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void findOne(Connection connection, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
-            stmt.setInt(1, user.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                extractUser(rs, user);
-            }
-        }
+        User result = JdbcTemplate
+                .query(connection, GET_ONE, this::extractUser, user.getId())
+                .stream().findAny().orElseThrow(SQLException::new);
+        user.setEmail(result.getEmail());
+        user.setFirstName(result.getFirstName());
+        user.setLastName(result.getLastName());
+        user.setPassword(result.getPassword());
+        user.setRole(result.getRole());
+        user.setLanguage(result.getLanguage());
     }
 
     /**
@@ -77,13 +74,9 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public User findByEmail(Connection connection, String email) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(GET_BY_EMAIL)) {
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                return extractUser(rs);
-            }
-        }
+        return JdbcTemplate
+                .query(connection, GET_BY_EMAIL, this::extractUser, email)
+                .stream().findAny().orElseThrow(SQLException::new);
     }
 
     /**
@@ -94,14 +87,20 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void insert(Connection connection, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            prepareStatementForUser(stmt, user);
-            stmt.executeUpdate();
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                rs.next();
-                user.setId(rs.getInt(1));
-            }
+        PreparedStatement statement = JdbcTemplate.update(
+                connection,
+                INSERT_ONE,
+                user.getEmail(),
+                user.getEmail(),
+                user.getLastName(),
+                user.getPassword(),
+                user.getRole().toString(),
+                user.getLanguage());
+        try (ResultSet rs = statement.getGeneratedKeys()) {
+            rs.next();
+            user.setId(rs.getInt(1));
         }
+        statement.close();
     }
 
     /**
@@ -112,11 +111,16 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void update(Connection connection, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            int k = prepareStatementForUser(stmt, user);
-            stmt.setInt(++k, user.getId());
-            stmt.executeUpdate();
-        }
+        JdbcTemplate.update(
+                connection,
+                UPDATE_ONE,
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getPassword(),
+                user.getRole().toString(),
+                user.getLanguage(),
+                user.getId()).close();
     }
 
     /**
@@ -129,18 +133,7 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
-        List<User> speakers = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL)) {
-            stmt.setInt(1, eventId);
-            stmt.setString(2, "%" + searchQuery + "%");
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    speakers.add(extractUser(rs));
-                }
-            }
-        }
-
-        return speakers;
+        return JdbcTemplate.query(connection, GET_ALL_AVAILABLE_SPEAKERS_BY_EMAIL, this::extractUser, eventId, "%" + searchQuery + "%");
     }
 
     /**
@@ -151,16 +144,7 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void findAllParticipants(Connection connection, Event event) throws SQLException {
-        List<User> participants = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ALL_PARTICIPANTS)) {
-            stmt.setInt(1, event.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    participants.add(extractUser(rs));
-                }
-            }
-        }
-
+        List<User> participants = JdbcTemplate.query(connection, GET_ALL_PARTICIPANTS, this::extractUser, event.getId());
         event.setParticipants(participants);
     }
 
@@ -173,11 +157,7 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(INSERT_PARTICIPANT)) {
-            stmt.setInt(1, user.getId());
-            stmt.setInt(2, event.getId());
-            stmt.executeUpdate();
-        }
+        JdbcTemplate.update(connection, INSERT_PARTICIPANT, user.getId(), event.getId()).close();
     }
 
     /**
@@ -189,31 +169,11 @@ public class MysqlUserDaoImpl implements UserDao {
      */
     @Override
     public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(DELETE_PARTICIPANT)) {
-            stmt.setInt(1, user.getId());
-            stmt.setInt(2, event.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    private int prepareStatementForUser(PreparedStatement stmt, User user) throws SQLException {
-        int k = 0;
-        stmt.setString(++k, user.getEmail());
-        stmt.setString(++k, user.getFirstName());
-        stmt.setString(++k, user.getLastName());
-        stmt.setString(++k, user.getPassword());
-        stmt.setString(++k, user.getRole().toString());
-        stmt.setString(++k, user.getLanguage());
-        return k;
+        JdbcTemplate.update(connection, DELETE_PARTICIPANT, user.getId(), event.getId()).close();
     }
 
     private User extractUser(ResultSet rs) throws SQLException {
         User user = new User();
-        extractUser(rs, user);
-        return user;
-    }
-
-    private void extractUser(ResultSet rs, User user) throws SQLException {
         user.setId(rs.getInt("id"));
         user.setEmail(rs.getString("email"));
         user.setFirstName(rs.getString("first_name"));
@@ -221,5 +181,6 @@ public class MysqlUserDaoImpl implements UserDao {
         user.setPassword(rs.getString("password"));
         user.setRole(User.Role.valueOf(rs.getString("role").toUpperCase()));
         user.setLanguage(rs.getString("language"));
+        return user;
     }
 }

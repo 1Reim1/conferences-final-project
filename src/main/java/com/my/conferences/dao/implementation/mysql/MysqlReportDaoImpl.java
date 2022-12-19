@@ -1,12 +1,12 @@
 package com.my.conferences.dao.implementation.mysql;
 
 import com.my.conferences.dao.ReportDao;
+import com.my.conferences.dao.implementation.JdbcTemplate;
 import com.my.conferences.entity.Event;
 import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,18 +33,8 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public void findAll(Connection connection, Event event, boolean onlyConfirmed) throws SQLException {
-        List<Report> reports = new ArrayList<>();
-        String query = onlyConfirmed ? GET_ALL_ONLY_CONFIRMED : GET_ALL;
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, event.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    reports.add(extractReport(rs));
-                }
-            }
-        }
-
+        String sql = onlyConfirmed ? GET_ALL_ONLY_CONFIRMED : GET_ALL;
+        List<Report> reports = JdbcTemplate.query(connection, sql, this::extractReport, event.getId());
         event.setReports(reports);
     }
 
@@ -57,13 +47,9 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public Report findOne(Connection connection, int id) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(GET_ONE)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                rs.next();
-                return extractReport(rs);
-            }
-        }
+        return JdbcTemplate
+                .query(connection, GET_ONE, this::extractReport, id)
+                .stream().findAny().orElseThrow(SQLException::new);
     }
 
     /**
@@ -75,7 +61,7 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public List<Report> findNewForModerator(Connection connection, User user) throws SQLException {
-        return findNew(connection, user, GET_NEW_FOR_MODERATOR);
+        return JdbcTemplate.query(connection, GET_NEW_FOR_MODERATOR, this::extractReport, user.getId());
     }
 
     /**
@@ -87,7 +73,7 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException {
-        return findNew(connection, user, GET_NEW_FOR_SPEAKER);
+        return JdbcTemplate.query(connection, GET_NEW_FOR_SPEAKER, this::extractReport, user.getId());
     }
 
     /**
@@ -100,34 +86,8 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public List<Report> findAllBySpeaker(Connection connection, User speaker, boolean futureReports) throws SQLException {
-        List<Report> reports = new ArrayList<>();
-        String query = String.format(GET_ALL_BY_SPEAKER, futureReports ? ">" : "<");
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            int k = 0;
-            stmt.setTimestamp(++k, new Timestamp(System.currentTimeMillis()));
-            stmt.setInt(++k, speaker.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    reports.add(extractReport(rs));
-                }
-            }
-        }
-
-        return reports;
-    }
-
-    private List<Report> findNew(Connection connection, User user, String query) throws SQLException {
-        List<Report> reports = new ArrayList<>();
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, user.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    reports.add(extractReport(rs));
-                }
-            }
-        }
-
-        return reports;
+        String sql = String.format(GET_ALL_BY_SPEAKER, futureReports ? ">" : "<");
+        return JdbcTemplate.query(connection, sql, this::extractReport, new Timestamp(System.currentTimeMillis()), speaker.getId());
     }
 
     /**
@@ -138,14 +98,19 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public void insert(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(INSERT_ONE, Statement.RETURN_GENERATED_KEYS)) {
-            prepareStatementForReport(stmt, report);
-            stmt.executeUpdate();
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                rs.next();
-                report.setId(rs.getInt(1));
-            }
+        PreparedStatement statement = JdbcTemplate.update(
+                connection,
+                INSERT_ONE,
+                report.getTopic(),
+                report.getEventId(),
+                report.getCreator().getId(),
+                report.getSpeaker().getId(),
+                report.isConfirmed());
+        try (ResultSet rs = statement.getGeneratedKeys()) {
+            rs.next();
+            report.setId(rs.getInt(1));
         }
+        statement.close();
     }
 
     /**
@@ -156,11 +121,15 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public void update(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(UPDATE_ONE)) {
-            int k = prepareStatementForReport(stmt, report);
-            stmt.setInt(++k, report.getId());
-            stmt.executeUpdate();
-        }
+        JdbcTemplate.update(
+                connection,
+                UPDATE_ONE,
+                report.getTopic(),
+                report.getEventId(),
+                report.getCreator().getId(),
+                report.getSpeaker().getId(),
+                report.isConfirmed(),
+                report.getId()).close();
     }
 
     /**
@@ -171,20 +140,7 @@ public class MysqlReportDaoImpl implements ReportDao {
      */
     @Override
     public void delete(Connection connection, Report report) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement(DELETE_ONE)) {
-            stmt.setInt(1, report.getId());
-            stmt.executeUpdate();
-        }
-    }
-
-    private int prepareStatementForReport(PreparedStatement stmt, Report report) throws SQLException {
-        int k = 0;
-        stmt.setString(++k, report.getTopic());
-        stmt.setInt(++k, report.getEventId());
-        stmt.setInt(++k, report.getCreator().getId());
-        stmt.setInt(++k, report.getSpeaker().getId());
-        stmt.setBoolean(++k, report.isConfirmed());
-        return k;
+        JdbcTemplate.update(connection, DELETE_ONE, report.getId()).close();
     }
 
     private Report extractReport(ResultSet rs) throws SQLException {

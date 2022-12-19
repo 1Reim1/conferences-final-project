@@ -12,7 +12,6 @@ public class User implements Serializable {
     private String lastName;
     private String password;
     private Role role;
-
     private String language;
 
     public int getId() {

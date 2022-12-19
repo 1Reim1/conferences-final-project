@@ -69,12 +69,12 @@ public interface EventDao {
     List<Event> findAllByModerator(Connection connection, User moderator) throws SQLException;
 
     /**
-     * Returns event by id
+     * returns event by id
      *
      * @param connection db connection
      * @param id         id of event
      * @param showHidden boolean that represents showing hidden events or not
-     * @return event with this id
+     * @return event with that id
      */
     Event findOne(Connection connection, int id, boolean showHidden) throws SQLException;
 
