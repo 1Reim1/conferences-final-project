@@ -9,13 +9,10 @@ import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.sql.SQLException;
@@ -31,7 +28,6 @@ class EventServiceTest {
     private static EmailManager emailManager;
     private static EventDao eventDao;
     private static UserDao userDao;
-    private static MockedStatic<ConnectionUtil> connectionUtilMockedStatic;
     private static Event event;
     private static User moderator;
     private static User speaker;
@@ -40,10 +36,11 @@ class EventServiceTest {
     @BeforeAll
     static void init() throws SQLException {
         emailManager = Mockito.mock(EmailManager.class);
+        ConnectionManager connectionManager = Mockito.mock(ConnectionManager.class);
         eventDao = Mockito.mock(EventDao.class);
         ReportDao reportDao = Mockito.mock(ReportDao.class);
         userDao = Mockito.mock(UserDao.class);
-        eventService = new EventService(emailManager, eventDao, reportDao, userDao, 2);
+        eventService = new EventService(emailManager, connectionManager, eventDao, reportDao, userDao, 2);
 
         Mockito.doReturn(new ArrayList<>())
                 .when(eventDao)
@@ -108,8 +105,6 @@ class EventServiceTest {
             }
             return null;
         }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
-
-        connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
 
     @BeforeEach
@@ -415,10 +410,5 @@ class EventServiceTest {
                 () -> EventService.canInteractWithEventValidation(event),
                 "Expected exception");
         assertEquals("You can’t interact with a past event", thrown.getMessage());
-    }
-
-    @AfterAll
-    static void resetMockedStatic() {
-        connectionUtilMockedStatic.close();
     }
 }

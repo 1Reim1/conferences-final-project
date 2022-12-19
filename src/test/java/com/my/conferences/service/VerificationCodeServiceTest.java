@@ -7,12 +7,9 @@ import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.sql.SQLException;
@@ -23,16 +20,16 @@ class VerificationCodeServiceTest {
 
     private static EmailManager emailManager;
     private static VerificationCodeService verificationCodeService;
-    private static MockedStatic<ConnectionUtil> connectionUtilMockedStatic;
     private static VerificationCode verificationCode;
     private static User user;
 
     @BeforeAll
     static void init() throws SQLException {
         emailManager = Mockito.mock(EmailManager.class);
+        ConnectionManager connectionManager = Mockito.mock(ConnectionManager.class);
         VerificationCodeDao verificationCodeDao = Mockito.mock(VerificationCodeDao.class);
         UserDao userDao = Mockito.mock(UserDao.class);
-        verificationCodeService = new VerificationCodeService(emailManager, verificationCodeDao, userDao);
+        verificationCodeService = new VerificationCodeService(emailManager, connectionManager, verificationCodeDao, userDao);
 
         user = new User();
         user.setId(1);
@@ -47,8 +44,6 @@ class VerificationCodeServiceTest {
         Mockito.doReturn(verificationCode)
                 .when(verificationCodeDao)
                 .findOne(ArgumentMatchers.any(), ArgumentMatchers.same(user));
-
-        connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
 
     @Test
@@ -69,10 +64,5 @@ class VerificationCodeServiceTest {
     void verifyWrongCode() throws DBException, ValidationException {
         boolean codeIsCorrect = verificationCodeService.verifyCode(user.getEmail(), verificationCode.getCode() + "0");
         assertFalse(codeIsCorrect);
-    }
-
-    @AfterAll
-    static void resetMockedStatic() {
-        connectionUtilMockedStatic.close();
     }
 }

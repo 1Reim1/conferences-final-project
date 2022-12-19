@@ -8,13 +8,10 @@ import com.my.conferences.email.EmailManager;
 import com.my.conferences.entity.User;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.sql.Connection;
@@ -26,16 +23,21 @@ class UserServiceTest {
 
     private static UserService userService;
     private static UserDao userDao;
-    private static MockedStatic<ConnectionUtil> connectionUtilMockedStatic;
 
     @BeforeAll
-    static void init() throws SQLException {
+    static void init() throws SQLException, DBException {
         EmailManager emailManager = Mockito.mock(EmailManager.class);
+        ConnectionManager connectionManager = Mockito.mock(ConnectionManager.class);
         userDao = Mockito.mock(UserDao.class);
         ReportDao reportDao = Mockito.mock(ReportDao.class);
         EventDao eventDao = Mockito.mock(EventDao.class);
         VerificationCodeDao verificationCodeDao = Mockito.mock(VerificationCodeDao.class);
-        userService = new UserService(emailManager, userDao, reportDao, eventDao, verificationCodeDao, 5);
+        userService = new UserService(emailManager, connectionManager, userDao, reportDao, eventDao, verificationCodeDao, 5);
+
+        Connection connection = Mockito.mock(Connection.class);
+        Mockito.doReturn(connection)
+                .when(connectionManager)
+                .getConnectionForTransaction();
 
         User user = new User();
         user.setId(1);
@@ -69,12 +71,6 @@ class UserServiceTest {
 
             return null;
         }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
-
-        connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
-        Connection connection = Mockito.mock(Connection.class);
-        connectionUtilMockedStatic
-                .when(ConnectionUtil::getConnectionForTransaction)
-                .thenReturn(connection);
     }
 
     @BeforeEach
@@ -186,10 +182,5 @@ class UserServiceTest {
 
         userService.setLanguage(user, "ru");
         assertEquals("en", user.getLanguage());
-    }
-
-    @AfterAll
-    static void resetMockedStatic() {
-        connectionUtilMockedStatic.close();
     }
 }

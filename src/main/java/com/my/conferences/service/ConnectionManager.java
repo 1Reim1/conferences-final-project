@@ -1,4 +1,4 @@
-package com.my.conferences.util;
+package com.my.conferences.service;
 
 import com.my.conferences.exception.DBException;
 import org.apache.log4j.Logger;
@@ -13,14 +13,12 @@ import java.sql.SQLException;
 /**
  * Util class for comfortable work with connections
  */
-public class ConnectionUtil {
+public class ConnectionManager {
 
-    private final static Logger logger = Logger.getLogger(ConnectionUtil.class);
-    private static DataSource dataSource;
+    private final static Logger logger = Logger.getLogger(ConnectionManager.class);
+    private DataSource dataSource;
 
-    private ConnectionUtil() {}
-
-    static {
+    public ConnectionManager() {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
@@ -30,12 +28,22 @@ public class ConnectionUtil {
         }
     }
 
+//    static {
+//        try {
+//            Context initContext = new InitialContext();
+//            Context envContext = (Context) initContext.lookup("java:/comp/env");
+//            dataSource = (DataSource) envContext.lookup("jdbc/ConferencesDB");
+//        } catch (NamingException e) {
+//            logger.error("Data source was not created", e);
+//        }
+//    }
+
     /**
      * Returns a connection from dataSource
      *
      * @return Connection
      */
-    public static Connection getConnection() throws DBException {
+    public Connection getConnection() throws DBException {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -43,21 +51,22 @@ public class ConnectionUtil {
         }
     }
 
-    public static Connection getConnectionForTransaction() throws DBException {
+    public Connection getConnectionForTransaction() throws DBException {
         try {
             Connection connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             return connection;
-        }   catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException("The connection to the database is lost", e);
         }
     }
 
     /**
-     * Closes a connection
+     * @param connection db connection
+     *                   Closes a connection
      */
-    public static void closeConnection(Connection connection) throws DBException {
+    public void closeConnection(Connection connection) throws DBException {
         try {
             connection.close();
         } catch (SQLException e) {
@@ -65,7 +74,12 @@ public class ConnectionUtil {
         }
     }
 
-    public static void rollbackConnection(Connection connection) {
+    /**
+     * rollbacks connection
+     *
+     * @param connection db connection
+     */
+    public void rollbackConnection(Connection connection) {
         try {
             connection.rollback();
         } catch (SQLException e) {

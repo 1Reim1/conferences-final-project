@@ -7,10 +7,7 @@ import com.my.conferences.dao.VerificationCodeDao;
 import com.my.conferences.dao.factory.DaoFactory;
 import com.my.conferences.dao.factory.MysqlDaoFactory;
 import com.my.conferences.email.EmailManager;
-import com.my.conferences.service.EventService;
-import com.my.conferences.service.ReportService;
-import com.my.conferences.service.UserService;
-import com.my.conferences.service.VerificationCodeService;
+import com.my.conferences.service.*;
 import com.my.conferences.util.PropertiesUtil;
 import com.my.conferences.validation.RecaptchaValidation;
 import jakarta.servlet.ServletContext;
@@ -54,6 +51,7 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
             throw new RuntimeException(e);
         }
 
+        ConnectionManager connectionManager = new ConnectionManager();
         DaoFactory daoFactory = new MysqlDaoFactory();
         EventDao eventDao = daoFactory.getEventDao();
         ReportDao reportDao = daoFactory.getReportDao();
@@ -61,10 +59,10 @@ public class ContextListener implements ServletContextListener, HttpSessionListe
         VerificationCodeDao verificationCodeDao = daoFactory.getVerificationCodeDao();
 
         ServletContext servletContext = sce.getServletContext();
-        servletContext.setAttribute("app/eventService", new EventService(emailManager, eventDao, reportDao, userDao, homePageSize));
-        servletContext.setAttribute("app/reportService", new ReportService(emailManager, eventDao, reportDao, userDao));
-        servletContext.setAttribute("app/userService", new UserService(emailManager, userDao, reportDao, eventDao, verificationCodeDao, usersPageSize));
-        servletContext.setAttribute("app/verificationCodeService", new VerificationCodeService(emailManager, verificationCodeDao, userDao));
+        servletContext.setAttribute("app/eventService", new EventService(emailManager, connectionManager, eventDao, reportDao, userDao, homePageSize));
+        servletContext.setAttribute("app/reportService", new ReportService(emailManager, connectionManager, eventDao, reportDao, userDao));
+        servletContext.setAttribute("app/userService", new UserService(emailManager, connectionManager, userDao, reportDao, eventDao, verificationCodeDao, usersPageSize));
+        servletContext.setAttribute("app/verificationCodeService", new VerificationCodeService(emailManager, connectionManager, verificationCodeDao, userDao));
         servletContext.setAttribute("app/recaptchaValidation", recaptchaValidation);
     }
 

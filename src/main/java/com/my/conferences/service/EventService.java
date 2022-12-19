@@ -9,7 +9,6 @@ import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
 import com.my.conferences.validation.EventValidation;
 import org.apache.log4j.Logger;
 
@@ -26,13 +25,15 @@ public class EventService {
 
     private static final Logger logger = Logger.getLogger(EventService.class);
     private final EmailManager emailManager;
+    private final ConnectionManager connectionManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
     private final UserDao userDao;
     private final int PAGE_SIZE;
 
-    public EventService(EmailManager emailManager, EventDao eventDao, ReportDao reportDao, UserDao userDao, int pageSize) {
+    public EventService(EmailManager emailManager, ConnectionManager connectionManager, EventDao eventDao, ReportDao reportDao, UserDao userDao, int pageSize) {
         this.emailManager = emailManager;
+        this.connectionManager = connectionManager;
         this.eventDao = eventDao;
         this.reportDao = reportDao;
         this.userDao = userDao;
@@ -58,7 +59,7 @@ public class EventService {
         if (order != Event.Order.DATE) {
             reverseOrder = !reverseOrder;
         }
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         List<Event> events;
         try {
             if (onlyMyEvents) {
@@ -75,7 +76,7 @@ public class EventService {
             logger.error("SQLException in findAll", e);
             throw new DBException("events was not loaded", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
 
         return events;
@@ -90,7 +91,7 @@ public class EventService {
      * @return count of pages
      */
     public int countPages(boolean futureOrder, boolean onlyMyEvents, User user) throws DBException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             if (onlyMyEvents) {
                 return (int) Math.ceil((double) eventDao.findCountMy(connection, futureOrder, user) / PAGE_SIZE);
@@ -101,7 +102,7 @@ public class EventService {
             logger.error("SQLException in countPages", e);
             throw new DBException("Count of pages was not loaded", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -112,7 +113,7 @@ public class EventService {
      * @return list of events moderated by a that moderator
      */
     public List<Event> findAllModeratorEvents(int moderatorId) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             User moderator = new User();
             moderator.setId(moderatorId);
@@ -126,7 +127,7 @@ public class EventService {
             logger.error("SQLException in findAllModeratorEvents", e);
             throw new DBException("events was not loaded", e);
         }   finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -138,13 +139,13 @@ public class EventService {
      * @return event
      */
     public Event findOne(int id, User user) throws DBException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
 
         Event event;
         try {
             event = findOne(connection, id, user.getRole() != User.Role.USER);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
 
         return event;
@@ -183,14 +184,14 @@ public class EventService {
             throw new ValidationException("You have not permissions");
         }
 
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             eventDao.insert(connection, event);
         } catch (SQLException e) {
             logger.error("SQLException in create", e);
             throw new DBException("Unable to insert an event", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -201,7 +202,7 @@ public class EventService {
      * @param user    user which should be joined
      */
     public void join(int eventId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
             canInteractWithEventValidation(event);
@@ -221,7 +222,7 @@ public class EventService {
             logger.error("SQLException in join", e);
             throw new DBException("Unable to join to the event", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -232,7 +233,7 @@ public class EventService {
      * @param user    user which should be removed from event
      */
     public void leave(int eventId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, false);
             canInteractWithEventValidation(event);
@@ -245,7 +246,7 @@ public class EventService {
             logger.error("SQLException in leave", e);
             throw new DBException("Unable to leave from the event", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -256,7 +257,7 @@ public class EventService {
      * @param user    user which performs action
      */
     public void hide(int eventId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
 
@@ -271,7 +272,7 @@ public class EventService {
             logger.error("SQLException in hide", e);
             throw new DBException("Unable to hide the event");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -282,7 +283,7 @@ public class EventService {
      * @param user    user which action
      */
     public void show(int eventId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             if (!event.isHidden()) {
@@ -298,7 +299,7 @@ public class EventService {
             logger.error("SQLException in show", e);
             throw new DBException("Unable to show the event", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -311,7 +312,7 @@ public class EventService {
      */
     public void modifyTitle(int eventId, String newTitle, User user) throws DBException, ValidationException {
         EventValidation.validateTitle(newTitle);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEventValidation(event);
@@ -328,7 +329,7 @@ public class EventService {
             logger.error("SQLException in modifyTitle", e);
             throw new DBException("Unable to modify a title", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -341,7 +342,7 @@ public class EventService {
      */
     public void modifyDescription(int eventId, String newDescription, User user) throws DBException, ValidationException {
         EventValidation.validateDescription(newDescription);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEventValidation(event);
@@ -356,7 +357,7 @@ public class EventService {
             logger.error("SQLException in modifyDescription", e);
             throw new DBException("Unable to modify a description", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -369,7 +370,7 @@ public class EventService {
      */
     public void modifyDate(int eventId, Date newDate, User user) throws DBException, ValidationException {
         EventValidation.validateDate(newDate);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEventValidation(event);
@@ -385,7 +386,7 @@ public class EventService {
             logger.error("SQLException in modifyDate", e);
             throw new DBException("Unable to modify a date", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -398,7 +399,7 @@ public class EventService {
      */
     public void modifyPlace(int eventId, String newPlace, User user) throws DBException, ValidationException {
         EventValidation.validatePlace(newPlace);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             canInteractWithEventValidation(event);
@@ -414,7 +415,7 @@ public class EventService {
             logger.error("SQLException in modifyPlace", e);
             throw new DBException("Unable to modify a place", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -426,7 +427,7 @@ public class EventService {
      * @param user          user which performs action
      */
     public void modifyStatistics(int eventId, int newStatistics, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = findOne(connection, eventId, true);
             if (!event.getModerator().equals(user)) {
@@ -448,7 +449,7 @@ public class EventService {
             logger.error("SQLException in modifyStatistics", e);
             throw new DBException("Unable to modify a statistics", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 

@@ -10,7 +10,6 @@ import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
 import com.my.conferences.validation.ReportValidation;
 import org.apache.log4j.Logger;
 
@@ -26,12 +25,14 @@ public class ReportService {
 
     private static final Logger logger = Logger.getLogger(ReportService.class);
     private final EmailManager emailManager;
+    private final ConnectionManager connectionManager;
     private final EventDao eventDao;
     private final ReportDao reportDao;
     private final UserDao userDao;
 
-    public ReportService(EmailManager emailManager, EventDao eventDao, ReportDao reportDao, UserDao userDao) {
+    public ReportService(EmailManager emailManager, ConnectionManager connectionManager, EventDao eventDao, ReportDao reportDao, UserDao userDao) {
         this.emailManager = emailManager;
+        this.connectionManager = connectionManager;
         this.eventDao = eventDao;
         this.reportDao = reportDao;
         this.userDao = userDao;
@@ -44,7 +45,7 @@ public class ReportService {
      * @return List of reports with events which are not accepted or rejected
      */
     public List<ReportWithEvent> findNewReports(User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         List<ReportWithEvent> reportsWithEvents;
 
         try {
@@ -73,7 +74,7 @@ public class ReportService {
             logger.error("SQLException in findNewReports", e);
             throw new DBException("Unable to find new reports", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
 
         return reportsWithEvents;
@@ -84,7 +85,7 @@ public class ReportService {
      * @return list of speaker's reports with events
      */
     public List<ReportWithEvent> findAllFutureSpeakerReports(int speakerId) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         List<ReportWithEvent> reportsWithEvents;
 
         try {
@@ -116,7 +117,7 @@ public class ReportService {
      * @param user     user which performs operation
      */
     public void cancelReport(int reportId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Report report = reportDao.findOne(connection, reportId);
             Event event = eventDao.findOne(connection, report.getEventId(), true);
@@ -147,7 +148,7 @@ public class ReportService {
             logger.error("SQLException in cancelReport", e);
             throw new DBException("Unable to cancel a report");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -158,7 +159,7 @@ public class ReportService {
      * @param user     user which performs operation
      */
     public void confirmReport(int reportId, User user) throws DBException, ValidationException {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Report report = reportDao.findOne(connection, reportId);
             Event event = eventDao.findOne(connection, report.getEventId(), true);
@@ -195,7 +196,7 @@ public class ReportService {
             logger.error("SQLException in confirmReport", e);
             throw new DBException("Unable to confirm a report");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -206,7 +207,7 @@ public class ReportService {
      */
     public void offerReport(Report report) throws DBException, ValidationException {
         report.validate();
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Event event = eventDao.findOne(connection, report.getEventId(), true);
             EventService.canInteractWithEventValidation(event);
@@ -238,7 +239,7 @@ public class ReportService {
             logger.error("SQLException in offerReport", e);
             throw new DBException("Unable to offer a report");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -251,7 +252,7 @@ public class ReportService {
      */
     public void modifyReportTopic(int reportId, String newTopic, User user) throws DBException, ValidationException {
         ReportValidation.validateTopic(newTopic);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             Report report = reportDao.findOne(connection, reportId);
             Event event = eventDao.findOne(connection, report.getEventId(), true);
@@ -279,7 +280,7 @@ public class ReportService {
             logger.error("SQLException in modifyReportTopic", e);
             throw new DBException("Unable to modify a topic");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 }

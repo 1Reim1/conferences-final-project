@@ -7,7 +7,6 @@ import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
 import com.my.conferences.validation.UserValidation;
 import org.apache.log4j.Logger;
 
@@ -22,11 +21,13 @@ public class VerificationCodeService {
 
     private static final Logger logger = Logger.getLogger(VerificationCode.class);
     private final EmailManager emailManager;
+    private final ConnectionManager connectionManager;
     private final VerificationCodeDao verificationCodeDao;
     private final UserDao userDao;
 
-    public VerificationCodeService(EmailManager emailManager, VerificationCodeDao verificationCodeDao, UserDao userDao) {
+    public VerificationCodeService(EmailManager emailManager, ConnectionManager connectionManager, VerificationCodeDao verificationCodeDao, UserDao userDao) {
         this.emailManager = emailManager;
+        this.connectionManager = connectionManager;
         this.verificationCodeDao = verificationCodeDao;
         this.userDao = userDao;
     }
@@ -40,13 +41,13 @@ public class VerificationCodeService {
      */
     public void sendCode(String userEmail, String language) throws DBException, ValidationException {
         UserValidation.validateEmail(userEmail);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         User user;
         try {
             user = userDao.findByEmail(connection, userEmail);
         } catch (SQLException e) {
             logger.error("SQLException in sendCode", e);
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
             throw new DBException("User with that email not found", e);
         }
 
@@ -68,7 +69,7 @@ public class VerificationCodeService {
                 throw new DBException("Unable to save verification code");
             }
         }   finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
 
         user.setLanguage(language);
@@ -82,12 +83,13 @@ public class VerificationCodeService {
      */
     public boolean verifyCode(String userEmail, String code) throws DBException, ValidationException {
         UserValidation.validateEmail(userEmail);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         User user;
         try {
             user = userDao.findByEmail(connection, userEmail);
         } catch (SQLException e) {
             logger.error("SQLException in verifyCode", e);
+            this.connectionManager.closeConnection(connection);
             throw new DBException("User with that email not found", e);
         }
 
@@ -97,6 +99,8 @@ public class VerificationCodeService {
         } catch (SQLException e) {
             logger.error("SQLException in verifyCode", e);
             throw new DBException("Verification code was not found");
+        }   finally {
+            this.connectionManager.closeConnection(connection);
         }
     }
 

@@ -9,13 +9,10 @@ import com.my.conferences.entity.Report;
 import com.my.conferences.entity.User;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.sql.SQLException;
@@ -30,7 +27,6 @@ class ReportServiceTest {
     private static ReportService reportService;
     private static EmailManager emailManager;
     private static ReportDao reportDao;
-    private static MockedStatic<ConnectionUtil> connectionUtilMockedStatic;
     private static Report report;
     private static Event event;
     private static User moderator;
@@ -40,10 +36,11 @@ class ReportServiceTest {
     @BeforeAll
     static void init() throws SQLException {
         emailManager = Mockito.mock(EmailManager.class);
+        ConnectionManager connectionManager = Mockito.mock(ConnectionManager.class);
         EventDao eventDao = Mockito.mock(EventDao.class);
         reportDao = Mockito.mock(ReportDao.class);
         UserDao userDao = Mockito.mock(UserDao.class);
-        reportService = new ReportService(emailManager, eventDao, reportDao, userDao);
+        reportService = new ReportService(emailManager, connectionManager, eventDao, reportDao, userDao);
 
         Mockito.doReturn(new ArrayList<>())
                 .when(reportDao)
@@ -90,8 +87,6 @@ class ReportServiceTest {
             }
             return null;
         }).when(userDao).findOne(ArgumentMatchers.any(), ArgumentMatchers.any());
-
-        connectionUtilMockedStatic = Mockito.mockStatic(ConnectionUtil.class);
     }
 
     @BeforeEach
@@ -338,10 +333,5 @@ class ReportServiceTest {
                 () -> reportService.modifyReportTopic(report.getId(), "new topic", moderator2),
                 "Expected exception");
         assertEquals("You have not permissions", thrown.getMessage());
-    }
-
-    @AfterAll
-    static void resetMockedStatic() {
-        connectionUtilMockedStatic.close();
     }
 }

@@ -11,7 +11,6 @@ import com.my.conferences.entity.User;
 import com.my.conferences.entity.VerificationCode;
 import com.my.conferences.exception.DBException;
 import com.my.conferences.exception.ValidationException;
-import com.my.conferences.util.ConnectionUtil;
 import com.my.conferences.validation.UserValidation;
 import org.apache.log4j.Logger;
 
@@ -28,14 +27,16 @@ public class UserService {
 
     private static final Logger logger = Logger.getLogger(UserService.class);
     private final EmailManager emailManager;
+    private final ConnectionManager connectionManager;
     private final UserDao userDao;
     private final ReportDao reportDao;
     private final EventDao eventDao;
     private final VerificationCodeDao verificationCodeDao;
     private final int pageSize;
 
-    public UserService(EmailManager emailManager, UserDao userDao, ReportDao reportDao, EventDao eventDao, VerificationCodeDao verificationCodeDao, int pageSize) {
+    public UserService(EmailManager emailManager, ConnectionManager connectionManager, UserDao userDao, ReportDao reportDao, EventDao eventDao, VerificationCodeDao verificationCodeDao, int pageSize) {
         this.emailManager = emailManager;
+        this.connectionManager = connectionManager;
         this.userDao = userDao;
         this.reportDao = reportDao;
         this.eventDao = eventDao;
@@ -54,14 +55,14 @@ public class UserService {
             throw new ValidationException("You have not permissions");
         }
 
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             return userDao.findAllExceptItself(connection, emailQuery, page, pageSize, user);
         } catch (SQLException e) {
             logger.error("SQLException in findAll", e);
             throw new DBException("not found", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -75,7 +76,7 @@ public class UserService {
      */
     public User login(String email, String password, String language) throws DBException, ValidationException {
         UserValidation.validateEmailAndPassword(email, password);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         User user;
         try {
             user = userDao.findByEmail(connection, email);
@@ -88,7 +89,7 @@ public class UserService {
             logger.error("SQLException in login", e);
             throw new DBException("User with that email not found", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
 
         if (!encryptPassword(password).equals(user.getPassword())) {
@@ -111,7 +112,7 @@ public class UserService {
         UserValidation.validateNames(user.getFirstName(), user.getLastName());
         UserValidation.validateEmailAndPassword(user.getEmail(), user.getPassword());
         user.setPassword(encryptPassword(user.getPassword()));
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         boolean userExists = true;
         try {
             userDao.findByEmail(connection, user.getEmail());
@@ -120,7 +121,7 @@ public class UserService {
         }
 
         if (userExists) {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
             throw new DBException("The user with this email already exists");
         }
 
@@ -130,7 +131,7 @@ public class UserService {
             logger.error("SQLException in register", e);
             throw new DBException("The user was not inserted", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -145,7 +146,7 @@ public class UserService {
         if (me.getRole() != User.Role.MODERATOR) {
             throw new ValidationException("You have not permission");
         }
-        Connection connection = ConnectionUtil.getConnectionForTransaction();
+        Connection connection = this.connectionManager.getConnectionForTransaction();
         try {
             User user = new User();
             user.setId(userId);
@@ -180,10 +181,10 @@ public class UserService {
             connection.commit();
         } catch (SQLException e) {
             logger.error("SQLException in modifyRole", e);
-            ConnectionUtil.rollbackConnection(connection);
+            this.connectionManager.rollbackConnection(connection);
             throw new DBException("Role was not modified");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -198,13 +199,13 @@ public class UserService {
      */
     public User modifyPassword(String email, String code, String newPassword) throws DBException, ValidationException {
         UserValidation.validateEmailAndPassword(email, newPassword);
-        Connection connection = ConnectionUtil.getConnectionForTransaction();
+        Connection connection = this.connectionManager.getConnectionForTransaction();
         User user;
         try {
             user = userDao.findByEmail(connection, email);
         } catch (SQLException e) {
             logger.error("SQLException in modifyPassword", e);
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
             throw new DBException("User with that email not found", e);
         }
         try {
@@ -213,12 +214,12 @@ public class UserService {
                 // if code is wrong, delete that verification code
                 verificationCodeDao.delete(connection, user);
                 connection.commit();
-                ConnectionUtil.closeConnection(connection);
+                this.connectionManager.closeConnection(connection);
                 throw new ValidationException("Verification code is wrong");
             }
         } catch (SQLException e) {
             logger.error("SQLException in modifyPassword", e);
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
             throw new DBException("Verification code was not found");
         }
         try {
@@ -229,10 +230,10 @@ public class UserService {
             return user;
         } catch (SQLException e) {
             logger.error("SQLException in modifyPassword", e);
-            ConnectionUtil.rollbackConnection(connection);
+            this.connectionManager.rollbackConnection(connection);
             throw new DBException("Unable to modify a password", e);
         }   finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -244,14 +245,14 @@ public class UserService {
      */
     public void setLanguage(User user, String language) throws DBException {
         user.setLanguage(language);
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             userDao.update(connection, user);
         } catch (SQLException e) {
             logger.error("SQLException in setLanguage", e);
             throw new DBException("Unable to change a language");
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
@@ -269,14 +270,14 @@ public class UserService {
             throw new ValidationException("You have not permissions");
         }
 
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = this.connectionManager.getConnection();
         try {
             return userDao.findAllAvailableSpeakersByEmail(connection, eventId, searchQuery);
         } catch (SQLException e) {
             logger.error("SQLException in searchAvailableSpeakers", e);
             throw new DBException("not found", e);
         } finally {
-            ConnectionUtil.closeConnection(connection);
+            this.connectionManager.closeConnection(connection);
         }
     }
 
