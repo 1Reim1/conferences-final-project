@@ -80,10 +80,8 @@ public class ReportService {
     }
 
     /**
-     * returns future events with reports by speaker
-     *
      * @param speakerId id of speaker
-     * @return list of reports with events by speaker
+     * @return list of speaker's reports with events
      */
     public List<ReportWithEvent> findAllFutureSpeakerReports(int speakerId) throws DBException, ValidationException {
         Connection connection = ConnectionUtil.getConnection();

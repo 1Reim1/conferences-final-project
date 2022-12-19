@@ -43,6 +43,12 @@ public class UserService {
         this.pageSize = pageSize;
     }
 
+    /**
+     * @param emailQuery query for searching
+     * @param page page
+     * @param user user that performs action
+     * @return list of users
+     */
     public List<User> findAll(String emailQuery, int page, User user) throws DBException, ValidationException {
         if (user.getRole() != User.Role.MODERATOR) {
             throw new ValidationException("You have not permissions");
@@ -50,7 +56,7 @@ public class UserService {
 
         Connection connection = ConnectionUtil.getConnection();
         try {
-            return userDao.findAllWithoutOne(connection, emailQuery, page, pageSize, user);
+            return userDao.findAllExceptItself(connection, emailQuery, page, pageSize, user);
         } catch (SQLException e) {
             logger.error("SQLException in findAll", e);
             throw new DBException("not found", e);
@@ -65,7 +71,7 @@ public class UserService {
      * @param email    email of user
      * @param password password of user
      * @param language language to save its in database
-     * @return User with these email and password
+     * @return user with these email and password
      */
     public User login(String email, String password, String language) throws DBException, ValidationException {
         UserValidation.validateEmailAndPassword(email, password);
@@ -181,6 +187,15 @@ public class UserService {
         }
     }
 
+    /**
+     * changes password of user, if verification code is correct
+     * if verification code is wrong, that will be deleted and ValidationException will be thrown
+     *
+     * @param email email of user
+     * @param code verification code
+     * @param newPassword new password
+     * @return user with new password
+     */
     public User modifyPassword(String email, String code, String newPassword) throws DBException, ValidationException {
         UserValidation.validateEmailAndPassword(email, newPassword);
         Connection connection = ConnectionUtil.getConnectionForTransaction();
@@ -223,6 +238,9 @@ public class UserService {
 
     /**
      * Changes a language for user
+     *
+     * @param user user whose language should be changed
+     * @param language new language
      */
     public void setLanguage(User user, String language) throws DBException {
         user.setLanguage(language);

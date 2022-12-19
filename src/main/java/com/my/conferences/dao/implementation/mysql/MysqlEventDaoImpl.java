@@ -43,6 +43,8 @@ public class MysqlEventDaoImpl implements EventDao {
     /**
      * returns list of events by parameters
      *
+     * @param connection   db connection
+     * @param order        sort order
      * @param reverseOrder boolean that represents reverse order or not
      * @param futureEvents boolean that represents future or past events
      * @param pageSize     number of events per page
@@ -65,6 +67,8 @@ public class MysqlEventDaoImpl implements EventDao {
     /**
      * returns the list of events with which the user is associated
      *
+     * @param connection   db connection
+     * @param order        sort order
      * @param reverseOrder boolean that represents reverse order or not
      * @param futureEvents boolean that represents future or past events
      * @param pageSize     number of events per page
@@ -122,6 +126,7 @@ public class MysqlEventDaoImpl implements EventDao {
     /**
      * returns count of events with which the user is associated
      *
+     * @param connection db connection
      * @param futureOrder boolean that represents future or past events
      * @param user        user
      * @return count of events
@@ -145,6 +150,7 @@ public class MysqlEventDaoImpl implements EventDao {
     /**
      * returns all events moderated by a user with that id
      *
+     * @param connection db connection
      * @param moderator moderator
      * @return list of events moderated by a user with that id
      */
@@ -166,6 +172,7 @@ public class MysqlEventDaoImpl implements EventDao {
     /**
      * Returns event by id
      *
+     * @param connection db connection
      * @param id         id of event
      * @param showHidden boolean that represents showing hidden events or not
      * @return event with this id
@@ -184,9 +191,10 @@ public class MysqlEventDaoImpl implements EventDao {
     }
 
     /**
-     * saves event to storage
+     * saves event to database
      * calls event.setId(unique identifier)
      *
+     * @param connection db connection
      * @param event that should be saved
      */
     @Override
@@ -202,8 +210,9 @@ public class MysqlEventDaoImpl implements EventDao {
     }
 
     /**
-     * updates event in storage
+     * updates event in database
      *
+     * @param connection db connection
      * @param event event that should be updated
      */
     @Override

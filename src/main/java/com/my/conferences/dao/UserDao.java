@@ -12,15 +12,20 @@ import java.util.List;
  */
 public interface UserDao {
     /**
-     * returns all users from storage
+     * returns all users from the database except itself
      *
+     * @param connection db connection
+     * @param page       page
+     * @param pageSize   size of page
+     * @param user       user that performs action
      * @return list of users sorted by id
      */
-    List<User> findAllWithoutOne(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException;
+    List<User> findAllExceptItself(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException;
 
     /**
-     * fills user fields from storage
+     * fills user fields from database
      *
+     * @param connection db connection
      * @param user user with id
      */
     void findOne(Connection connection, User user) throws SQLException;
@@ -28,21 +33,24 @@ public interface UserDao {
     /**
      * returns user with that email
      *
-     * @param email email of user
+     * @param connection db connection
+     * @param email      email of user
      * @return user
      */
     User findByEmail(Connection connection, String email) throws SQLException;
 
     /**
-     * saves user to storage
+     * saves user to database
      *
+     * @param connection db connection
      * @param user user which should be saved
      */
     void insert(Connection connection, User user) throws SQLException;
 
     /**
-     * updates user in storage
+     * updates user in database
      *
+     * @param connection db connection
      * @param user user which should be updated
      */
     void update(Connection connection, User user) throws SQLException;
@@ -50,6 +58,7 @@ public interface UserDao {
     /**
      * returns list of speakers which are not participants by query
      *
+     * @param connection db connection
      * @param eventId     id of event
      * @param searchQuery query
      * @return list of speakers
@@ -59,13 +68,15 @@ public interface UserDao {
     /**
      * saves all participants to event.participants field
      *
-     * @param event event with id
+     * @param connection db connection
+     * @param event      event with id
      */
     void findAllParticipants(Connection connection, Event event) throws SQLException;
 
     /**
-     * add user to participants of event
+     * adds user to participants of event
      *
+     * @param connection db connection
      * @param event event
      * @param user  user
      */
@@ -74,8 +85,9 @@ public interface UserDao {
     /**
      * removes user from participants of event
      *
-     * @param event event
-     * @param user  user
+     * @param connection db connection
+     * @param event      event
+     * @param user       user
      */
     void deleteParticipant(Connection connection, Event event, User user) throws SQLException;
 

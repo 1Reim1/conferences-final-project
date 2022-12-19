@@ -14,21 +14,24 @@ public interface VerificationCodeDao {
     /**
      * returns verification code for user
      *
+     * @param connection db connection
      * @param user user
      * @return verifivation code
      */
     VerificationCode findOne(Connection connection, User user) throws SQLException;
 
     /**
-     * saves verification code to storage
+     * saves verification code to database
      *
+     * @param connection db connection
      * @param verificationCode verification code
      */
     void insert(Connection connection, VerificationCode verificationCode) throws SQLException;
 
     /**
-     * deletes verification code from storage
+     * deletes verification code from database
      *
+     * @param connection db connection
      * @param user user
      */
     void delete(Connection connection, User user) throws SQLException;

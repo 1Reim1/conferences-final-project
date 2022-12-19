@@ -43,6 +43,9 @@ public class EventService {
      * returns all events in selected order
      * returns only events which user participate or all
      *
+     * @param page page
+     * @param order sort order
+     * @param reverseOrder boolean value that represents reverse sort or not
      * @param futureEvents  boolean value that represents future or past events
      * @param onlyMyEvents boolean value that represent all or only my events
      * @param user         which performs operation
@@ -449,6 +452,10 @@ public class EventService {
         }
     }
 
+    /**
+     * @param event event
+     * @throws ValidationException if date is past
+     */
     static void canInteractWithEventValidation(Event event) throws ValidationException {
         try {
             EventValidation.validateDate(event.getDate());

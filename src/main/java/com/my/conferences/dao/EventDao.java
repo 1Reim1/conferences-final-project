@@ -15,6 +15,8 @@ public interface EventDao {
     /**
      * returns list of events by parameters
      *
+     * @param connection   db connection
+     * @param order        sort order
      * @param reverseOrder boolean that represents reverse order or not
      * @param futureEvents boolean that represents future or past events
      * @param pageSize     number of events per page
@@ -27,6 +29,8 @@ public interface EventDao {
     /**
      * returns the list of events with which the user is associated
      *
+     * @param connection   db connection
+     * @param order        sort order
      * @param reverseOrder boolean that represents reverse order or not
      * @param futureEvents boolean that represents future or past events
      * @param pageSize     number of events per page
@@ -48,6 +52,7 @@ public interface EventDao {
     /**
      * returns count of events with which the user is associated
      *
+     * @param connection db connection
      * @param futureOrder boolean that represents future or past events
      * @param user        user
      * @return count of events
@@ -57,6 +62,7 @@ public interface EventDao {
     /**
      * returns all events moderated by a user with that id
      *
+     * @param connection db connection
      * @param moderator moderator
      * @return list of events moderated by a user with that id
      */
@@ -65,6 +71,7 @@ public interface EventDao {
     /**
      * Returns event by id
      *
+     * @param connection db connection
      * @param id         id of event
      * @param showHidden boolean that represents showing hidden events or not
      * @return event with this id
@@ -72,16 +79,18 @@ public interface EventDao {
     Event findOne(Connection connection, int id, boolean showHidden) throws SQLException;
 
     /**
-     * saves event to storage
+     * saves event to database
      * calls event.setId(unique identifier)
      *
+     * @param connection db connection
      * @param event that should be saved
      */
     void insert(Connection connection, Event event) throws SQLException;
 
     /**
-     * updates event in storage
+     * updates event in database
      *
+     * @param connection db connection
      * @param event event that should be updated
      */
     void update(Connection connection, Event event) throws SQLException;

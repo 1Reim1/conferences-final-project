@@ -13,6 +13,7 @@ public interface ReportDao {
     /**
      * returns reports of event
      *
+     * @param connection    db connection
      * @param event         event
      * @param onlyConfirmed boolean represents all events or only confirmed
      */
@@ -21,7 +22,8 @@ public interface ReportDao {
     /**
      * returns report with that id
      *
-     * @param id if of report
+     * @param connection db connection
+     * @param id         if of report
      * @return report
      */
     Report findOne(Connection connection, int id) throws SQLException;
@@ -29,7 +31,8 @@ public interface ReportDao {
     /**
      * returns list of unconfirmed reports for moderator
      *
-     * @param user moderator
+     * @param connection db connection
+     * @param user       moderator
      * @return list of reports
      */
     List<Report> findNewForModerator(Connection connection, User user) throws SQLException;
@@ -37,7 +40,8 @@ public interface ReportDao {
     /**
      * returns list of unconfirmed reports for speaker
      *
-     * @param user speaker
+     * @param connection db connection
+     * @param user       speaker
      * @return list of reports
      */
     List<Report> findNewForSpeaker(Connection connection, User user) throws SQLException;
@@ -45,6 +49,7 @@ public interface ReportDao {
     /**
      * returns all reports by speaker
      *
+     * @param connection    db connection
      * @param speaker       speaker
      * @param futureReports future or past reports
      * @return list of reports by speaker
@@ -52,23 +57,26 @@ public interface ReportDao {
     List<Report> findAllBySpeaker(Connection connection, User speaker, boolean futureReports) throws SQLException;
 
     /**
-     * saves report to storage
+     * saves report to database
      *
-     * @param report report that should be saved
+     * @param connection db connection
+     * @param report     report that should be saved
      */
     void insert(Connection connection, Report report) throws SQLException;
 
     /**
-     * updates report in storage
+     * updates report in database
      *
-     * @param report report that should be updated
+     * @param connection db connection
+     * @param report     report that should be updated
      */
     void update(Connection connection, Report report) throws SQLException;
 
     /**
-     * deletes report from storage
+     * deletes report from database
      *
-     * @param report report that should be deleted
+     * @param connection db connection
+     * @param report     report that should be deleted
      */
     void delete(Connection connection, Report report) throws SQLException;
 }

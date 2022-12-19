@@ -18,6 +18,7 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
     /**
      * returns verification code for user
      *
+     * @param connection db connection
      * @param user user
      * @return verifivation code
      */
@@ -33,8 +34,9 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
     }
 
     /**
-     * saves verification code to storage
+     * saves verification code to database
      *
+     * @param connection db connection
      * @param verificationCode verification code
      */
     @Override
@@ -47,8 +49,9 @@ public class MysqlVerificationCodeDaoImpl implements VerificationCodeDao {
     }
 
     /**
-     * deletes verification code from storage
+     * deletes verification code from database
      *
+     * @param connection db connection
      * @param user user
      */
     @Override

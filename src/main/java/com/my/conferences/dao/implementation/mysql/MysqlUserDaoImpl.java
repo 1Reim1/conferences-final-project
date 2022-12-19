@@ -24,12 +24,16 @@ public class MysqlUserDaoImpl implements UserDao {
     private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE user_id = ? AND event_id = ?";
 
     /**
-     * returns all users from database
+     * returns all users from the database except itself
      *
+     * @param connection db connection
+     * @param page       page
+     * @param pageSize   size of page
+     * @param user       user that performs action
      * @return list of users sorted by id
      */
     @Override
-    public List<User> findAllWithoutOne(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException {
+    public List<User> findAllExceptItself(Connection connection, String emailQuery, int page, int pageSize, User user) throws SQLException {
         List<User> users = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(GET_ALL)) {
             int k = 0;
@@ -50,7 +54,8 @@ public class MysqlUserDaoImpl implements UserDao {
     /**
      * fills user fields from database
      *
-     * @param user user with id
+     * @param connection db connection
+     * @param user       user with id
      */
     @Override
     public void findOne(Connection connection, User user) throws SQLException {
@@ -66,7 +71,8 @@ public class MysqlUserDaoImpl implements UserDao {
     /**
      * returns user with that email
      *
-     * @param email email of user
+     * @param connection db connection
+     * @param email      email of user
      * @return user
      */
     @Override
@@ -81,9 +87,10 @@ public class MysqlUserDaoImpl implements UserDao {
     }
 
     /**
-     * inserts user into 'users' table
+     * saves user to database
      *
-     * @param user user which should be inserted
+     * @param connection db connection
+     * @param user       user which should be saved
      */
     @Override
     public void insert(Connection connection, User user) throws SQLException {
@@ -98,9 +105,10 @@ public class MysqlUserDaoImpl implements UserDao {
     }
 
     /**
-     * updates user
+     * updates user in database
      *
-     * @param user user which should be updated
+     * @param connection db connection
+     * @param user       user which should be updated
      */
     @Override
     public void update(Connection connection, User user) throws SQLException {
@@ -114,9 +122,10 @@ public class MysqlUserDaoImpl implements UserDao {
     /**
      * returns list of speakers which are not participants by query
      *
+     * @param connection  db connection
      * @param eventId     id of event
      * @param searchQuery query
-     * @return list of speaker
+     * @return list of speakers
      */
     @Override
     public List<User> findAllAvailableSpeakersByEmail(Connection connection, int eventId, String searchQuery) throws SQLException {
@@ -137,7 +146,8 @@ public class MysqlUserDaoImpl implements UserDao {
     /**
      * saves all participants to event.participants field
      *
-     * @param event event with id
+     * @param connection db connection
+     * @param event      event with id
      */
     @Override
     public void findAllParticipants(Connection connection, Event event) throws SQLException {
@@ -155,10 +165,11 @@ public class MysqlUserDaoImpl implements UserDao {
     }
 
     /**
-     * inserts user to 'participants' table
+     * adds user to participants of event
      *
-     * @param event event
-     * @param user  user
+     * @param connection db connection
+     * @param event      event
+     * @param user       user
      */
     @Override
     public void insertParticipant(Connection connection, Event event, User user) throws SQLException {
@@ -170,9 +181,11 @@ public class MysqlUserDaoImpl implements UserDao {
     }
 
     /**
-     * delete user from 'participants' table
-     * @param event event
-     * @param user  user
+     * removes user from participants of event
+     *
+     * @param connection db connection
+     * @param event      event
+     * @param user       user
      */
     @Override
     public void deleteParticipant(Connection connection, Event event, User user) throws SQLException {

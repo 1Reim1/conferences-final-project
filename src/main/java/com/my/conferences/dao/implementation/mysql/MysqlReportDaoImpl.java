@@ -27,6 +27,7 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * returns reports of event
      *
+     * @param connection    db connection
      * @param event         event
      * @param onlyConfirmed boolean represents all events or only confirmed
      */
@@ -50,7 +51,8 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * returns report with that id
      *
-     * @param id if of report
+     * @param connection db connection
+     * @param id         if of report
      * @return report
      */
     @Override
@@ -67,7 +69,8 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * returns list of unconfirmed reports for moderator
      *
-     * @param user moderator
+     * @param connection db connection
+     * @param user       moderator
      * @return list of reports
      */
     @Override
@@ -78,7 +81,8 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * returns list of unconfirmed reports for speaker
      *
-     * @param user moderator
+     * @param connection db connection
+     * @param user       speaker
      * @return list of reports
      */
     @Override
@@ -89,6 +93,7 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * returns all reports by speaker
      *
+     * @param connection    db connection
      * @param speaker       speaker
      * @param futureReports future or past reports
      * @return list of reports by speaker
@@ -126,9 +131,10 @@ public class MysqlReportDaoImpl implements ReportDao {
     }
 
     /**
-     * inserts report to 'reports' table
+     * saves report to database
      *
-     * @param report report that should be inserted
+     * @param connection db connection
+     * @param report     report that should be saved
      */
     @Override
     public void insert(Connection connection, Report report) throws SQLException {
@@ -145,7 +151,8 @@ public class MysqlReportDaoImpl implements ReportDao {
     /**
      * updates report in database
      *
-     * @param report report that should be updated
+     * @param connection db connection
+     * @param report     report that should be updated
      */
     @Override
     public void update(Connection connection, Report report) throws SQLException {
@@ -157,9 +164,10 @@ public class MysqlReportDaoImpl implements ReportDao {
     }
 
     /**
-     * deletes report from 'reports' table
+     * deletes report from database
      *
-     * @param report report that should be deleted
+     * @param connection db connection
+     * @param report     report that should be deleted
      */
     @Override
     public void delete(Connection connection, Report report) throws SQLException {

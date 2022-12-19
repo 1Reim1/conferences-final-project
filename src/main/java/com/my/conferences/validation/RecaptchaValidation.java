@@ -47,14 +47,18 @@ public class RecaptchaValidation {
             outStream.close();
 
             int responseCode = conn.getResponseCode();
-            logger.debug("responseCode: " + responseCode);
+            logger.trace("responseCode: " + responseCode);
 
             InputStream is = conn.getInputStream();
             JsonReader jsonReader = Json.createReader(is);
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
 
-            logger.debug("Response: " + jsonObject);
+            logger.trace("Response: " + jsonObject);
+            if(!jsonObject.containsKey("success")) {
+                return false;
+            }
+
             return jsonObject.getBoolean("success");
         } catch (IOException e) {
             logger.error("IOException", e);
